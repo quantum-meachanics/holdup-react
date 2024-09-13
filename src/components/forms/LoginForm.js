@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+
 import { callLoginAPI } from "../../apis/UserAPICalls";
 import { resetLoginUser } from "../../modules/UserModule";
 
@@ -8,14 +9,14 @@ function LoginForm() {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const result = useSelector(state => state.userReducer);
-    const loginStatus = !!localStorage.getItem("isLogin");
+    const { user, error } = useSelector(state => state.userReducer);
 
     const [loginInfo, setLoginInfo] = useState({
-        id: '',
+        email: '',
         password: '',
     });
 
+    // 입력창 변화 감지하여 값 담기
     const onChangeHandler = e => {
         setLoginInfo({
             ...loginInfo,
@@ -28,28 +29,29 @@ function LoginForm() {
     };
 
     useEffect(() => {
-        if (result?.message) {
-            alert("아이디와 비밀번호를 확인해주세요");
+        if (error) {
+            alert(error);
 
             setLoginInfo({
-                id: '',
+                email: '',
                 password: '',
             });
 
             dispatch(resetLoginUser());
-        } else if (loginStatus) {
+        } else if (user) {
+            localStorage.setItem("isLogin", true);
+            localStorage.setItem("user", JSON.stringify(user));
             navigate("/");
         }
-    }, [result]
-    );
+    }, [user, error, navigate, dispatch]);
 
     return (
         <>
             <label>ID : </label>
-            <input type="text" name="id" value={loginInfo.id} onChange={onChangeHandler} />
+            <input type="text" name="email" value={loginInfo.email} onChange={onChangeHandler} />
             &nbsp; &nbsp; &nbsp;
             <label>PASSWORD : </label>
-            <input type="password" name="password" value={loginInfo.password} onChange={onChangeHandler} />
+            <input type="text" name="password" value={loginInfo.password} onChange={onChangeHandler} />
             &nbsp; &nbsp; &nbsp;
             <button onClick={onClickHandler}>로그인</button>
         </>

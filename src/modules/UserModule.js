@@ -1,29 +1,56 @@
 import { createActions, handleActions } from "redux-actions";
 
-const initialState = {};
+const initialState = {
+    isLogin: false,
+    userInfo: null,
+    error: null
+};
 
-export const LOGIN = "user/LOGIN"
+export const LOGIN_SUCCESS = "user/LOGIN_SUCCESS";
+export const LOGIN_FAIL = "user/LOGIN_FAIL";
 export const RESET_LOGIN_USER = "user/RESET_LOGIN_USER";
 
-export const { user: { login, resetLoginUser } } = createActions({
-    [LOGIN]: (res) => ({ res }),
-    [RESET_LOGIN_USER]: (res = initialState) => ({ res }),
+// 액션 생성
+export const { user: { loginSuccess, loginFail, resetLoginUser } } = createActions({
+    [LOGIN_SUCCESS]: (userInfo) => ({ userInfo }),
+    [LOGIN_FAIL]: (error) => ({ error }),
+    [RESET_LOGIN_USER]: () => ({}),
 });
 
+// 리듀서
 const userReducer = handleActions({
-    [LOGIN]: (state, { payload: { res } }) => {
-        if (res) {
-            localStorage.setItem("isLogin", true);
-        } else {
-            res = { message: "LOGIN_FAIL" };
-        }
+    [LOGIN_SUCCESS]: (state, { payload: { userInfo } }) => {
+        localStorage.setItem("isLogin", true);
+        localStorage.setItem("user", JSON.stringify(userInfo));
+        return {
+            ...state,
+            isLogin: true,
+            userInfo,
+            error: null
+        };
+    },
 
-        return res;
+    [LOGIN_FAIL]: (state, { payload: { error } }) => {
+        localStorage.removeItem("isLogin");
+        localStorage.removeItem("user");
+        return {
+            ...state,
+            isLogin: false,
+            userInfo: null,
+            error
+        };
     },
-    [RESET_LOGIN_USER]: (state, { payload: { res } }) => {
-        return res;
+
+    [RESET_LOGIN_USER]: (state) => {
+        localStorage.removeItem("isLogin");
+        localStorage.removeItem("user");
+        return {
+            ...state,
+            isLogin: false,
+            userInfo: null,
+            error: null
+        };
     },
-}, initialState
-);
+}, initialState);
 
 export default userReducer;

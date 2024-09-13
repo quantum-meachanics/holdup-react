@@ -1,6 +1,6 @@
 function Main() {
     return (
-        <body>
+        <>
             <div className="NewSpaceButton">
                 <span className="title">공간 등록하기</span>
                 <span className="description">사용하지 않는 공간을 등록해보세요</span>
@@ -19,7 +19,7 @@ function Main() {
                     <span>▶ 합리적인 가격으로 저렴하게</span>
                 </div>
             </div>
-        </body>
+        </>
     );
 }
 

@@ -14,20 +14,25 @@ function Header() {
             </NavLink>
 
             <div className="menuSection">
+                
                 <div className="GuidelineLink">
                     <NavLink to="/guideline">가이드라인</NavLink>
                 </div>
+
                 <div className="SpcaeCreateLink">
                     공간등록
                 </div>
+
                 <div className="SpcaeUseLink">
                     공간이용
                 </div>
+
                 <div className="CommunityLink">
                     커뮤니티
                 </div>
+
                 <div className="LoginLink">
-                <NavLink to="/login">로그인</NavLink>
+                <NavLink to="member/login">로그인</NavLink>
                 </div>
             </div>
 
