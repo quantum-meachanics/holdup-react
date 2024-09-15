@@ -16,11 +16,11 @@ function Header() {
             <div className="menuSection">
                 
                 <div className="GuidelineLink">
-                    <NavLink to="/guideline">가이드라인</NavLink>
+                    <NavLink to="guideline">가이드라인</NavLink>
                 </div>
 
                 <div className="SpcaeCreateLink">
-                    공간등록
+                    <NavLink to="spaces/spaces">공간등록</NavLink>
                 </div>
 
                 <div className="SpcaeUseLink">

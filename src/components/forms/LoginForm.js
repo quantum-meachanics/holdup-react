@@ -13,14 +13,14 @@ function LoginForm() {
 
     const [loginInfo, setLoginInfo] = useState({
         email: '',
-        password: '',
+        password: ''
     });
 
     // 입력창 변화 감지하여 값 담기
     const onChangeHandler = e => {
         setLoginInfo({
             ...loginInfo,
-            [e.target.name]: e.target.value,
+            [e.target.name]: e.target.value
         });
     };
 
@@ -34,7 +34,7 @@ function LoginForm() {
 
             setLoginInfo({
                 email: '',
-                password: '',
+                password: ''
             });
 
             dispatch(resetLoginUser());
