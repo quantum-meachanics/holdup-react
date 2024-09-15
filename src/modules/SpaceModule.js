@@ -34,6 +34,6 @@ const spaceReducer = handleActions({
     }
 }, initialState);
 
-// 브랜치 푸쉬 테스트
+// 기능 구현 브랜치 푸쉬 테스트
 
 export default spaceReducer;
