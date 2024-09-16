@@ -4,14 +4,13 @@ import { request } from "./Api";
 export function callLoginAPI(loginInfo) {
     return async (dispatch) => {
         try {
-            // 'POST'로 '/member/login'에 로그인 입력 정보 전송
-            const response = await request("POST", "/member/login", loginInfo);
+            // 'POST'로 '/holdup/login'에 로그인 입력 정보 전송
+            const response = await request("POST", "/login", loginInfo);
 
             console.log("Response 응답로그 확인", response);
             
             // 서버에서 로그인 성공시 JWT 토큰 반환
             if (response.token) {
-                
                 console.log("response.data 확인", response.data);
                 console.log("response.userInfo 확인", response.userInfo);
                 console.log("localStorage에 member객체 정보 확인", localStorage.getItem("member"));

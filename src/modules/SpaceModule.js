@@ -5,14 +5,11 @@ const initialState = {
     error: null
 };
 
-export const CREATE_SPACE_SUCCESS = "spaces/CREATE_SPACE_SUCCESS";
-export const CREATE_SPACE_FAIL = "spaces/CREATE_SPACE_FAIL";
+export const CREATE_SPACE_SUCCESS = "space/CREATE_SPACE_SUCCESS";
+export const CREATE_SPACE_FAIL = "space/CREATE_SPACE_FAIL";
 
 // 액션 생성
-export const { spaces: {
-    createSpaceSuccess,
-    createSpaceFail
-} } = createActions({
+export const { space: { createSpaceSuccess, createSpaceFail } } = createActions({
     [CREATE_SPACE_SUCCESS]: (spaceInfo) => ({ spaceInfo }),
     [CREATE_SPACE_FAIL]: (error) => ({ error })
 });
@@ -22,18 +19,18 @@ const spaceReducer = handleActions({
     [CREATE_SPACE_SUCCESS]: (state, { payload: { spaceInfo } }) => {
         return {
             ...state,
+            spaceInfo,
             error: null
         };
     },
 
-    [CREATE_SPACE_FAIL]: (state, { payload: { spaceInfo } }) => {
+    [CREATE_SPACE_FAIL]: (state, { payload: { error } }) => {
         return {
             ...state,
+            spaceInfo: null,
             error
-        }
+        };
     }
 }, initialState);
-
-// 기능 구현 브랜치 푸쉬 테스트
 
 export default spaceReducer;
