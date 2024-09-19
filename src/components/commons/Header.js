@@ -28,7 +28,7 @@ function Header() {
                 </div>
 
                 <div className="CommunityLink">
-                    커뮤니티
+                    <NavLink to="holdup/reviews">커뮤니티</NavLink>
                 </div>
 
                 <div className="LoginLink">

@@ -6,6 +6,7 @@ import Guideline from "./pages/Guideline";
 import Login from "./pages/Login";
 import CreateSpace from "./pages/CreateSpace";
 import CreateSpaceSuccessPage from "./pages/CreateSpaceSuccessPage";
+import Review from "./pages/Review";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="holdup/guideline" element={<Guideline />} />
           <Route path="holdup/login" element={<Login />} />
           <Route path="holdup/spaces" element={<CreateSpace />} />
+          <Route path="holdup/reviews" element={<Review/>} />
           <Route path="holdup/spaces/success" element={<CreateSpaceSuccessPage />} />
         </Route>
       </Routes>
