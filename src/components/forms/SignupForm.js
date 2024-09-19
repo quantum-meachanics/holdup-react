@@ -1,53 +1,64 @@
-import { useState } from "react";
-import { request } from "../../apis/Api"; // api.js의 경로에 맞게 조정
+import React, { useState } from 'react';
+import { request } from '../../apis/Api'; // API 요청 함수 import
+import AddressPopup from './AddressPopup';
 
-function SignupForm() {
-    const [signupInfo, setSignupInfo] = useState({
+const SignupForm = () => {
+    const [formData, setFormData] = useState({
         email: '',
         password: '',
         nickname: '',
         phone: '',
         name: '',
         birthday: '',
-        address: '',
+        address: ''
     });
 
-    const onChangeHandler = (e) => {
-        setSignupInfo({
-            ...signupInfo,
-            [e.target.name]: e.target.value
-        });
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
     };
 
-    const onClickHandler = async () => {
+    const handleAddressSelect = (address) => {
+        setFormData({ ...formData, address: address.roadFullAddr });
+        setIsPopupOpen(false);
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setError(''); // Reset error message
+
         try {
-            const response = await request('post', '/signup', signupInfo);
-            alert(response.message); // 성공 메시지 출력
+            const response = await request('POST', '/signup', formData);
+            console.log(response);
+            alert('회원가입 성공!');
         } catch (error) {
-            console.error("회원가입 실패:", error);
-            alert("회원가입에 실패했습니다.");
+            console.error('회원가입 오류:', error);
+            setError('회원가입에 실패했습니다.'); // Show error message
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <>
-            <label>아이디(이메일) : </label>
-            <input type="text" name="email" value={signupInfo.email} onChange={onChangeHandler} />
-            <label>비밀번호 : </label>
-            <input type="password" name="password" value={signupInfo.password} onChange={onChangeHandler} />
-            <label>닉네임 : </label>
-            <input type="text" name="nickname" value={signupInfo.nickname} onChange={onChangeHandler} />
-            <label>휴대폰번호 : </label>
-            <input type="text" name="phone" value={signupInfo.phone} onChange={onChangeHandler} />
-            <label>이름 : </label>
-            <input type="text" name="name" value={signupInfo.name} onChange={onChangeHandler} />
-            <label>생년월일 : </label>
-            <input type="text" name="birthday" value={signupInfo.birthday} onChange={onChangeHandler} />
-            <label>주소 : </label>
-            <input type="text" name="address" value={signupInfo.address} onChange={onChangeHandler} />
-            <button onClick={onClickHandler}>회원가입</button>
-        </>
+        <form onSubmit={handleSubmit}>
+            <input name="email" placeholder="이메일" onChange={handleInputChange} required />
+            <input name="password" type="password" placeholder="비밀번호" onChange={handleInputChange} required />
+            <input name="nickname" placeholder="닉네임" onChange={handleInputChange} required />
+            <input name="phone" placeholder="전화번호" onChange={handleInputChange} required />
+            <input name="name" placeholder="이름" onChange={handleInputChange} required />
+            <input name="birthday" placeholder="생일" onChange={handleInputChange} required />
+            <input name="address" value={formData.address} placeholder="주소" readOnly />
+            <button type="button" onClick={() => setIsPopupOpen(true)}>주소 검색</button>
+            <button type="submit" disabled={loading}>{loading ? '로딩 중...' : '회원가입'}</button>
+            {error && <div style={{ color: 'red' }}>{error}</div>} {/* 에러 메시지 출력 */}
+            {isPopupOpen && <AddressPopup onAddressSelect={handleAddressSelect} />} 
+        </form>
     );
-}
+};
 
 export default SignupForm;
