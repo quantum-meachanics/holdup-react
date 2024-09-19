@@ -10,13 +10,12 @@ export function callGetReviewListAPI(page = 0, size = 10) {
                 "GET",
                 `/reviews?page=${page}&size=${size}`
             );
-            
+
             console.log('API Response:', response);
 
             dispatch(getReviewListSuccess(
                 response.result.content,
-                response.result.totalPages,
-                response.result.number
+                response.result.pagingInfo
             ));
         } catch (error) {
             console.error('API Error:', error);

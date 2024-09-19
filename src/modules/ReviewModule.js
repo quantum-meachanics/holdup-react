@@ -17,7 +17,7 @@ export const { reviewList: { getReviewListSuccess, getReviewListFail } } = creat
 const reviewReducer = handleActions({
     [GET_REVIEW_LIST_SUCCESS]: (state, { payload }) => ({
         ...state,
-        reviewList: payload.content,
+        reviewList: payload.reviewList,
         pagingInfo: payload.pagingInfo,
         error: null
     }),
