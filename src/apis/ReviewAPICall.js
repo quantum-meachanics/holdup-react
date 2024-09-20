@@ -4,7 +4,7 @@ import { tokenRequest } from "./Api";
 export function callGetReviewListAPI(page = 0, size = 10) {
     return async (dispatch) => {
         try {
-            const token = localStorage.getItem('token');
+            const token = sessionStorage.getItem('token');
             const response = await tokenRequest(
                 token,
                 "GET",
@@ -13,9 +13,15 @@ export function callGetReviewListAPI(page = 0, size = 10) {
 
             console.log('API Response:', response);
 
+            // const reviewList = response.result.content || [];
+
             dispatch(getReviewListSuccess(
                 response.result.content,
-                response.result.pagingInfo
+                response.result.totalPages,
+                page,
+                size,
+                response.result.totalElements
+
             ));
         } catch (error) {
             console.error('API Error:', error);
