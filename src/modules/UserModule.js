@@ -20,8 +20,8 @@ export const { user: { loginSuccess, loginFail, resetLoginUser } } = createActio
 // 리듀서
 const userReducer = handleActions({
     [LOGIN_SUCCESS]: (state, { payload: { userInfo } }) => {
-        localStorage.setItem("isLogin", true);
-        localStorage.setItem("user", JSON.stringify(userInfo));
+        sessionStorage.setItem("isLogin", true);
+        sessionStorage.setItem("user", JSON.stringify(userInfo));
         return {
             ...state,
             isLogin: true,
@@ -31,8 +31,8 @@ const userReducer = handleActions({
     },
 
     [LOGIN_FAIL]: (state, { payload: { error } }) => {
-        localStorage.removeItem("isLogin");
-        localStorage.removeItem("user");
+        sessionStorage.removeItem("isLogin");
+        sessionStorage.removeItem("user");
         return {
             ...state,
             isLogin: false,
@@ -42,8 +42,8 @@ const userReducer = handleActions({
     },
 
     [RESET_LOGIN_USER]: (state) => {
-        localStorage.removeItem("isLogin");
-        localStorage.removeItem("user");
+        sessionStorage.removeItem("isLogin");
+        sessionStorage.removeItem("user");
         return {
             ...state,
             isLogin: false,

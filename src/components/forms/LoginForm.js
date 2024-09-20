@@ -39,8 +39,8 @@ function LoginForm() {
 
             dispatch(resetLoginUser());
         } else if (user) {
-            localStorage.setItem("isLogin", true);
-            localStorage.setItem("user", JSON.stringify(user));
+            sessionStorage.setItem("isLogin", true);
+            sessionStorage.setItem("user", JSON.stringify(user));
             navigate("/");
         }
     }, [user, error, navigate, dispatch]);
