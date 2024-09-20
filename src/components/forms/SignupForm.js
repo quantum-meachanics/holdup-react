@@ -1,62 +1,211 @@
 import React, { useState } from 'react';
-import { request } from '../../apis/Api'; // API 요청 함수 import
+import { request } from '../../apis/Api'; 
 import AddressPopup from './AddressPopup';
+import '../../css/SignupForm.css'; 
 
 const SignupForm = () => {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
+        confirmPassword: '',
         nickname: '',
         phone: '',
         name: '',
         birthday: '',
-        address: ''
+        address: '',
+        addressDetail: '',
     });
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [emailAvailable, setEmailAvailable] = useState(null);
+    const [nicknameAvailable, setNicknameAvailable] = useState(null);
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value: initialValue } = e.target;
+        let value = initialValue; // let으로 변경
+
+        if (name === 'phone') {
+            // 전화번호 포맷 적용 및 11글자 제한
+            value = value.replace(/[^0-9]/g, '').slice(0, 11).replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, '$1-$2-$3');
+        } else if (name === 'birthday') {
+            // 생일 형식 변환 (YYYY-MM-DD) 및 8글자 제한
+            value = value.replace(/[^0-9]/g, '').slice(0, 8);
+            if (value.length === 8) {
+                value = `${value.slice(0, 4)}-${value.slice(4, 6)}-${value.slice(6)}`;
+            }
+        } else if (name === 'email') {
+            // 이메일 유효성 검사
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(value)) {
+                value = ''; // 유효하지 않으면 빈 문자열
+            }
+        }
+
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleAddressSelect = (address) => {
-        setFormData({ ...formData, address: address.roadFullAddr });
-        setIsPopupOpen(false);
+    const handleEmailCheck = async () => {
+        try {
+            const response = await request('GET', `/check-email?email=${formData.email}`);
+            setEmailAvailable(response.available);
+            alert(response.available ? '사용 가능한 이메일입니다.' : '이미 사용 중인 이메일입니다.');
+        } catch (error) {
+            console.error('이메일 중복 확인 오류:', error);
+        }
+    };
+
+    const handleNicknameCheck = async () => {
+        try {
+            const response = await request('GET', `/check-nickname?nickname=${formData.nickname}`);
+            setNicknameAvailable(response.available);
+            alert(response.available ? '사용 가능한 닉네임입니다.' : '이미 사용 중인 닉네임입니다.');
+        } catch (error) {
+            console.error('닉네임 중복 확인 오류:', error);
+        }
+    };
+
+    const handleAddressSelect = (selectedAddress) => {
+        setFormData({
+            ...formData,
+            address: selectedAddress.roadFullAddr, // 도로명 주소
+            addressDetail: selectedAddress.addressDetail // 상세주소
+        });
+        setIsPopupOpen(false); // 주소 선택 후 팝업 닫기
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setError(''); // Reset error message
+        setError('');
+
+        const finalAddress = `${formData.address} ${formData.addressDetail}`.trim();
 
         try {
-            const response = await request('POST', '/signup', formData);
-            console.log(response);
+            const response = await request('POST', '/signup', {
+                ...formData,
+                address: finalAddress,
+            });
             alert('회원가입 성공!');
+            console.log(response);
         } catch (error) {
             console.error('회원가입 오류:', error);
-            setError('회원가입에 실패했습니다.'); // Show error message
+            setError('회원가입에 실패했습니다.');
         } finally {
             setLoading(false);
         }
     };
 
+    const isFormValid = emailAvailable && nicknameAvailable && formData.password && formData.password === formData.confirmPassword;
+
     return (
         <form onSubmit={handleSubmit}>
-            <input name="email" placeholder="이메일" onChange={handleInputChange} required />
-            <input name="password" type="password" placeholder="비밀번호" onChange={handleInputChange} required />
-            <input name="nickname" placeholder="닉네임" onChange={handleInputChange} required />
-            <input name="phone" placeholder="전화번호" onChange={handleInputChange} required />
-            <input name="name" placeholder="이름" onChange={handleInputChange} required />
-            <input name="birthday" placeholder="생일" onChange={handleInputChange} required />
-            <input name="address" value={formData.address} placeholder="주소" readOnly />
-            <button type="button" onClick={() => setIsPopupOpen(true)}>주소 검색</button>
-            <button type="submit" disabled={loading}>{loading ? '로딩 중...' : '회원가입'}</button>
-            {error && <div style={{ color: 'red' }}>{error}</div>} {/* 에러 메시지 출력 */}
-            {isPopupOpen && <AddressPopup onAddressSelect={handleAddressSelect} />} 
+            <div className="input-group">
+                <label>이메일</label>
+                <input
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
+                />
+                <button type="button" onClick={handleEmailCheck}>이메일 중복 확인</button>
+                {emailAvailable === false && <div className="error">이미 사용 중인 이메일입니다.</div>}
+            </div>
+
+            <div className="input-group">
+                <label>닉네임</label>
+                <input
+                    name="nickname"
+                    value={formData.nickname}
+                    onChange={handleInputChange}
+                    required
+                />
+                <button type="button" onClick={handleNicknameCheck}>닉네임 중복 확인</button>
+                {nicknameAvailable === false && <div className="error">이미 사용 중인 닉네임입니다.</div>}
+            </div>
+
+            <div className="input-group">
+                <label>비밀번호</label>
+                <input
+                    name="password"
+                    type="password"
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    required
+                />
+            </div>
+
+            <div className="input-group">
+                <label>비밀번호 확인</label>
+                <input
+                    name="confirmPassword"
+                    type="password"
+                    value={formData.confirmPassword}
+                    onChange={handleInputChange}
+                    required
+                />
+            </div>
+
+            <div className="input-group">
+                <label>전화번호</label>
+                <input
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    required
+                />
+            </div>
+
+            <div className="input-group">
+                <label>이름</label>
+                <input
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    required
+                />
+            </div>
+
+            <div className="input-group">
+                <label>생일 (YYYY-MM-DD)</label>
+                <input
+                    name="birthday"
+                    value={formData.birthday}
+                    onChange={handleInputChange}
+                    required
+                />
+            </div>
+
+            <div className="input-group">
+                <label>주소</label>
+                <input
+                    name="address"
+                    value={formData.address}
+                    readOnly
+                    required
+                />
+                <button type="button" onClick={() => setIsPopupOpen(true)}>주소 검색</button>
+            </div>
+
+            <div className="input-group">
+                <label>상세주소</label>
+                <input
+                    name="addressDetail"
+                    value={formData.addressDetail}
+                    onChange={handleInputChange}
+                    required
+                />
+            </div>
+
+            <div className="input-group">
+                <button type="submit" disabled={loading || !isFormValid}>
+                    {loading ? '로딩 중...' : '회원가입'}
+                </button>
+            </div>
+
+            {error && <div className="error">{error}</div>}
+            {isPopupOpen && <AddressPopup onAddressSelect={handleAddressSelect} />}
         </form>
     );
 };
