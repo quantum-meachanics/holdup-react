@@ -18,13 +18,8 @@ form {
     margin: 10px 0; /* 상하 여백 */
 }
 
-.input-group label {
-    margin-bottom: 5px; /* 라벨과 입력창 간격 */
-}
-
-.email-input, .nickname-input, .address-input {
+.email-input, .nickname-input {
     display: flex; /* 수평 정렬 */
-    justify-content: space-between; /* 여백 분배 */
     align-items: center; /* 수직 중앙 정렬 */
 }
 
@@ -35,14 +30,6 @@ form {
     box-sizing: border-box; /* 박스 크기 설정 */
     flex: 1; /* 입력칸을 가능한 넓게 설정 */
     margin-right: 10px; /* 버튼과의 간격 */
-}
-
-.input-group input.error-input {
-    border-color: red; /* 오류 시 테두리 색상 */
-}
-
-.input-group input.success-input {
-    border-color: #073929; /* 성공 시 테두리 색상 */
 }
 
 .input-group button {
@@ -56,10 +43,15 @@ form {
 }
 
 .input-group button:hover {
-    background-color: #055024; /* 호버 시 배경색 변경 */
+    background-color: #073929; /* 호버 시 배경색 변경 */
 }
 
 .error {
     color: red; /* 에러 메시지 색상 */
+    text-align: center; /* 중앙 정렬 */
+}
+
+.success{
+    color: #073929; /* 에러 메시지 색상 */
     text-align: center; /* 중앙 정렬 */
 }

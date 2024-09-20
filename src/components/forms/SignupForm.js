@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { request } from '../../apis/Api'; 
 import AddressPopup from './AddressPopup';
+import { useNavigate } from 'react-router-dom';
 import '../../css/SignupForm.css'; 
 
 const SignupForm = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -24,22 +26,14 @@ const SignupForm = () => {
 
     const handleInputChange = (e) => {
         const { name, value: initialValue } = e.target;
-        let value = initialValue; // let으로 변경
+        let value = initialValue;
 
         if (name === 'phone') {
-            // 전화번호 포맷 적용 및 11글자 제한
             value = value.replace(/[^0-9]/g, '').slice(0, 11).replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, '$1-$2-$3');
         } else if (name === 'birthday') {
-            // 생일 형식 변환 (YYYY-MM-DD) 및 8글자 제한
             value = value.replace(/[^0-9]/g, '').slice(0, 8);
             if (value.length === 8) {
                 value = `${value.slice(0, 4)}-${value.slice(4, 6)}-${value.slice(6)}`;
-            }
-        } else if (name === 'email') {
-            // 이메일 유효성 검사
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(value)) {
-                value = ''; // 유효하지 않으면 빈 문자열
             }
         }
 
@@ -48,9 +42,9 @@ const SignupForm = () => {
 
     const handleEmailCheck = async () => {
         try {
-            const response = await request('GET', `/check-email?email=${formData.email}`);
-            setEmailAvailable(response.available);
-            alert(response.available ? '사용 가능한 이메일입니다.' : '이미 사용 중인 이메일입니다.');
+            const { available } = await request('GET', `/check-email?email=${formData.email}`);
+            setEmailAvailable(available);
+            alert(available ? '사용 가능한 이메일입니다.' : '이미 사용 중인 이메일입니다.');
         } catch (error) {
             console.error('이메일 중복 확인 오류:', error);
         }
@@ -58,9 +52,9 @@ const SignupForm = () => {
 
     const handleNicknameCheck = async () => {
         try {
-            const response = await request('GET', `/check-nickname?nickname=${formData.nickname}`);
-            setNicknameAvailable(response.available);
-            alert(response.available ? '사용 가능한 닉네임입니다.' : '이미 사용 중인 닉네임입니다.');
+            const { available } = await request('GET', `/check-nickname?nickname=${formData.nickname}`);
+            setNicknameAvailable(available);
+            alert(available ? '사용 가능한 닉네임입니다.' : '이미 사용 중인 닉네임입니다.');
         } catch (error) {
             console.error('닉네임 중복 확인 오류:', error);
         }
@@ -69,10 +63,10 @@ const SignupForm = () => {
     const handleAddressSelect = (selectedAddress) => {
         setFormData({
             ...formData,
-            address: selectedAddress.roadFullAddr, // 도로명 주소
-            addressDetail: selectedAddress.addressDetail // 상세주소
+            address: selectedAddress.roadFullAddr,
+            addressDetail: selectedAddress.addressDetail
         });
-        setIsPopupOpen(false); // 주소 선택 후 팝업 닫기
+        setIsPopupOpen(false);
     };
 
     const handleSubmit = async (e) => {
@@ -83,12 +77,12 @@ const SignupForm = () => {
         const finalAddress = `${formData.address} ${formData.addressDetail}`.trim();
 
         try {
-            const response = await request('POST', '/signup', {
+            await request('POST', '/signup', {
                 ...formData,
                 address: finalAddress,
             });
             alert('회원가입 성공!');
-            console.log(response);
+            navigate('/'); // 메인 페이지로 이동
         } catch (error) {
             console.error('회원가입 오류:', error);
             setError('회원가입에 실패했습니다.');
@@ -103,26 +97,33 @@ const SignupForm = () => {
         <form onSubmit={handleSubmit}>
             <div className="input-group">
                 <label>이메일</label>
-                <input
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    required
-                />
-                <button type="button" onClick={handleEmailCheck}>이메일 중복 확인</button>
                 {emailAvailable === false && <div className="error">이미 사용 중인 이메일입니다.</div>}
+                {emailAvailable === true && <div className="success">사용 가능한 이메일입니다.</div>}
+                <div className="email-input">
+                    <input
+                        name="email"
+                        value={formData.email}
+                        type="email"
+                        onChange={handleInputChange}
+                        required
+                    />
+                    <button type="button" onClick={handleEmailCheck}>이메일 중복 확인</button>
+                </div>
             </div>
 
             <div className="input-group">
                 <label>닉네임</label>
-                <input
-                    name="nickname"
-                    value={formData.nickname}
-                    onChange={handleInputChange}
-                    required
-                />
-                <button type="button" onClick={handleNicknameCheck}>닉네임 중복 확인</button>
                 {nicknameAvailable === false && <div className="error">이미 사용 중인 닉네임입니다.</div>}
+                {nicknameAvailable === true && <div className="success">사용 가능한 닉네임입니다.</div>}
+                <div className="nickname-input">
+                    <input
+                        name="nickname"
+                        value={formData.nickname}
+                        onChange={handleInputChange}
+                        required
+                    />
+                    <button type="button" onClick={handleNicknameCheck}>닉네임 중복 확인</button>
+                </div>
             </div>
 
             <div className="input-group">
@@ -168,7 +169,7 @@ const SignupForm = () => {
             </div>
 
             <div className="input-group">
-                <label>생일 (YYYY-MM-DD)</label>
+                <label>생년월일 (YYYY-MM-DD)</label>
                 <input
                     name="birthday"
                     value={formData.birthday}

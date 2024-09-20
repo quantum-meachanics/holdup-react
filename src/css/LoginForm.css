@@ -1,0 +1,68 @@
+.login-form {
+    width: 100%; /* 전체 너비 사용 */
+}
+
+.input-group {
+    margin-bottom: 20px; /* 간격 증가 */
+    width: 100%;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1.1em; /* 폰트 크기 증가 */
+    color: #073929; /* 라벨 색상 */
+}
+
+.input-group input {
+    width: 100%;
+    padding: 15px; /* 패딩 증가 */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em; /* 폰트 크기 증가 */
+    height: 50px; /* 높이 설정 */
+    transition: border-color 0.3s; /* 테두리 색상 변화 애니메이션 */
+}
+
+.input-group input:focus {
+    border-color: #073929; /* 포커스 시 테두리 색상 */
+    outline: none; /* 기본 아웃라인 제거 */
+}
+
+.button {
+    width: 100%;
+    padding: 15px; /* 패딩 증가 */
+    background-color: #073929; /* 버튼 배경색 */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em; /* 폰트 크기 증가 */
+    height: 50px; /* 높이 설정 */
+    transition: background-color 0.3s; /* 배경색 변화 애니메이션 */
+}
+
+.button:hover {
+    background-color: #055b4a; /* 버튼 호버 시 색상 */
+}
+
+.links {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 20px; /* 간격 증가 */
+}
+
+.signup-link a,
+.find-links a {
+    text-decoration: none;
+    color: #073929; /* 링크 색상 */
+    font-size: 1em; /* 폰트 크기 증가 */
+    transition: color 0.3s; /* 색상 변화 애니메이션 */
+}
+
+.signup-link a:hover,
+.find-links a:hover {
+    color: #055b4a; /* 링크 호버 시 색상 */
+    text-decoration: underline;
+}
