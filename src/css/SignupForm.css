@@ -1,0 +1,65 @@
+body {
+    background-color: white; /* 흰색 배경 */
+    font-family: Arial, sans-serif;
+}
+
+form {
+    max-width: 400px; /* 최대 너비 */
+    margin: 50px auto; /* 중앙 정렬 */
+    padding: 20px; /* 여백 */
+    background-color: white; /* 흰색 배경 */
+    border-radius: 8px; /* 둥근 모서리 */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column; /* 수직 정렬 */
+    margin: 10px 0; /* 상하 여백 */
+}
+
+.input-group label {
+    margin-bottom: 5px; /* 라벨과 입력창 간격 */
+}
+
+.email-input, .nickname-input, .address-input {
+    display: flex; /* 수평 정렬 */
+    justify-content: space-between; /* 여백 분배 */
+    align-items: center; /* 수직 중앙 정렬 */
+}
+
+.input-group input {
+    padding: 10px; /* 내부 여백 */
+    border: 1px solid #ccc; /* 기본 테두리 */
+    border-radius: 4px; /* 둥근 모서리 */
+    box-sizing: border-box; /* 박스 크기 설정 */
+    flex: 1; /* 입력칸을 가능한 넓게 설정 */
+    margin-right: 10px; /* 버튼과의 간격 */
+}
+
+.input-group input.error-input {
+    border-color: red; /* 오류 시 테두리 색상 */
+}
+
+.input-group input.success-input {
+    border-color: #073929; /* 성공 시 테두리 색상 */
+}
+
+.input-group button {
+    padding: 10px; /* 내부 여백 */
+    background-color: #073929; /* 버튼 배경색 */
+    color: white; /* 글자색 */
+    border: none; /* 테두리 제거 */
+    border-radius: 4px; /* 둥근 모서리 */
+    cursor: pointer; /* 마우스 커서 변경 */
+    font-size: 16px; /* 글자 크기 */
+}
+
+.input-group button:hover {
+    background-color: #055024; /* 호버 시 배경색 변경 */
+}
+
+.error {
+    color: red; /* 에러 메시지 색상 */
+    text-align: center; /* 중앙 정렬 */
+}

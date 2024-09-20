@@ -34,6 +34,10 @@ function Header() {
                 <div className="LoginLink">
                 <NavLink to="holdup/login">로그인</NavLink>
                 </div>
+
+                <div className="Signup">
+                <NavLink to="holdup/signup">회원가입</NavLink>
+                </div>
             </div>
 
             <div className="memberSection"></div>
