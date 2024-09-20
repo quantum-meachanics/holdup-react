@@ -1,0 +1,38 @@
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* 화면 전체 높이 사용 */
+    background-color: white; /* 배경색 */
+    padding: 20px;
+}
+
+.login-container h1 {
+    margin-bottom: 30px; /* 제목과 폼 간격 조정 */
+    color: #073929; /* 제목 색상 */
+    font-size: 2em; /* 제목 크기 */
+}
+
+.login-form-container {
+    background-color: white; /* 폼 배경색 */
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+    padding: 40px; /* 폼 패딩 */
+    width: 100%;
+    max-width: 400px; /* 최대 너비 설정 */
+}
+
+@media (max-width: 600px) {
+    .login-container {
+        padding: 10px; /* 모바일 패딩 조정 */
+    }
+
+    .login-container h1 {
+        font-size: 1.5em; /* 모바일 제목 크기 조정 */
+    }
+
+    .login-form-container {
+        padding: 20px; /* 모바일 폼 패딩 조정 */
+    }
+}
