@@ -7,6 +7,8 @@ import Guideline from "./pages/Guideline";
 import Login from "./pages/Login";
 import CreateSpace from "./pages/CreateSpace";
 import CreateSpaceSuccessPage from "./pages/CreateSpaceSuccessPage";
+import FindEmailForm from "./components/forms/FindEmailForm";
+import EmailVerification from "./components/forms/EmailVerification";
 
 
 function App() {
@@ -17,6 +19,8 @@ function App() {
           <Route index element={<Main />} />
           <Route path="holdup/guideline" element={<Guideline />} />
           <Route path="holdup/signup" element={<Signup />} />
+          <Route path="/holdup/find-email" element={<FindEmailForm />} />
+          <Route path="/holdup/email-verification" element={<EmailVerification />} />
           <Route path="holdup/login" element={<Login />} />
           <Route path="holdup/spaces" element={<CreateSpace />} />
           <Route path="holdup/spaces/success" element={<CreateSpaceSuccessPage />} />
@@ -25,5 +29,6 @@ function App() {
     </BrowserRouter>
   );
 }
+
 
 export default App;
