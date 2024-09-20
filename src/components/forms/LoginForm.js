@@ -32,9 +32,15 @@ function LoginForm() {
             setLoginInfo({ email: '', password: '' });
             dispatch(resetLoginUser());
         } else if (user) {
+
             localStorage.setItem("isLogin", true);
             localStorage.setItem("user", JSON.stringify(user));
             navigate("/"); // 로그인 성공 시 메인 페이지로 이동
+
+            sessionStorage.setItem("isLogin", true);
+            sessionStorage.setItem("user", JSON.stringify(user));
+            navigate("/");
+
         }
     }, [user, error, navigate, dispatch]);
 
