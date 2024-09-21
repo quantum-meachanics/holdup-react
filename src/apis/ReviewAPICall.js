@@ -13,8 +13,6 @@ export function callGetReviewListAPI(page = 0, size = 10) {
 
             console.log('API Response:', response);
 
-            // const reviewList = response.result.content || [];
-
             dispatch(getReviewListSuccess(
                 response.result.content,
                 response.result.totalPages,

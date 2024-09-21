@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { callGetReviewListAPI } from '../../apis/ReviewAPICall';
-import Pagination from './Pageination';
+import Pagination from './Pagination';
 
 function ReviewForm() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { reviewList, totalPages, currentPage ,error } = useSelector(state => state.reviewReducer);
-    // const [currentPage, setCurrentPage] = useState(0);
+    const { reviewList, totalPages, error } = useSelector(state => state.reviewReducer);
+    const [currentPage, setCurrentPage] = useState(1);
 
     // 컴포넌트가 마운트되거나 currentPage가 변경될 때 리뷰 목록 가져오기
     useEffect(() => {
@@ -18,9 +18,8 @@ function ReviewForm() {
 
     // 페이지 변경 핸들러
     const handlePageChange = (newPage) => {
-        if (newPage !== currentPage) {
-            dispatch(callGetReviewListAPI(newPage));
-        }
+        console.log('Changing to page:', newPage);
+        setCurrentPage(newPage);
     };
 
     // 에러 발생 시 에러 메시지 표시
@@ -35,32 +34,41 @@ function ReviewForm() {
 
     return (
         <div>
-            <h2>리뷰 목록</h2>
             {reviewList && reviewList.length > 0 ? (
-                reviewList.map(reviewList => (
-                    <div key={reviewList.id}>
-                        <h3>{reviewList.title}</h3>
-                        <p>id: {reviewList}</p>
-                        <p>내용: {reviewList.content}</p>
-                        <p>평점: {reviewList.rating}</p>
-                        {reviewList.reservation && (
-                            <div>
-                                <p>예약 ID: {reviewList.reservation.id}</p>
-                            </div>
-                        )}
-                    </div>
-
-                ))
+                <div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th >등록날짜</th>
+                                <th >제목</th>
+                                <th >평점</th>
+                                <th >닉네임</th>
+                                <th >예약 ID</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {reviewList.map(reviewList => (
+                                <tr key={reviewList.id}>
+                                    <td >{reviewList.createDate}</td>
+                                    <td >{reviewList.title}</td>
+                                    <td>{reviewList.rating}</td>
+                                    <td>{reviewList.nickname}</td>
+                                    <td>{reviewList.reservation.id}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             ) : (
                 <p>리뷰가 없습니다.</p>
             )}
-            
-                <Pagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={handlePageChange}
-                />
-            
+
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+            />
+
         </div>
     );
 }
