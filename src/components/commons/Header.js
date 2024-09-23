@@ -7,7 +7,7 @@ function Header() {
             <NavLink to="/">
                 <div className="logoSection">
                     <div className="logoImage">
-                        <img src={`${process.env.PUBLIC_URL}/images/holdup_box.png`} width="80px" height="80px" />
+                        <img src={`${process.env.PUBLIC_URL}/images/holdup_box.png`} width="80px" height="80px" alt=""/>
                     </div>
                     <div className="logoText">HoldUP</div>
                 </div>
