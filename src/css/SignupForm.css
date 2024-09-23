@@ -1,5 +1,5 @@
 body {
-    background-color: white; /* 흰색 배경 */
+    background-color: white; /* 부드러운 배경색 */
     font-family: Arial, sans-serif;
 }
 
@@ -8,14 +8,14 @@ form {
     margin: 50px auto; /* 중앙 정렬 */
     padding: 20px; /* 여백 */
     background-color: white; /* 흰색 배경 */
-    border-radius: 8px; /* 둥근 모서리 */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    border-radius: 10px; /* 둥근 모서리 */
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
 }
 
 .input-group {
     display: flex;
     flex-direction: column; /* 수직 정렬 */
-    margin: 10px 0; /* 상하 여백 */
+    margin: 15px 0; /* 상하 여백 증가 */
 }
 
 .email-input, .nickname-input {
@@ -23,35 +23,86 @@ form {
     align-items: center; /* 수직 중앙 정렬 */
 }
 
+.email-input select,
+.nickname-input button {
+    margin-right: 10px; /* select와 버튼 사이의 간격 */
+    flex: 1; /* select와 버튼을 동일한 넓이로 설정 */
+    padding: 15px; /* 내부 여백 추가 */
+    border: none; /* 기본 테두리 제거 */
+    border-bottom: 1px solid #ccc; /* 아래쪽 테두리 추가 */
+    box-sizing: border-box; /* 박스 크기 설정 */
+}
+
+.input-group label {
+    margin-bottom: 5px; /* 라벨과 입력 사이의 간격 */
+    font-weight: bold; /* 라벨 두껍게 */
+    color: #073929; /* 라벨 색상 */
+}
+
 .input-group input {
-    padding: 10px; /* 내부 여백 */
-    border: 1px solid #ccc; /* 기본 테두리 */
-    border-radius: 4px; /* 둥근 모서리 */
+    padding: 15px; /* 내부 여백 증가 */
+    border: none; /* 기본 테두리 제거 */
+    border-bottom: 1px solid #ccc; /* 아래쪽 테두리 추가 */
+    border-radius: 0; /* 모서리 둥글게 하지 않음 */
     box-sizing: border-box; /* 박스 크기 설정 */
     flex: 1; /* 입력칸을 가능한 넓게 설정 */
     margin-right: 10px; /* 버튼과의 간격 */
+    font-size: 1em; /* 폰트 크기 */
+}
+
+.input-group input:focus {
+    border-bottom: 1px solid #073929; /* 포커스 시 아래쪽 테두리 색상 */
+    outline: none; /* 기본 아웃라인 제거 */
+    box-shadow: 0 0 5px rgba(7, 57, 41, 0.5); /* 포커스 시 그림자 효과 */
 }
 
 .input-group button {
-    padding: 10px; /* 내부 여백 */
+    padding: 15px; /* 내부 여백 증가 */
     background-color: #073929; /* 버튼 배경색 */
     color: white; /* 글자색 */
     border: none; /* 테두리 제거 */
-    border-radius: 4px; /* 둥근 모서리 */
+    border-radius: 5px; /* 둥근 모서리 */
     cursor: pointer; /* 마우스 커서 변경 */
-    font-size: 16px; /* 글자 크기 */
+    font-size: 1em; /* 폰트 크기 */
+    transition: background-color 0.3s, transform 0.2s; /* 애니메이션 */
 }
 
 .input-group button:hover {
-    background-color: #073929; /* 호버 시 배경색 변경 */
+    background-color: #055b4a; /* 호버 시 배경색 변경 */
+    transform: translateY(-2px); /* 살짝 떠오르는 효과 */
 }
 
 .error {
     color: red; /* 에러 메시지 색상 */
     text-align: center; /* 중앙 정렬 */
+    margin-top: 10px; /* 에러 메시지 상단 여백 */
 }
 
-.success{
-    color: #073929; /* 에러 메시지 색상 */
+.success {
+    color: #073929; /* 성공 메시지 색상 */
     text-align: center; /* 중앙 정렬 */
+    margin-top: 10px; /* 성공 메시지 상단 여백 */
+}
+
+.links {
+    display: flex;
+    justify-content: space-between; /* 링크 사이의 간격 */
+    margin-top: 20px; /* 간격 증가 */
+}
+
+.links a {
+    text-decoration: none; /* 밑줄 제거 */
+    color: #073929; /* 링크 색상 */
+    transition: color 0.3s; /* 색상 변화 애니메이션 */
+}
+
+.links a:hover {
+    color: #055b4a; /* 링크 호버 시 색상 */
+    text-decoration: underline; /* 호버 시 밑줄 */
+}
+
+.input-group input[type="checkbox"] {
+    width: 15px;  /* 체크박스 너비 */
+    height: 15px; /* 체크박스 높이 */
+    margin-right: 5px; /* 체크박스와 레이블 사이 간격 */
 }
