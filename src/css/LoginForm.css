@@ -1,5 +1,12 @@
 .login-form {
     width: 100%; /* 전체 너비 사용 */
+    max-width: 400px; /* 최대 너비 설정 */
+    margin: auto; /* 중앙 정렬 */
+    padding: 30px; /* 패딩 추가 */
+    border: 1px solid #ccc; /* 테두리 추가 */
+    border-radius: 10px; /* 모서리 둥글게 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+    background-color: white; /* 배경색 */
 }
 
 .input-group {
@@ -32,7 +39,7 @@
 .button {
     width: 100%;
     padding: 15px; /* 패딩 증가 */
-    background-color: #073929; /* 버튼 배경색 */
+    background-color: #073929; /* 초록색 버튼 배경색 */
     color: white;
     border: none;
     border-radius: 5px;
@@ -43,7 +50,7 @@
 }
 
 .button:hover {
-    background-color: #055b4a; /* 버튼 호버 시 색상 */
+    background-color: #218838; /* 버튼 호버 시 조금 더 어두운 초록색 */
 }
 
 .links {
@@ -64,5 +71,29 @@
 .signup-link a:hover,
 .find-links a:hover {
     color: #055b4a; /* 링크 호버 시 색상 */
-    text-decoration: underline;
+    text-decoration: underline; /* 링크에 밑줄 추가 */
+}
+
+@media (max-width: 600px) {
+    .login-form {
+        padding: 20px; /* 모바일 패딩 조정 */
+    }
+
+    .input-group label {
+        font-size: 1em; /* 모바일 폰트 크기 조정 */
+    }
+
+    .button {
+        font-size: 1em; /* 모바일 버튼 폰트 크기 조정 */
+    }
+
+    .links {
+        flex-direction: column; /* 모바일에서는 세로로 배치 */
+        align-items: center; /* 중앙 정렬 */
+    }
+
+    .signup-link,
+    .find-links {
+        margin-top: 10px; /* 링크 간격 조정 */
+    }
 }
