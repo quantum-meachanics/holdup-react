@@ -22,6 +22,10 @@ function ReviewForm() {
         setCurrentPage(newPage);
     };
 
+        const handleClick = (id) => {
+            navigate(`/reviews/${id}`);
+        };
+
     // 에러 발생 시 에러 메시지 표시
     if (error) {
         return <div>에러 발생: {error.message || '알 수 없는 오류'}</div>;
@@ -48,7 +52,7 @@ function ReviewForm() {
                         </thead>
                         <tbody>
                             {reviewList.map(reviewList => (
-                                <tr key={reviewList.id}>
+                                <tr key={reviewList.id} onClick={() => handleClick(reviewList.id)} style={{cursor: 'pointer'}}>
                                     <td >{reviewList.createDate}</td>
                                     <td >{reviewList.title}</td>
                                     <td>{reviewList.rating}</td>
