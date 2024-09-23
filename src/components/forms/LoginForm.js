@@ -32,15 +32,10 @@ function LoginForm() {
             setLoginInfo({ email: '', password: '' });
             dispatch(resetLoginUser());
         } else if (user) {
-
-            localStorage.setItem("isLogin", true);
-            localStorage.setItem("user", JSON.stringify(user));
-            navigate("/"); // 로그인 성공 시 메인 페이지로 이동
-
+            // 로그인 성공 시 세션 저장 및 메인 페이지로 이동
             sessionStorage.setItem("isLogin", true);
             sessionStorage.setItem("user", JSON.stringify(user));
-            navigate("/");
-
+            navigate("/"); // 메인 페이지로 이동
         }
     }, [user, error, navigate, dispatch]);
 
@@ -61,8 +56,8 @@ function LoginForm() {
                     <a href="/holdup/signup">회원가입</a>
                 </div>
                 <div className="find-links">
-                    <a href="/find-id">아이디 찾기</a>
-                    <a href="/find-password">비밀번호 찾기</a>
+                    <a href="/holdup/find-email">아이디 찾기</a>
+                    <a href="/holdup/email-verification">비밀번호 찾기</a>
                 </div>
             </div>
         </div>
