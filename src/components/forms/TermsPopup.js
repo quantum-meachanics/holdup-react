@@ -1,10 +1,10 @@
 import React from 'react';
-import '../../css/TermsPopup.css'; // 필요한 스타일을 추가하세요.
+import styles from '../../css/TermsPopup.module.css';
 
 const TermsPopup = ({ onClose }) => {
     return (
-        <div className="terms-popup">
-            <div className="terms-content">
+        <div className={styles.termsPopup}>
+            <div className={styles.termsContent}>
                 <h2>이용약관</h2>
                 <p>제 1 조 (목적)</p>
                 <p>이 약관은 [서비스 이름] (이하 "서비스")의 이용과 관련하여 회사와 이용자 간의 권리, 의무 및 책임사항을 규정하는 것을 목적으로 합니다.</p>

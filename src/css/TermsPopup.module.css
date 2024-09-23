@@ -1,4 +1,4 @@
-.terms-popup {
+.termsPopup {
     position: fixed;
     top: 0;
     left: 0;
@@ -11,12 +11,12 @@
     z-index: 1000;
 }
 
-.terms-content {
+.termsContent {
     background: white;
     padding: 20px;
     border-radius: 10px;
     width: 90%;
-    max-width: 600px; /* 너비를 600px로 늘림 */
+    max-width: 600px; /* 너비를 600px로 설정 */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     overflow-y: auto;
     max-height: 80vh; /* 최대 높이 설정 */

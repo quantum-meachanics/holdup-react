@@ -16,12 +16,15 @@ p {
     margin-bottom: 20px; /* 부가 텍스트와 아래 요소 사이의 간격 */
 }
 
-.signup-container {
+.signup_container {
     display: flex;
     flex-direction: column; /* 수직 정렬 */
     align-items: center; /* 중앙 정렬 */
-    background-color: white; /* 배경색 */
-    padding: 40px; /* 내부 여백 */
-    border-radius: 10px; /* 둥근 모서리 */
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    justify-content: center; /* 수직 중앙 정렬 */
 }
+
+.signup_container h1, 
+.signup_container p {
+    margin: 0; /* 기본 마진 제거 */
+}
+

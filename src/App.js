@@ -7,7 +7,7 @@ import Guideline from "./pages/Guideline";
 import Login from "./pages/Login";
 import CreateSpace from "./pages/CreateSpace";
 import CreateSpaceSuccessPage from "./pages/CreateSpaceSuccessPage";
-import Review from "./pages/Review";
+import Review from "./pages/Review"
 import ReviewDetail from "./pages/ReviewDetail";
 import FindEmailForm from "./components/forms/FindEmailForm";
 import EmailVerification from "./components/forms/EmailVerification";
