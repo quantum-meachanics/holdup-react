@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { request } from '../../apis/Api'; 
 import AddressPopup from './AddressPopup';
+import TermsPopup from './TermsPopup'; // 이용약관 팝업 임포트
 import { useNavigate } from 'react-router-dom';
 import '../../css/SignupForm.css'; 
 
@@ -18,11 +19,14 @@ const SignupForm = () => {
         addressDetail: '',
     });
 
+    const [selectedDomain, setSelectedDomain] = useState('@gmail.com'); // 기본 도메인
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [isTermsPopupOpen, setIsTermsPopupOpen] = useState(false); // 이용약관 팝업 상태
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [emailAvailable, setEmailAvailable] = useState(null);
     const [nicknameAvailable, setNicknameAvailable] = useState(null);
+    const [isAgreed, setIsAgreed] = useState(false); // 이용약관 동의 상태
 
     const handleInputChange = (e) => {
         const { name, value: initialValue } = e.target;
@@ -38,6 +42,20 @@ const SignupForm = () => {
         }
 
         setFormData({ ...formData, [name]: value });
+    };
+
+    const handleEmailChange = (e) => {
+        const localPart = e.target.value;
+        setFormData({ ...formData, email: localPart + selectedDomain });
+    };
+
+    const handleDomainChange = (e) => {
+        const newDomain = e.target.value;
+        setSelectedDomain(newDomain);
+        setFormData((prevData) => ({
+            ...prevData,
+            email: prevData.email.split('@')[0] + newDomain,
+        }));
     };
 
     const handleEmailCheck = async () => {
@@ -82,7 +100,7 @@ const SignupForm = () => {
                 address: finalAddress,
             });
             alert('회원가입 성공!');
-            navigate('/'); // 메인 페이지로 이동
+            navigate('/'); 
         } catch (error) {
             console.error('회원가입 오류:', error);
             setError('회원가입에 실패했습니다.');
@@ -91,7 +109,19 @@ const SignupForm = () => {
         }
     };
 
-    const isFormValid = emailAvailable && nicknameAvailable && formData.password && formData.password === formData.confirmPassword;
+    const handleTermsPopupOpen = () => {
+        setIsTermsPopupOpen(true);
+    };
+
+    const handleTermsPopupClose = () => {
+        setIsTermsPopupOpen(false);
+    };
+
+    const handleCheckboxChange = () => {
+        setIsAgreed(!isAgreed);
+    };
+
+    const isFormValid = emailAvailable && nicknameAvailable && formData.password && formData.password === formData.confirmPassword && isAgreed;
 
     return (
         <form onSubmit={handleSubmit}>
@@ -101,12 +131,18 @@ const SignupForm = () => {
                 {emailAvailable === true && <div className="success">사용 가능한 이메일입니다.</div>}
                 <div className="email-input">
                     <input
-                        name="email"
-                        value={formData.email}
-                        type="email"
-                        onChange={handleInputChange}
+                        type="text"
+                        value={formData.email.split('@')[0]} // 사용자명만 보여줌
+                        onChange={handleEmailChange}
+                        placeholder="이메일"
                         required
                     />
+                    <select value={selectedDomain} onChange={handleDomainChange}>
+                        <option value="@gmail.com">@gmail.com</option>
+                        <option value="@naver.com">@naver.com</option>
+                        <option value="@daum.net">@daum.net</option>
+                        <option value="@yahoo.com">@yahoo.com</option>
+                    </select>
                     <button type="button" onClick={handleEmailCheck}>이메일 중복 확인</button>
                 </div>
             </div>
@@ -119,6 +155,7 @@ const SignupForm = () => {
                     <input
                         name="nickname"
                         value={formData.nickname}
+                        placeholder="닉네임"
                         onChange={handleInputChange}
                         required
                     />
@@ -131,6 +168,7 @@ const SignupForm = () => {
                 <input
                     name="password"
                     type="password"
+                    placeholder="비밀번호"
                     value={formData.password}
                     onChange={handleInputChange}
                     required
@@ -142,6 +180,7 @@ const SignupForm = () => {
                 <input
                     name="confirmPassword"
                     type="password"
+                    placeholder="비밀번호확인"
                     value={formData.confirmPassword}
                     onChange={handleInputChange}
                     required
@@ -153,6 +192,7 @@ const SignupForm = () => {
                 <input
                     name="phone"
                     value={formData.phone}
+                    placeholder="휴대폰번호"
                     onChange={handleInputChange}
                     required
                 />
@@ -162,6 +202,7 @@ const SignupForm = () => {
                 <label>이름</label>
                 <input
                     name="name"
+                    placeholder="이름"
                     value={formData.name}
                     onChange={handleInputChange}
                     required
@@ -172,6 +213,7 @@ const SignupForm = () => {
                 <label>생년월일 (YYYY-MM-DD)</label>
                 <input
                     name="birthday"
+                    placeholder="생년월일"
                     value={formData.birthday}
                     onChange={handleInputChange}
                     required
@@ -182,6 +224,7 @@ const SignupForm = () => {
                 <label>주소</label>
                 <input
                     name="address"
+                    placeholder="주소"
                     value={formData.address}
                     readOnly
                     required
@@ -193,10 +236,23 @@ const SignupForm = () => {
                 <label>상세주소</label>
                 <input
                     name="addressDetail"
+                    placeholder="상세주소"
                     value={formData.addressDetail}
                     onChange={handleInputChange}
                     required
                 />
+            </div>
+
+            <div className="input-group">
+                <label>
+                    <input
+                        type="checkbox"
+                        checked={isAgreed}
+                        onChange={handleCheckboxChange}
+                    />
+                    이용약관에 동의합니다.
+                </label>
+                <button type="button" onClick={handleTermsPopupOpen}>이용약관 보기</button>
             </div>
 
             <div className="input-group">
@@ -207,7 +263,15 @@ const SignupForm = () => {
 
             {error && <div className="error">{error}</div>}
             {isPopupOpen && <AddressPopup onAddressSelect={handleAddressSelect} />}
+            {isTermsPopupOpen && <TermsPopup onClose={handleTermsPopupClose} />}
+
+            <div className="input-group">
+                <button type="button" onClick={() => navigate('/holdup/login')}>
+                    이미 회원이신가요? 로그인하기
+                </button>
+            </div>
         </form>
+        
     );
 };
 
