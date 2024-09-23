@@ -1,0 +1,27 @@
+.centered {
+    text-align: center; /* 텍스트 가운데 정렬 */
+    margin: 20px; /* 상하 여백 */
+    padding: 20px; /* 내부 여백 */
+}
+
+h1 {
+    color: #073929; /* 제목 색상 */
+    font-size: 2.5em; /* 제목 크기 */
+    margin-bottom: 10px; /* 제목과 아래 요소 사이의 간격 */
+}
+
+p {
+    color: #555; /* 부드러운 회색 텍스트 */
+    font-size: 1.2em; /* 부가 텍스트 크기 */
+    margin-bottom: 20px; /* 부가 텍스트와 아래 요소 사이의 간격 */
+}
+
+.signup-container {
+    display: flex;
+    flex-direction: column; /* 수직 정렬 */
+    align-items: center; /* 중앙 정렬 */
+    background-color: white; /* 배경색 */
+    padding: 40px; /* 내부 여백 */
+    border-radius: 10px; /* 둥근 모서리 */
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+}
