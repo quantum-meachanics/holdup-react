@@ -132,7 +132,7 @@ const SignupForm = () => {
                     
                     <div>
                     <div className={styles.image_container}> <img src={`${process.env.PUBLIC_URL}/images/holdup_box.png`} alt=""/></div>
-                        <button onClick={() => navigate('/login')}>로그인 페이지로 이동</button>
+                        <button onClick={() => navigate('/holdup/login')}>로그인 페이지로 이동</button>
                         <button onClick={() => navigate('/')}>메인 페이지로 이동</button>
                     </div>
                     

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { callCreateSpaceAPI } from "../../apis/SpaceAPICalls";
+import style from "../../css/CreateSpaceForm.module.css";
 
 function CreateSpaceForm() {
 
@@ -10,7 +11,7 @@ function CreateSpaceForm() {
     const dispatch = useDispatch();
     const { spaceInfo, error } = useSelector(state => state.spaceReducer);
 
-    const detailAddressRef = useRef(null); // 상세주소 입력창을 위한 ref 생성
+    const detailAddressRef = useRef(null); // 상세주소 입력창에 ref 생성
 
     const [inputSpaceInfo, setSpaceInfo] = useState({
         name: '',
@@ -72,42 +73,42 @@ function CreateSpaceForm() {
         if (error) {
             alert(error);
         } else if (spaceInfo) {
-            navigate("/holdiup/spaces/suceess");
+            navigate("/holdup/spaces/suceess");
         }
     }, [spaceInfo, error, navigate, dispatch]);
 
     return (
-        <>
-            <span>공간 이름 : </span>
-            <input type="text" name="name" value={inputSpaceInfo.name} onChange={onChangeHandler} />
+        <div className={style.createSpaceForm}>
+            <span className={style.label}>공간 이름</span>
+            <input className={style.input} type="text" name="name" value={inputSpaceInfo.name} onChange={onChangeHandler} />
 
-            <span>공간 주소 : </span>
-            <input type="text" name="address" value={inputSpaceInfo.address} readOnly />
-            <button type="button" onClick={openAddressPopup}>주소 검색</button>
+            <span>공간 주소</span>
+            <input className={style.input} type="text" name="address" value={inputSpaceInfo.address} readOnly />
+            <button className={style.button} type="button" onClick={openAddressPopup}>주소 검색</button>
 
-            <span>상세주소 : </span>
-            <input type="text" name="detailAddress" ref={detailAddressRef} value={inputSpaceInfo.detailAddress} onChange={onChangeHandler} />
+            <span>상세주소</span>
+            <input className={style.input} type="text" name="detailAddress" ref={detailAddressRef} value={inputSpaceInfo.detailAddress} onChange={onChangeHandler} />
 
-            <span>공간 설명 : </span>
-            <input type="text" name="description" value={inputSpaceInfo.description} onChange={onChangeHandler} />
+            <span>공간 설명</span>
+            <input className={style.input} type="text" name="description" value={inputSpaceInfo.description} onChange={onChangeHandler} />
 
-            <span>공간 너비 : </span>
-            <input type="number" name="width" value={inputSpaceInfo.width} onChange={onChangeHandler} />
+            <span>공간 너비</span>
+            <input className={style.input} type="number" name="width" value={inputSpaceInfo.width} onChange={onChangeHandler} />
 
-            <span>공간 높이 : </span>
-            <input type="number" name="height" value={inputSpaceInfo.height} onChange={onChangeHandler} />
+            <span>공간 높이</span>
+            <input className={style.input} type="number" name="height" value={inputSpaceInfo.height} onChange={onChangeHandler} />
 
-            <span>공간 깊이 : </span>
-            <input type="number" name="depth" value={inputSpaceInfo.depth} onChange={onChangeHandler} />
+            <span>공간 깊이</span>
+            <input className={style.input} type="number" name="depth" value={inputSpaceInfo.depth} onChange={onChangeHandler} />
 
-            <span>공간 갯수 : </span>
-            <input type="number" name="count" value={inputSpaceInfo.count} onChange={onChangeHandler} />
+            <span>공간 갯수</span>
+            <input className={style.input} type="number" name="count" value={inputSpaceInfo.count} onChange={onChangeHandler} />
 
-            <span>공간 가격 : </span>
-            <input type="number" name="price" value={inputSpaceInfo.price} onChange={onChangeHandler} />
+            <span>공간 가격</span>
+            <input className={style.input} type="number" name="price" value={inputSpaceInfo.price} onChange={onChangeHandler} />
 
-            <button onClick={onClickHandler}>등록하기</button>
-        </>
+            <button className={style.button} onClick={onClickHandler}>등록하기</button>
+        </div>
     );
 }
 
