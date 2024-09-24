@@ -11,6 +11,7 @@ import Review from "./pages/Review"
 import ReviewDetail from "./pages/ReviewDetail";
 import FindEmailForm from "./components/forms/FindEmailForm";
 import EmailVerification from "./components/forms/EmailVerification";
+import SuccessScreen from "./components/forms/SuccessScreen";
 
 
 
@@ -28,6 +29,7 @@ function App() {
           <Route path="holdup/spaces" element={<CreateSpace />} />
           <Route path="holdup/reviews" element={<Review/>} />
           <Route path="reviews/:id" element={<ReviewDetail/>} />
+          <Route path="holdup/success" elemnt={<SuccessScreen/>}/>
           <Route path="holdup/spaces/success" element={<CreateSpaceSuccessPage />} />
         </Route>
       </Routes>

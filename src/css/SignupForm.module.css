@@ -1,5 +1,5 @@
 body {
-    background-color: white; /* 부드러운 배경색 */
+    background-color: white; /* 배경색 */
     font-family: Arial, sans-serif;
 }
 
@@ -148,4 +148,46 @@ body {
 .image_container img {
     max-width: 100%; /* 이미지의 최대 너비를 컨테이너에 맞춤 */
     max-height: 100%; /* 이미지의 최대 높이를 컨테이너에 맞춤 */
+}
+
+
+.passwordInputContainer {
+    display: flex; /* 수평 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
+}
+
+.passwordInputContainer input {
+    flex: 1; /* 입력란이 가능한 넓이로 설정 */
+    margin-right: 10px; /* 토글과의 간격 */
+}
+
+.showPasswordToggle {
+    cursor: pointer; /* 커서 변경 */
+    color: #073929; /* 텍스트 색상 */
+    font-weight: bold; /* 굵게 표시 */
+    transition: color 0.3s; /* 색상 변화 애니메이션 */
+}
+
+.showPasswordToggle:hover {
+    color: #055b4a; /* 호버 시 색상 변경 */
+}
+
+input:required {
+    border: 2px solid #ccc; /* 기본 테두리 색 */
+    border-radius: 5px; /* 둥근 모서리 */
+}
+
+input:required:focus {
+    border-color: #073929; /* 포커스 시 색상 변경 */
+    border-radius: 5px; /* 둥근 모서리 */
+}
+
+input:invalid {
+    border-color: #ccc; /* 잘못된 입력 시 색상 변경 */
+    border-radius: 5px; /* 둥근 모서리 */
+}
+
+input:valid {
+    border-color: #055b4a; /* 유효한 입력 시 색상 변경 */
+    border-radius: 5px; /* 둥근 모서리 */
 }
