@@ -1,24 +1,37 @@
 import { NavLink } from "react-router-dom";
-import "../../css/Footer.css";
+import style from "../../css/Footer.module.css";
 
 function Footer() {
     return (
         <footer>
-            <div className="FooterLogoText">HoldUP</div>
+            <div className={style.infoSection}>
+                <span className={style.logoText}>HoldUP</span>
 
-            <div className="FooterLinkSection">
-                <div className="ReportLink">신고하기</div>
-                <div className="PrivacyPolicyLink">개인정보 처리방침</div>
-                <div className="TermsOfUseLink">이용 약관</div>
+                <div className={style.linkSection}>
+                    <NavLink to="/" className={style.link}>신고하기</NavLink>
+                    <NavLink to="/" className={style.link}>개인정보 처리방침</NavLink>
+                    <NavLink to="/" className={style.link}>이용 약관</NavLink>
+                </div>
+
+                <div className={style.bossInfo}>
+                    <span className={style.info}>대표명 : 김대표 / 전화번호 : 010-0000-0000</span>
+                </div>
+
+                <div className={style.companyInfo}>
+                    <span className={style.info}>회사명 : (주)홀드업</span>
+                    <span className={style.info}>|</span>
+                    <span className={style.info}>사업자번호 : 100-00-0000</span>
+                    <span className={style.info}>|</span>
+                    <span className={style.info}>통신판매신고번호 : 2024-서울강남-0000</span>
+                    <span className={style.info}>|</span>
+                    <span className={style.info}>주소 : 서울시 강남구 홀드업로 1, 홀드업빌딩</span>
+                </div>
             </div>
 
-            <div className="CeoPhone">대표 전화번호 : 010-0000-0000</div>
-
-            <div className="companyInfo">회사명 : (주)홀드업 | 대표명 : 김대표 | 사업자번호 : 100-00-0000 | 통신판매신고번호 : 2024-서울강남-0000 | 주소 : 서울시 강남구 홀드업로 1, 홀드업빌딩</div>
-
-            <div className="FooterLogoImage"></div>
-
-            <div className="copyright">Copyright 2024.Signgtech.All rights.reserved.</div>
+            <div className={style.logoSection}>
+                <img src={`${process.env.PUBLIC_URL}/images/holdup_cart.png`} width="100px" height="100px" alt="holdUP_cart"/>
+                <span className={style.copyright}>Copyright 2024.Signgtech.All rights.reserved.</span>
+            </div>
         </footer>
     );
 }

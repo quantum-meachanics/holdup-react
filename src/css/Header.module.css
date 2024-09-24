@@ -1,0 +1,98 @@
+header {
+    /* 구역 확인용 내부 외곽선 */
+    /* box-shadow: 0 0 0 1px yellow inset; */
+
+    /* 드래그 방지 */
+    user-select: none;
+
+    /* 아래 외곽선 */
+    border-bottom: 1px solid #d9d9d9;
+    /* 테스트 외곽선 */
+    /* border-bottom: 1px solid black; */
+
+    /* 높이 고정 */
+    min-height: 99px;
+    max-height: 99px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logoSection {
+    /* 구역 확인용 내부 외곽선 */
+    /* box-shadow: 0 0 0 1px red inset; */
+
+    min-width: 330px;
+    max-width: 330px;
+
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    align-items: center;
+
+    color: black;
+    text-decoration: none;
+    font-size: 60px;
+    font-weight: 900;
+}
+
+.logoImage {
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.menuSection {
+    /* 구역 확인용 내부 외곽선 */
+    /* box-shadow: 0 0 0 1px green inset; */
+
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 19px;
+    font-weight: bold;
+}
+
+.menuLink {
+    color: black;
+    text-decoration: none;
+}
+
+/* 메뉴링크 다음에 구분선 추가 */
+.menuLink::after {
+    margin-right: 20px;
+    margin-left: 20px;
+    content: '|';
+}
+
+/* 마지막 링크 뒤에는 구분선을 없앰 */
+.menuLink:last-child::after {
+    margin: 0;
+    content: '';
+
+}
+
+.memberSection {
+    /* 구역 확인용 내부 외곽선 */
+    /* box-shadow: 0 0 0 1px blue inset; */
+
+    min-width: 330px;
+    max-width: 330px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #707070;
+    font-size: 13px;
+}
+
+.memberLink {
+    margin-right: 10px;
+    margin-left: 10px;
+
+    color: #707070;
+    text-decoration: none;
+}
