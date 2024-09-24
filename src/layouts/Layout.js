@@ -1,15 +1,15 @@
 import { Outlet } from "react-router-dom";
 import Footer from "../components/commons/Footer";
 import Header from '../components/commons/Header';
-import "../css/Layout.css";
+import style from '../css/Layout.module.css';
 
 function Layout() {
     return (
-        <>
+        <div className={style.layout}>
             <Header />
-            <Outlet />
+            <div className={style.outlet}><Outlet /></div>
             <Footer />
-        </>
+        </div>
     );
 }
 
