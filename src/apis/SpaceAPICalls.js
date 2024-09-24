@@ -4,7 +4,7 @@ import { tokenRequest } from "./Api";
 export function callCreateSpaceAPI(spaceInfo) {
     return async (dispatch) => {
         try {
-            const token = localStorage.getItem('token');
+            const token = sessionStorage.getItem('token');
             const response = await tokenRequest(
                 token,
                 "POST",
