@@ -1,6 +1,7 @@
 import { Navigate } from "react-router-dom";
 import LoginForm from "../components/forms/LoginForm";
-import '../css/Login.css'; // 추가할 CSS 파일
+import styles from '../css/Login.module.css'; 
+
 
 function Login() {
     const loginStatus = !!localStorage.getItem('isLogin');
@@ -9,9 +10,9 @@ function Login() {
     }
 
     return (
-        <div className="login-container">
+        <div className={styles.loginContainer}>
             <h1>로그인 페이지</h1>
-            <div className="login-form-container">
+            <div className={styles.loginFormContainer}>
                 <LoginForm />
             </div>
         </div>
