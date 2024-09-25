@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { request } from '../../apis/Api';
 import AddressPopup from './AddressPopup';
 import TermsPopup from './TermsPopup';
@@ -6,6 +6,19 @@ import SuccessScreen from './SuccessScreen';
 import SignupFormUI from './SignupFormUI';
 import EmailDomainSelector from './EmailDomainSelector';
 import styles from '../../css/SignupForm.module.css';
+import { useNavigate } from 'react-router-dom';
+
+const initialFormData = {
+    email: '',
+    password: '',
+    confirmPassword: '',
+    nickname: '',
+    phone: '',
+    name: '',
+    birthday: '',
+    address: '',
+    addressDetail: '',
+};
 
 const SignupForm = () => {
     const [formData, setFormData] = useState(initialFormData);
@@ -23,57 +36,46 @@ const SignupForm = () => {
     const [isTermsPopupOpen, setIsTermsPopupOpen] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
 
+    const navigate = useNavigate();
 
-    const handlePhoneChange = (e) => {
-        const value = e.target.value.replace(/[^0-9]/g, ''); // 숫자만 남김
-        let formatted = '';
-
-        if (value.length > 10) {
-            formatted = value.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'); // 010-xxxx-xxxx
-        } else if (value.length > 6) {
-            formatted = value.replace(/(\d{3})(\d{3})(\d+)/, '$1-$2-$3'); // 010-xxx-xxxx
-        } else if (value.length > 3) {
-            formatted = value.replace(/(\d{3})(\d+)/, '$1-$2'); // 010-xx
-        } else {
-            formatted = value;
+    useEffect(() => {
+        let interval;
+        if (isCodeSent && timer > 0) {
+            interval = setInterval(() => setTimer(prev => prev - 1), 1000);
         }
-
-        setFormData({ ...formData, phone: formatted });
-    };
+        return () => clearInterval(interval);
+    }, [isCodeSent, timer]);
 
     const handleBirthdayChange = (e) => {
-        const value = e.target.value.replace(/[^0-9]/g, ''); // 숫자만 남김
-        let formatted = '';
-
-        if (value.length > 8) {
-            formatted = value.slice(0, 8);
-        } else {
-            formatted = value;
-        }
-
-        if (formatted.length >= 4) {
-            formatted = `${formatted.slice(0, 4)}-${formatted.slice(4, 6)}`; // YYYY-MM
-        }
-        if (formatted.length >= 7) {
-            formatted = `${formatted.slice(0, 7)}-${formatted.slice(7, 9)}`; // YYYY-MM-DD
-        }
-
-        setFormData({ ...formData, birthday: formatted });
+        const value = e.target.value.replace(/[^0-9]/g, '');
+        if (value.length > 8) return;
+        let formatted = value.length === 8 ? value.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3') : value;
+        setFormData(prev => ({ ...prev, birthday: formatted }));
     };
 
-    // 이메일 중복 확인
+    const handlePhoneChange = (e) => {
+        const value = e.target.value.replace(/[^0-9]/g, '');
+        if (value.length > 11) return;
+        let formatted = value.length === 11 ? value.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3') : value;
+        setFormData(prev => ({ ...prev, phone: formatted }));
+    };
+
     const handleEmailCheck = async () => {
         if (!formData.email) return showAlert('이메일을 입력해주세요.');
+    
+        // 전체 이메일 구성
+        const fullEmail = `${formData.email}${selectedDomain}`; 
+    
         try {
-            const { available } = await request('GET', `/check-email?email=${formData.email}`);
+            const { available } = await request('GET', `/check-email?email=${fullEmail}`);
             setEmailAvailable(available);
             showAlert(available ? '사용 가능한 이메일입니다.' : '이미 사용 중인 이메일입니다.');
         } catch (error) {
             console.error('이메일 중복 확인 오류:', error);
         }
     };
+    
 
-    // 닉네임 중복 확인
     const handleNicknameCheck = async () => {
         if (!formData.nickname) return showAlert('닉네임을 입력해주세요.');
         try {
@@ -85,27 +87,23 @@ const SignupForm = () => {
         }
     };
 
-    // 주소 선택
     const handleAddressSelect = (selectedAddress) => {
-        setFormData({
-            ...formData,
+        setFormData(prev => ({
+            ...prev,
             address: selectedAddress.roadFullAddr,
             addressDetail: selectedAddress.addressDetail,
-        });
+        }));
         setIsPopupOpen(false);
     };
 
-    // 이메일 도메인 변경 핸들러
     const handleDomainChange = (e) => {
         setSelectedDomain(e.target.value);
     };
 
-    // 이메일 변경 핸들러
     const handleEmailChange = (e) => {
-        setFormData({ ...formData, email: e.target.value + selectedDomain });
+        setFormData(prev => ({ ...prev, email: e.target.value + selectedDomain }));
     };
 
-    // 인증 코드 전송
     const handleSendCode = async (e) => {
         e.preventDefault();
         if (isButtonDisabled) return setMessage('5분 후에 다시 시도할 수 있습니다.');
@@ -121,34 +119,43 @@ const SignupForm = () => {
         }
     };
 
-    // 인증 코드 검증
     const handleVerifyCode = async (e) => {
         e.preventDefault();
         try {
-            const response = await request('POST', '/signup-verify-code', { email: formData.email, verificationCode });
-            setMessage(response.data?.message || '인증 코드 검증 실패');
-            if (response.data?.success) setIsSuccess(true);
+            const response = await request('POST', '/signup-verify-code', {
+                email: formData.email,
+                verificationCode
+            });
+            console.log("응답 확인:", response); // 응답 로그 추가
+            if (response.success) {
+                setMessage('인증 완료되었습니다!');
+            } else {
+                setMessage('인증 실패하였습니다.');
+            }
         } catch (error) {
-            const errorMessage = error.response?.data?.message || '알 수 없는 오류가 발생했습니다.';
-            console.error('Verification error:', error);
-            setMessage(errorMessage);
+            console.error("오류 발생:", error);
+            setMessage(error.response?.data?.message || '알 수 없는 오류가 발생했습니다.');
         }
     };
+    
 
-    // 회원가입 처리
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (isFormIncomplete(formData)) return alert('모든 필드를 채워야 합니다.');
-        if (!isEmailAndNicknameValid(emailAvailable, nicknameAvailable)) return;
+        if (!isEmailAndNicknameValid(emailAvailable, nicknameAvailable)) return alert('이메일과 닉네임 중복 확인을 완료해주세요.');
         if (!isAgreed) return alert('이용약관에 동의해야 합니다.');
+
+        // 인증 코드 확인
+        if (!isCodeSent || !verificationCode) {
+            return alert('인증 코드를 입력해야 합니다.');
+        }
 
         setLoading(true);
         try {
             const finalAddress = `${formData.address} ${formData.addressDetail}`.trim();
             await request('POST', '/signup', { ...formData, address: finalAddress });
-            alert('회원가입 성공!');
+            setIsSuccess(true);
         } catch (error) {
-            console.error('회원가입 오류:', error);
             alert('회원가입에 실패했습니다.');
         } finally {
             setLoading(false);
@@ -157,12 +164,16 @@ const SignupForm = () => {
 
     return (
         <div className={styles.container}>
-            {isSuccess ? <SuccessScreen navigate={'holdup/login'} /> : (
+            {isSuccess ? (
+                <SuccessScreen navigate={navigate} />
+            ) : (
                 <>
                     <EmailDomainSelector
                         selectedDomain={selectedDomain}
                         onDomainChange={handleDomainChange}
                         onEmailChange={handleEmailChange}
+                        handleEmailCheck={handleEmailCheck}
+                        emailAvailable={emailAvailable}
                     />
                     <SignupFormUI
                         formData={formData}
@@ -185,8 +196,8 @@ const SignupForm = () => {
                         setIsAgreed={setIsAgreed}
                         handleAddressSelect={handleAddressSelect}
                         setIsPopupOpen={setIsPopupOpen}
-                        handlePhoneChange={handlePhoneChange} 
-                        handleBirthdayChange={handleBirthdayChange} 
+                        handlePhoneChange={handlePhoneChange}
+                        handleBirthdayChange={handleBirthdayChange}
                     />
                 </>
             )}
@@ -194,19 +205,6 @@ const SignupForm = () => {
             {isTermsPopupOpen && <TermsPopup onClose={() => setIsTermsPopupOpen(false)} />}
         </div>
     );
-};
-
-// 초기 form 데이터 정의
-const initialFormData = {
-    email: '',
-    password: '',
-    confirmPassword: '',
-    nickname: '',
-    phone: '',
-    name: '',
-    birthday: '',
-    address: '',
-    addressDetail: '',
 };
 
 // 공통 함수 정의
