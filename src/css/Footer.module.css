@@ -1,0 +1,74 @@
+footer {
+    /* 구역 확인용 내부 외곽선 */
+    /* box-shadow: 0 0 0 1px yellow inset; */
+
+    /* 드래그 방지 */
+    user-select: none;
+
+    /* 위쪽 외곽선 */
+    border-top: 1px solid #d9d9d9;
+    /* 테스트 외곽선 */
+    /* border-top: 1px solid black; */
+
+    display: flex;
+    flex-direction: row;
+    min-height: 119px;
+    max-height: 119px;
+}
+
+.infoSection {
+    /* 구역 확인용 내부 외곽선 */
+    /* box-shadow: 0 0 0 1px red inset; */
+
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    padding-left: 10px;
+}
+
+.logoText {
+    font-size: 25px;
+    font-weight: 900;
+    
+    padding-bottom: 10px;
+}
+
+.linkSection {
+    padding-bottom: 10px;
+}
+
+.link {
+    font-size: 15px;
+    color: #707070;
+    text-decoration: none;
+
+    padding-right: 30px;
+}
+
+.bossInfo {
+    padding-bottom: 10px;
+}
+
+.info {
+    color: #707070;
+    font-size: 15px;
+
+    padding-right: 20px;
+}
+
+.logoSection {
+    /* 구역 확인용 내부 외곽선 */
+    /* box-shadow: 0 0 0 1px blue inset; */
+
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+}
+
+.copyright {
+    color: #707070;
+    font-size: 10px;
+}

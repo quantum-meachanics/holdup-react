@@ -165,7 +165,20 @@ const SignupForm = () => {
     return (
         <div className={styles.container}>
             {isSuccess ? (
+
                 <SuccessScreen navigate={navigate} />
+
+                <div className={styles.successMessage}>
+                    <h2>회원가입이 완료되었습니다!</h2>
+                    
+                    <div>
+                    <div className={styles.image_container}> <img src={`${process.env.PUBLIC_URL}/images/holdup_box.png`} alt=""/></div>
+                        <button onClick={() => navigate('/holdup/login')}>로그인 페이지로 이동</button>
+                        <button onClick={() => navigate('/')}>메인 페이지로 이동</button>
+                    </div>
+                    
+                </div>
+
             ) : (
                 <>
                     <EmailDomainSelector
