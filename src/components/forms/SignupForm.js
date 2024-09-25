@@ -62,10 +62,10 @@ const SignupForm = () => {
 
     const handleEmailCheck = async () => {
         if (!formData.email) return showAlert('이메일을 입력해주세요.');
-    
+
         // 전체 이메일 구성
-        const fullEmail = `${formData.email}${selectedDomain}`; 
-    
+        const fullEmail = `${formData.email}${selectedDomain}`;
+
         try {
             const { available } = await request('GET', `/check-email?email=${fullEmail}`);
             setEmailAvailable(available);
@@ -74,7 +74,7 @@ const SignupForm = () => {
             console.error('이메일 중복 확인 오류:', error);
         }
     };
-    
+
 
     const handleNicknameCheck = async () => {
         if (!formData.nickname) return showAlert('닉네임을 입력해주세요.');
@@ -137,7 +137,7 @@ const SignupForm = () => {
             setMessage(error.response?.data?.message || '알 수 없는 오류가 발생했습니다.');
         }
     };
-    
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -164,21 +164,9 @@ const SignupForm = () => {
 
     return (
         <div className={styles.container}>
+            <h2>회원가입</h2>
             {isSuccess ? (
-
                 <SuccessScreen navigate={navigate} />
-
-                <div className={styles.successMessage}>
-                    <h2>회원가입이 완료되었습니다!</h2>
-                    
-                    <div>
-                    <div className={styles.image_container}> <img src={`${process.env.PUBLIC_URL}/images/holdup_box.png`} alt=""/></div>
-                        <button onClick={() => navigate('/holdup/login')}>로그인 페이지로 이동</button>
-                        <button onClick={() => navigate('/')}>메인 페이지로 이동</button>
-                    </div>
-                    
-                </div>
-
             ) : (
                 <>
                     <EmailDomainSelector
