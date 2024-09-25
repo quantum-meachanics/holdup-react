@@ -1,132 +1,173 @@
-import React, { useState } from 'react';
-import { request } from '../../apis/Api'; 
+import React, { useState, useEffect } from 'react';
+import { request } from '../../apis/Api';
 import AddressPopup from './AddressPopup';
-import TermsPopup from './TermsPopup'; 
+import TermsPopup from './TermsPopup';
+import SuccessScreen from './SuccessScreen';
+import SignupFormUI from './SignupFormUI';
+import EmailDomainSelector from './EmailDomainSelector';
+import styles from '../../css/SignupForm.module.css';
 import { useNavigate } from 'react-router-dom';
-import styles from '../../css/SignupForm.module.css'; 
+
+const initialFormData = {
+    email: '',
+    password: '',
+    confirmPassword: '',
+    nickname: '',
+    phone: '',
+    name: '',
+    birthday: '',
+    address: '',
+    addressDetail: '',
+};
 
 const SignupForm = () => {
-    const navigate = useNavigate();
-    const [formData, setFormData] = useState({
-        email: '',
-        password: '',
-        confirmPassword: '',
-        nickname: '',
-        phone: '',
-        name: '',
-        birthday: '',
-        address: '',
-        addressDetail: '',
-    });
-
+    const [formData, setFormData] = useState(initialFormData);
     const [selectedDomain, setSelectedDomain] = useState('@gmail.com');
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
-    const [isTermsPopupOpen, setIsTermsPopupOpen] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
     const [emailAvailable, setEmailAvailable] = useState(null);
     const [nicknameAvailable, setNicknameAvailable] = useState(null);
     const [isAgreed, setIsAgreed] = useState(false);
-    const [isSuccess, setIsSuccess] = useState(false); // 회원가입 성공 여부
+    const [verificationCode, setVerificationCode] = useState('');
+    const [isCodeSent, setIsCodeSent] = useState(false);
+    const [message, setMessage] = useState('');
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+    const [timer, setTimer] = useState(300); // 5분 타이머
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [isTermsPopupOpen, setIsTermsPopupOpen] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
 
-    const handleInputChange = (e) => {
-        const { name, value: initialValue } = e.target;
-        let value = initialValue;
+    const navigate = useNavigate();
 
-        if (name === 'phone') {
-            value = value.replace(/[^0-9]/g, '').slice(0, 11).replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, '$1-$2-$3');
-        } else if (name === 'birthday') {
-            value = value.replace(/[^0-9]/g, '').slice(0, 8);
-            if (value.length === 8) {
-                value = `${value.slice(0, 4)}-${value.slice(4, 6)}-${value.slice(6)}`;
-            }
+    useEffect(() => {
+        let interval;
+        if (isCodeSent && timer > 0) {
+            interval = setInterval(() => setTimer(prev => prev - 1), 1000);
         }
+        return () => clearInterval(interval);
+    }, [isCodeSent, timer]);
 
-        setFormData({ ...formData, [name]: value });
+    const handleBirthdayChange = (e) => {
+        const value = e.target.value.replace(/[^0-9]/g, '');
+        if (value.length > 8) return;
+        let formatted = value.length === 8 ? value.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3') : value;
+        setFormData(prev => ({ ...prev, birthday: formatted }));
     };
 
-    const handleEmailChange = (e) => {
-        const localPart = e.target.value;
-        setFormData({ ...formData, email: localPart + selectedDomain });
-    };
-
-    const handleDomainChange = (e) => {
-        const newDomain = e.target.value;
-        setSelectedDomain(newDomain);
-        setFormData((prevData) => ({
-            ...prevData,
-            email: prevData.email.split('@')[0] + newDomain,
-        }));
+    const handlePhoneChange = (e) => {
+        const value = e.target.value.replace(/[^0-9]/g, '');
+        if (value.length > 11) return;
+        let formatted = value.length === 11 ? value.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3') : value;
+        setFormData(prev => ({ ...prev, phone: formatted }));
     };
 
     const handleEmailCheck = async () => {
+        if (!formData.email) return showAlert('이메일을 입력해주세요.');
+    
+        // 전체 이메일 구성
+        const fullEmail = `${formData.email}${selectedDomain}`; 
+    
         try {
-            const { available } = await request('GET', `/check-email?email=${formData.email}`);
+            const { available } = await request('GET', `/check-email?email=${fullEmail}`);
             setEmailAvailable(available);
-            alert(available ? '사용 가능한 이메일입니다.' : '이미 사용 중인 이메일입니다.');
+            showAlert(available ? '사용 가능한 이메일입니다.' : '이미 사용 중인 이메일입니다.');
         } catch (error) {
             console.error('이메일 중복 확인 오류:', error);
         }
     };
+    
 
     const handleNicknameCheck = async () => {
+        if (!formData.nickname) return showAlert('닉네임을 입력해주세요.');
         try {
             const { available } = await request('GET', `/check-nickname?nickname=${formData.nickname}`);
             setNicknameAvailable(available);
-            alert(available ? '사용 가능한 닉네임입니다.' : '이미 사용 중인 닉네임입니다.');
+            showAlert(available ? '사용 가능한 닉네임입니다.' : '이미 사용 중인 닉네임입니다.');
         } catch (error) {
             console.error('닉네임 중복 확인 오류:', error);
         }
     };
 
     const handleAddressSelect = (selectedAddress) => {
-        setFormData({
-            ...formData,
+        setFormData(prev => ({
+            ...prev,
             address: selectedAddress.roadFullAddr,
-            addressDetail: selectedAddress.addressDetail
-        });
+            addressDetail: selectedAddress.addressDetail,
+        }));
         setIsPopupOpen(false);
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        setError('');
+    const handleDomainChange = (e) => {
+        setSelectedDomain(e.target.value);
+    };
 
-        const finalAddress = `${formData.address} ${formData.addressDetail}`.trim();
+    const handleEmailChange = (e) => {
+        setFormData(prev => ({ ...prev, email: e.target.value + selectedDomain }));
+    };
+
+    const handleSendCode = async (e) => {
+        e.preventDefault();
+        if (isButtonDisabled) return setMessage('5분 후에 다시 시도할 수 있습니다.');
 
         try {
-            await request('POST', '/signup', {
-                ...formData,
-                address: finalAddress,
-            });
-            alert('회원가입 성공!');
-            setIsSuccess(true); // 회원가입 성공 상태 업데이트
+            const response = await request('POST', '/signup-send-verification-code', { email: formData.email });
+            setMessage(response.message);
+            setIsCodeSent(true);
+            setIsButtonDisabled(true);
+            setTimer(300);
         } catch (error) {
-            console.error('회원가입 오류:', error);
-            setError('회원가입에 실패했습니다.');
+            setMessage(error.response?.data?.message || '알 수 없는 오류가 발생했습니다.');
+        }
+    };
+
+    const handleVerifyCode = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await request('POST', '/signup-verify-code', {
+                email: formData.email,
+                verificationCode
+            });
+            console.log("응답 확인:", response); // 응답 로그 추가
+            if (response.success) {
+                setMessage('인증 완료되었습니다!');
+            } else {
+                setMessage('인증 실패하였습니다.');
+            }
+        } catch (error) {
+            console.error("오류 발생:", error);
+            setMessage(error.response?.data?.message || '알 수 없는 오류가 발생했습니다.');
+        }
+    };
+    
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (isFormIncomplete(formData)) return alert('모든 필드를 채워야 합니다.');
+        if (!isEmailAndNicknameValid(emailAvailable, nicknameAvailable)) return alert('이메일과 닉네임 중복 확인을 완료해주세요.');
+        if (!isAgreed) return alert('이용약관에 동의해야 합니다.');
+
+        // 인증 코드 확인
+        if (!isCodeSent || !verificationCode) {
+            return alert('인증 코드를 입력해야 합니다.');
+        }
+
+        setLoading(true);
+        try {
+            const finalAddress = `${formData.address} ${formData.addressDetail}`.trim();
+            await request('POST', '/signup', { ...formData, address: finalAddress });
+            setIsSuccess(true);
+        } catch (error) {
+            alert('회원가입에 실패했습니다.');
         } finally {
             setLoading(false);
         }
     };
 
-    const handleTermsPopupOpen = () => {
-        setIsTermsPopupOpen(true);
-    };
-
-    const handleTermsPopupClose = () => {
-        setIsTermsPopupOpen(false);
-    };
-
-    const handleCheckboxChange = () => {
-        setIsAgreed(!isAgreed);
-    };
-
-    const isFormValid = emailAvailable && nicknameAvailable && formData.password && formData.password === formData.confirmPassword && isAgreed;
-
     return (
         <div className={styles.container}>
             {isSuccess ? (
+
+                <SuccessScreen navigate={navigate} />
+
                 <div className={styles.successMessage}>
                     <h2>회원가입이 완료되었습니다!</h2>
                     
@@ -137,154 +178,51 @@ const SignupForm = () => {
                     </div>
                     
                 </div>
+
             ) : (
-                <form onSubmit={handleSubmit} className={styles.form}>
-                    <div className={styles.inputGroup}>
-                        <label>이메일</label>
-                        {emailAvailable === false && <div className={styles.error}>이미 사용 중인 이메일입니다.</div>}
-                        {emailAvailable === true && <div className={styles.success}>사용 가능한 이메일입니다.</div>}
-                        <div className={styles.emailInput}>
-                            <input
-                                type="text"
-                                value={formData.email.split('@')[0]}
-                                onChange={handleEmailChange}
-                                placeholder="이메일"
-                                required
-                            />
-                            <select value={selectedDomain} onChange={handleDomainChange}>
-                                <option value="@gmail.com">@gmail.com</option>
-                                <option value="@naver.com">@naver.com</option>
-                                <option value="@daum.net">@daum.net</option>
-                                <option value="@yahoo.com">@yahoo.com</option>
-                            </select>
-                            <button type="button" onClick={handleEmailCheck}>이메일 확인</button>
-                        </div>
-                    </div>
-
-                    <div className={styles.inputGroup}>
-                        <label>닉네임</label>
-                        {nicknameAvailable === false && <div className={styles.error}>이미 사용 중인 닉네임입니다.</div>}
-                        {nicknameAvailable === true && <div className={styles.success}>사용 가능한 닉네임입니다.</div>}
-                        <div className={styles.nicknameInput}>
-                            <input
-                                name="nickname"
-                                value={formData.nickname}
-                                placeholder="닉네임"
-                                onChange={handleInputChange}
-                                required
-                            />
-                            <button type="button" onClick={handleNicknameCheck}>닉네임 확인</button>
-                        </div>
-                    </div>
-
-                    <div className={styles.inputGroup}>
-                        <label>비밀번호</label>
-                        <input
-                            name="password"
-                            type="password"
-                            placeholder="비밀번호"
-                            value={formData.password}
-                            onChange={handleInputChange}
-                            required
-                        />
-                    </div>
-
-                    <div className={styles.inputGroup}>
-                        <label>비밀번호 확인</label>
-                        <input
-                            name="confirmPassword"
-                            type="password"
-                            placeholder="비밀번호 확인"
-                            value={formData.confirmPassword}
-                            onChange={handleInputChange}
-                            required
-                        />
-                    </div>
-
-                    <div className={styles.inputGroup}>
-                        <label>전화번호</label>
-                        <input
-                            name="phone"
-                            value={formData.phone}
-                            placeholder="휴대폰 번호"
-                            onChange={handleInputChange}
-                            required
-                        />
-                    </div>
-
-                    <div className={styles.inputGroup}>
-                        <label>이름</label>
-                        <input
-                            name="name"
-                            placeholder="이름"
-                            value={formData.name}
-                            onChange={handleInputChange}
-                            required
-                        />
-                    </div>
-
-                    <div className={styles.inputGroup}>
-                        <label>생년월일 (YYYY-MM-DD)</label>
-                        <input
-                            name="birthday"
-                            placeholder="생년월일"
-                            value={formData.birthday}
-                            onChange={handleInputChange}
-                            required
-                        />
-                    </div>
-
-                    <div className={styles.inputGroup}>
-                        <label>주소</label>
-                        <input
-                            name="address"
-                            placeholder="주소"
-                            value={formData.address}
-                            readOnly
-                            required
-                        />
-                        <button type="button" onClick={() => setIsPopupOpen(true)}>주소 검색</button>
-                    </div>
-
-                    <div className={styles.inputGroup}>
-                        <label>상세주소</label>
-                        <input
-                            name="addressDetail"
-                            placeholder="상세주소"
-                            value={formData.addressDetail}
-                            onChange={handleInputChange}
-                            required
-                        />
-                    </div>
-
-                    <div className={styles.inputGroup}>
-                        <label>
-                            <input
-                                type="checkbox"
-                                checked={isAgreed}
-                                onChange={handleCheckboxChange}
-                            />
-                            이용약관에 동의합니다.
-                        </label>
-                        <button type="button" onClick={handleTermsPopupOpen}>이용약관 보기</button>
-                    </div>
-
-                    {error && <div className={styles.error}>{error}</div>}
-                    <button type="submit" disabled={!isFormValid || loading}>
-                        {loading ? '회원가입 진행 중...' : '회원가입'}
-                    </button>
-
-                    {isPopupOpen && (
-                        <AddressPopup 
-                            onClose={() => setIsPopupOpen(false)} 
-                            onAddressSelect={handleAddressSelect} 
-                        />
-                    )}
-                    {isTermsPopupOpen && <TermsPopup onClose={handleTermsPopupClose} />}
-                </form>
+                <>
+                    <EmailDomainSelector
+                        selectedDomain={selectedDomain}
+                        onDomainChange={handleDomainChange}
+                        onEmailChange={handleEmailChange}
+                        handleEmailCheck={handleEmailCheck}
+                        emailAvailable={emailAvailable}
+                    />
+                    <SignupFormUI
+                        formData={formData}
+                        setFormData={setFormData}
+                        emailAvailable={emailAvailable}
+                        nicknameAvailable={nicknameAvailable}
+                        handleEmailCheck={handleEmailCheck}
+                        handleNicknameCheck={handleNicknameCheck}
+                        handleSendCode={handleSendCode}
+                        verificationCode={verificationCode}
+                        setVerificationCode={setVerificationCode}
+                        handleVerifyCode={handleVerifyCode}
+                        handleSubmit={handleSubmit}
+                        loading={loading}
+                        message={message}
+                        isCodeSent={isCodeSent}
+                        isButtonDisabled={isButtonDisabled}
+                        timer={timer}
+                        isAgreed={isAgreed}
+                        setIsAgreed={setIsAgreed}
+                        handleAddressSelect={handleAddressSelect}
+                        setIsPopupOpen={setIsPopupOpen}
+                        handlePhoneChange={handlePhoneChange}
+                        handleBirthdayChange={handleBirthdayChange}
+                    />
+                </>
             )}
+            {isPopupOpen && <AddressPopup onAddressSelect={handleAddressSelect} />}
+            {isTermsPopupOpen && <TermsPopup onClose={() => setIsTermsPopupOpen(false)} />}
         </div>
     );
 };
+
+// 공통 함수 정의
+const showAlert = (message) => alert(message);
+const isFormIncomplete = (formData) => Object.values(formData).some((value) => !value);
+const isEmailAndNicknameValid = (emailAvailable, nicknameAvailable) => emailAvailable !== null && nicknameAvailable !== null;
 
 export default SignupForm;

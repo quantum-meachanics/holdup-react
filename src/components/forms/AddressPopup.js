@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import style from '../../css/AddressPopup.module.css';
 
 const AddressPopup = ({ onAddressSelect }) => {
     useEffect(() => {
@@ -9,25 +8,29 @@ const AddressPopup = ({ onAddressSelect }) => {
             script.onload = () => {
                 window.daum.postcode.load(() => {
                     new window.daum.Postcode({
-                        oncomplete: function(data) {
+                        oncomplete: (data) => {
                             const roadAddr = data.roadAddress;
                             const jibunAddr = data.jibunAddress;
                             const zipCode = data.zonecode;
 
-                            // 주소 선택 후 콜백 함수 호출
-                            onAddressSelect({
+                            const selectedAddress = {
                                 roadFullAddr: roadAddr,
-                                jibunAddr: jibunAddr,
+                                jibunAddr,
                                 zipNo: zipCode,
-                                addressDetail: ''
-                            });
+                                addressDetail: '', // 상세 주소는 선택하지 않으므로 초기화
+                            };
+
+                            // 주소 선택 후 콜백 함수 호출
+                            if (typeof onAddressSelect === 'function') {
+                                onAddressSelect(selectedAddress);
+                            } else {
+                                console.error('onAddressSelect is not a function:', onAddressSelect);
+                            }
                         },
-                        // 선택 후 자동으로 닫히게 하려면 아래 옵션 추가
-                        autoClose: true,
-                        // 기본 값 설정 (예: 검색 결과)
-                        onresize: function(size) {
+                        autoClose: true, // 선택 후 팝업 자동 닫기
+                        onresize: (size) => {
                             const container = document.getElementById('addressPopupContainer');
-                            container.style.height = size.height + 'px';
+                            container.style.height = `${size.height}px`;
                         },
                     }).open();
                 });
@@ -37,14 +40,14 @@ const AddressPopup = ({ onAddressSelect }) => {
 
         loadDaumPostcodeScript();
 
-        // 클린업 함수
+        // 클린업 함수: 컴포넌트가 언마운트될 때 스크립트 제거
         return () => {
             const scriptTags = document.querySelectorAll('script[src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"]');
             scriptTags.forEach(script => script.remove());
         };
     }, [onAddressSelect]);
 
-    return null; // UI를 렌더링하지 않음
+    return null; // 팝업만 열리고 렌더링할 UI는 없음
 };
 
 export default AddressPopup;

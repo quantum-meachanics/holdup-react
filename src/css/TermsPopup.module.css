@@ -16,7 +16,7 @@
     padding: 20px;
     border-radius: 10px;
     width: 90%;
-    max-width: 600px; /* 너비를 600px로 설정 */
+    max-width: 650px; /* 너비를 600px로 설정 */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     overflow-y: auto;
     max-height: 80vh; /* 최대 높이 설정 */
