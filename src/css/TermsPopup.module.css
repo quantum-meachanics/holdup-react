@@ -22,7 +22,7 @@
     max-height: 80vh; /* 최대 높이 설정 */
 }
 
-h2 {
+/* h2 {
     font-size: 1.5em;
     color: #073929;
     margin-bottom: 10px;
@@ -48,4 +48,4 @@ button {
 button:hover {
     background-color: #055b4a;
     transform: translateY(-2px);
-}
+} */

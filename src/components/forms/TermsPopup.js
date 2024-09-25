@@ -32,7 +32,6 @@ const TermsPopup = ({ onClose }) => {
                         <p>{item.text2}</p> {/* 약관의 추가 내용 */}
                     </div>
                 ))}
-                <button onClick={onClose}>확인</button> {/* 팝업 닫기 버튼 */}
             </div>
         </div>
     );
