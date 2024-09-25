@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { callCreateReviewAPI } from "../../apis/ReviewCreateAPICall"; 
+import { callCreateReviewAPI } from "../../apis/ReviewCreateAPICall";
 
 function CreateReviewForm() {
 
@@ -11,11 +11,13 @@ function CreateReviewForm() {
     const { reviewInfo, error } = useSelector(state => state.reviewcreateReducer);
 
     const [inputReviewInfo, setReviewInfo] = useState({
-        title:'',
-        content:'',
+        title: '',
+        content: '',
         rating: '',
-        reservationId : ''
+        reservationId: '',
+        images:[]
     });
+
 
     const onChangeHandler = e => {
         setReviewInfo({
@@ -24,7 +26,14 @@ function CreateReviewForm() {
         })
     };
 
-    
+    // 파일 첨부 감지하여 저장
+    const fileChangeHandler = e => {
+        setReviewInfo({
+            ...inputReviewInfo,
+            images: Array.from(e.target.files)
+        })
+    };
+
     const onClickHandler = () => {
         dispatch(callCreateReviewAPI(inputReviewInfo));
     };
@@ -36,7 +45,7 @@ function CreateReviewForm() {
         } else if (reviewInfo) {
             navigate("/holdiup/reviews");
         }
-    }, [reviewInfo, error, navigate]);
+    }, [reviewInfo, error, navigate, dispatch]);
 
     return (
         <>
@@ -51,6 +60,9 @@ function CreateReviewForm() {
 
             <span>예약ID: </span>
             <input type="text" name="reservationId" value={inputReviewInfo.reservationId} onChange={onChangeHandler} />
+
+            <span>이미지 업로드: </span>
+            <input type="file" multiple onChange={fileChangeHandler} />
 
             <button onClick={onClickHandler}>등록하기</button>
         </>
