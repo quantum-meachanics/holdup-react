@@ -5,11 +5,25 @@ export function callCreateSpaceAPI(spaceInfo) {
     return async (dispatch) => {
         try {
             const token = sessionStorage.getItem('token');
+
+            // FormData 생성
+            const formData = new FormData();
+            formData.append("spaceInfo", new Blob([JSON.stringify(spaceInfo)], { type: "application/json" }));
+            spaceInfo.images.forEach(image => formData.append("images", image));
+
+            for (let [key, value] of formData.entries()) {
+                console.log(key, value);
+            }
+            
+            console.log("spaceInfo:", formData.get("spaceInfo")); // JSON.stringify로 변환된 값 확인
+            const images = formData.getAll("images");
+            console.log("images:", images);
+
             const response = await tokenRequest(
                 token,
                 "POST",
                 "/spaces",
-                spaceInfo
+                formData
             )
             dispatch(createSpaceSuccess(response.spaceInfo));
 
