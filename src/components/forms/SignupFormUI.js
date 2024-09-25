@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import TermsPopup from './TermsPopup';
+import style from '../../css/SignupFormUI.module.css'; // 스타일 모듈 임포트
 
 const SignupFormUI = ({
     formData,
@@ -20,10 +22,13 @@ const SignupFormUI = ({
     handlePhoneChange,
     handleBirthdayChange
 }) => {
+
+    const [isTermsPopupOpen, setIsTermsPopupOpen] = useState(false);
+
     // 비밀번호 표시 상태
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    
+
     const [passwordStrength, setPasswordStrength] = useState('');
     const [passwordMatch, setPasswordMatch] = useState(true);
 
@@ -55,7 +60,7 @@ const SignupFormUI = ({
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className={style.container}>
             <h2>회원가입</h2>
 
             {/* 이름 입력 */}
@@ -66,21 +71,24 @@ const SignupFormUI = ({
                 value={formData.name}
                 onChange={handleInputChange}
                 required
+                className={style.input}
             />
 
             {/* 비밀번호 입력 */}
             <label>비밀번호</label>
-            <div>
+            <div className={style.passwordInputContainer}>
                 <input
-                    type={showPassword ? "text" : "password"}  // 비밀번호 표시/숨기기
+                    type={showPassword ? "text" : "password"}  
                     name="password"
                     value={formData.password}
                     onChange={handlePasswordChange}
                     required
+                    className={style.input}
                 />
                 <button
                     type="button"
-                    onClick={() => setShowPassword(!showPassword)}  // 버튼 클릭 시 상태 변경
+                    className={style.showPasswordToggle}
+                    onClick={() => setShowPassword(!showPassword)}
                 >
                     {showPassword ? '숨기기' : '표시'}
                 </button>
@@ -89,17 +97,19 @@ const SignupFormUI = ({
 
             {/* 비밀번호 확인 */}
             <label>비밀번호 확인</label>
-            <div>
+            <div className={style.passwordInputContainer}>
                 <input
-                    type={showConfirmPassword ? "text" : "password"}  // 비밀번호 확인 필드도 동일한 방식 적용
+                    type={showConfirmPassword ? "text" : "password"}  
                     name="confirmPassword"
                     value={formData.confirmPassword}
                     onChange={handleConfirmPasswordChange}
                     required
+                    className={style.input}
                 />
                 <button
                     type="button"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}  // 버튼 클릭 시 상태 변경
+                    className={style.showPasswordToggle}
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 >
                     {showConfirmPassword ? '숨기기' : '표시'}
                 </button>
@@ -114,22 +124,24 @@ const SignupFormUI = ({
                 value={formData.nickname}
                 onChange={handleInputChange}
                 required
+                className={style.input}
             />
-            <button type="button" onClick={handleNicknameCheck}>닉네임 중복 확인</button>
+            <button type="button" onClick={handleNicknameCheck} className={style.button}>닉네임 중복 확인</button>
             {nicknameAvailable !== null && (
                 <span>
                     {nicknameAvailable ? '사용 가능한 닉네임입니다.' : '이미 사용 중인 닉네임입니다.'}
                 </span>
             )}
-
+            <br/>
             {/* 핸드폰 번호 입력 */}
             <label>핸드폰 번호</label>
             <input
                 type="text"
                 name="phone"
                 value={formData.phone}
-                onChange={handlePhoneChange} // 핸드폰 번호 처리 핸들러
+                onChange={handlePhoneChange}
                 required
+                className={style.input}
             />
 
             {/* 생년월일 입력 */}
@@ -138,8 +150,9 @@ const SignupFormUI = ({
                 type="text"
                 name="birthday"
                 value={formData.birthday}
-                onChange={handleBirthdayChange} // 생년월일 처리 핸들러
+                onChange={handleBirthdayChange}
                 required
+                className={style.input}
             />
 
             {/* 주소 입력 */}
@@ -149,10 +162,11 @@ const SignupFormUI = ({
                 name="address"
                 value={formData.address}
                 onChange={handleInputChange}
-                readOnly // 주소는 읽기 전용
+                readOnly 
+                className={style.input}
             />
-            <button type="button" onClick={() => setIsPopupOpen(true)}>주소 찾기</button>
-
+            <button type="button" onClick={() => setIsPopupOpen(true)} className={style.button}>주소 찾기</button>
+            <br/>
             {/* 주소 상세 입력 */}
             <label>주소 상세</label>
             <input
@@ -160,6 +174,7 @@ const SignupFormUI = ({
                 name="addressDetail"
                 value={formData.addressDetail}
                 onChange={handleInputChange}
+                className={style.input}
             />
 
             {/* 인증 코드 전송 */}
@@ -167,6 +182,7 @@ const SignupFormUI = ({
                 type="button"
                 onClick={handleSendCode}
                 disabled={isButtonDisabled}
+                className={style.button}
             >
                 인증 코드 전송
             </button>
@@ -178,25 +194,45 @@ const SignupFormUI = ({
                         type="text"
                         value={verificationCode}
                         onChange={(e) => setVerificationCode(e.target.value)}
+                        className={style.input}
                     />
-                    <button type="button" onClick={handleVerifyCode}>코드 확인</button>
-                    {message && <p>{message}</p>}
+                    <button type="button" onClick={handleVerifyCode} className={style.button}>인증 코드 확인</button>
                 </>
             )}
-
-            {/* 이용약관 동의 */}
+            <br/>
+            {/* 약관 동의 체크박스 */}
             <label>
                 <input
                     type="checkbox"
                     checked={isAgreed}
                     onChange={() => setIsAgreed(!isAgreed)}
                 />
-                약관에 동의합니다.
+                <span>이용 약관에 동의합니다.</span>
+                <button type="button" onClick={() => setIsTermsPopupOpen(true)} className={style.button}>약관 보기</button>
             </label>
 
-            {/* 회원가입 버튼 */}
-            <button type="submit" disabled={loading}>
-                회원가입
+            {/* 약관 팝업 */}
+            {isTermsPopupOpen && (
+                <div className={style.modalBackground}>
+                    <div className={style.modal}>
+                        <TermsPopup />
+                        <button
+                            className={style.modalCloseButton}
+                            onClick={() => setIsTermsPopupOpen(false)}
+                        >
+                            닫기
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {/* 가입 버튼 */}
+            <button
+                type="submit"
+                disabled={loading}
+                className={style.submitButton}
+            >
+                {loading ? '처리 중...' : '회원가입'}
             </button>
         </form>
     );

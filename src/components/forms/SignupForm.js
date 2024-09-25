@@ -164,6 +164,7 @@ const SignupForm = () => {
 
     return (
         <div className={styles.container}>
+            <h2>회원가입</h2>
             {isSuccess ? (
                 <SuccessScreen navigate={navigate} />
             ) : (
