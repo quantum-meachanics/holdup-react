@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
 import { callCreateSpaceAPI } from "../../apis/SpaceAPICalls";
 import style from "../../css/CreateSpaceForm.module.css";
 
@@ -10,7 +9,6 @@ function CreateSpaceForm() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { spaceInfo, error } = useSelector(state => state.spaceReducer);
-
     const detailAddressRef = useRef(null); // 상세주소 입력창에 ref 생성
 
     // 공간 입력값 상태 추가
@@ -25,35 +23,29 @@ function CreateSpaceForm() {
         height: '',
         depth: '',
         count: '',
-        price: '',
-        images: []
+        price: ''
     });
+
+    const [imageFiles, setImageFiles] = useState([]); // 파일 리스트 저장할 state
+    const [showImages, setShowImages] = useState([]); // 화면에 보여줄 이미지 state
 
     // 주소 검색 api 팝업 여는 메소드
     const openAddressPopup = () => {
         new window.daum.Postcode({
-            oncomplete: function (data) {
-                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택한 경우
-                    setSpaceInfo((prev) => ({
-                        ...prev,
-                        address: data.roadAddress,
-                        gu: data.sigungu,
-                        dong: data.bname
-                    }));
-                } else { // 도로명 주소 선택이 아닌 경우(지번밖에 없음)
-                    setSpaceInfo((prev) => ({
-                        ...prev,
-                        address: data.jibunAddress,
-                        gu: data.sigungu,
-                        dong: data.bname
-                    }));
-                }
+            oncomplete: (data) => {
+                const address = data.userSelectedType === 'R' ? data.roadAddress : data.jibunAddress;
+                setSpaceInfo(prev => ({
+                    ...prev,
+                    address,
+                    gu: data.sigungu,
+                    dong: data.bname
+                }));
                 detailAddressRef.current.focus(); // 주소를 선택하면 상세주소 입력창으로 커서 이동
             }
         }).open();
     };
 
-    // 입력창 감지하여 저장
+    // 공간정보 입력창 감지하여 저장
     const onChangeHandler = e => {
         setSpaceInfo({
             ...inputSpaceInfo,
@@ -61,35 +53,55 @@ function CreateSpaceForm() {
         })
     };
 
-    // 파일 첨부 감지하여 저장
-    const fileChangeHandler = e => {
-        setSpaceInfo({
-            ...inputSpaceInfo,
-            images: Array.from(e.target.files)
-        })
+    // 이미지 업로드 처리 메소드
+    const fileChangeHandler = (e) => {
+        const imageLists = e.target.files;
+        let imageUrlLists = [...showImages];
+        let fileLists = [...imageFiles];
+
+        for (let i = 0; i < imageLists.length; i++) {
+            const currentImageUrl = URL.createObjectURL(imageLists[i]);
+            imageUrlLists.push(currentImageUrl);
+            fileLists.push(imageLists[i]);
+        };
+
+        if (imageUrlLists.length > 10) {
+            imageUrlLists = imageUrlLists.slice(0, 10);
+            fileLists = fileLists.slice(0, 10);
+        }
+
+        setShowImages(imageUrlLists);
+        setImageFiles(fileLists);
     };
 
-    // 클릭시 입력한 정보를 axios 메소드로 전송
+    // 이미지 삭제 처리 메소드
+    const deleteImage = (id) => {
+        URL.revokeObjectURL(showImages[id]);
+        setShowImages(showImages.filter((_, index) => index !== id));
+        setImageFiles(imageFiles.filter((_, index) => index !== id));
+    };
+
+    // 입력된 정보를 전송하는 메소드
     const onClickHandler = () => {
         if (!inputSpaceInfo.address.startsWith('서울')) {
             alert('서울시에 해당하는 공간만 등록할 수 있습니다.');
             return;
         }
 
-        console.log("입력한 공간 정보", inputSpaceInfo);
-        
-        dispatch(callCreateSpaceAPI(inputSpaceInfo));
+        dispatch(callCreateSpaceAPI(inputSpaceInfo, imageFiles));
     };
 
     // 이펙트
     useEffect(() => {
         if (error) {
             alert(error);
+
         } else if (spaceInfo) {
             alert("공간 등록을 성공하였습니다!");
             navigate("/holdup/spaces/suceess");
+
         }
-    }, [spaceInfo, error, navigate, dispatch]);
+    }, [spaceInfo, error, navigate]);
 
     return (
         <div className={style.createSpaceForm}>
@@ -122,7 +134,15 @@ function CreateSpaceForm() {
             <input className={style.input} type="number" name="price" value={inputSpaceInfo.price} onChange={onChangeHandler} />
 
             <span>공간 사진</span>
-            <input type="file" multiple onChange={fileChangeHandler}/>
+            <input type="file" multiple accept="image/*" onChange={fileChangeHandler} />
+            <div>
+                {showImages.map((image, id) => (
+                    <div key={id}>
+                        <img src={image} alt={`${image}-${id}`} />
+                        <button type="button" onClick={() => deleteImage(id)}>X</button>
+                    </div>
+                ))}
+            </div>
 
             <button className={style.button} onClick={onClickHandler}>등록하기</button>
         </div>
