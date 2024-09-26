@@ -10,7 +10,6 @@ function CreateSpaceForm() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { spaceInfo, error } = useSelector(state => state.spaceReducer);
-
     const detailAddressRef = useRef(null); // 상세주소 입력창에 ref 생성
 
     // 공간 입력값 상태 추가
@@ -25,9 +24,11 @@ function CreateSpaceForm() {
         height: '',
         depth: '',
         count: '',
-        price: '',
-        images: []
+        price: ''
     });
+
+    // 사진 첨부 상태 추가
+    const [imageFiles, setImageFiles] = useState([]);
 
     // 주소 검색 api 팝업 여는 메소드
     const openAddressPopup = () => {
@@ -53,7 +54,7 @@ function CreateSpaceForm() {
         }).open();
     };
 
-    // 입력창 감지하여 저장
+    // 공간정보 입력창 감지하여 저장
     const onChangeHandler = e => {
         setSpaceInfo({
             ...inputSpaceInfo,
@@ -61,33 +62,30 @@ function CreateSpaceForm() {
         })
     };
 
-    // 파일 첨부 감지하여 저장
+    // 사진 첨부 감지하여 저장
     const fileChangeHandler = e => {
-        setSpaceInfo({
-            ...inputSpaceInfo,
-            images: Array.from(e.target.files)
-        })
+        setImageFiles([...e.target.files]);
     };
 
-    // 클릭시 입력한 정보를 axios 메소드로 전송
+    // 입력된 정보를 전송하는 메소드
     const onClickHandler = () => {
         if (!inputSpaceInfo.address.startsWith('서울')) {
             alert('서울시에 해당하는 공간만 등록할 수 있습니다.');
             return;
         }
-
-        console.log("입력한 공간 정보", inputSpaceInfo);
         
-        dispatch(callCreateSpaceAPI(inputSpaceInfo));
+        dispatch(callCreateSpaceAPI(inputSpaceInfo, imageFiles));
     };
 
     // 이펙트
     useEffect(() => {
         if (error) {
             alert(error);
+
         } else if (spaceInfo) {
             alert("공간 등록을 성공하였습니다!");
             navigate("/holdup/spaces/suceess");
+
         }
     }, [spaceInfo, error, navigate, dispatch]);
 
@@ -122,7 +120,7 @@ function CreateSpaceForm() {
             <input className={style.input} type="number" name="price" value={inputSpaceInfo.price} onChange={onChangeHandler} />
 
             <span>공간 사진</span>
-            <input type="file" multiple onChange={fileChangeHandler}/>
+            <input type="file" multiple accept="image/*" onChange={fileChangeHandler}/>
 
             <button className={style.button} onClick={onClickHandler}>등록하기</button>
         </div>
