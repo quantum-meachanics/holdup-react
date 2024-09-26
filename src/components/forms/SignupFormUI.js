@@ -7,15 +7,8 @@ const SignupFormUI = ({
     setFormData,
     nicknameAvailable,
     handleNicknameCheck,
-    handleSendCode,
-    verificationCode,
-    setVerificationCode,
-    handleVerifyCode,
     handleSubmit,
     loading,
-    message,
-    isCodeSent,
-    isButtonDisabled,
     isAgreed,
     setIsAgreed,
     setIsPopupOpen,
@@ -65,6 +58,7 @@ const SignupFormUI = ({
 
             {/* 이름 입력 */}
             <label>이름</label>
+            <br />
             <input
                 type="text"
                 name="name"
@@ -73,12 +67,13 @@ const SignupFormUI = ({
                 required
                 className={style.input}
             />
-
+            <br />
             {/* 비밀번호 입력 */}
             <label>비밀번호</label>
+            <br />
             <div className={style.passwordInputContainer}>
                 <input
-                    type={showPassword ? "text" : "password"}  
+                    type={showPassword ? "text" : "password"}
                     name="password"
                     value={formData.password}
                     onChange={handlePasswordChange}
@@ -98,8 +93,9 @@ const SignupFormUI = ({
             {/* 비밀번호 확인 */}
             <label>비밀번호 확인</label>
             <div className={style.passwordInputContainer}>
+                <br />
                 <input
-                    type={showConfirmPassword ? "text" : "password"}  
+                    type={showConfirmPassword ? "text" : "password"}
                     name="confirmPassword"
                     value={formData.confirmPassword}
                     onChange={handleConfirmPasswordChange}
@@ -118,6 +114,7 @@ const SignupFormUI = ({
 
             {/* 닉네임 입력 및 중복 확인 */}
             <label>닉네임</label>
+            <br />
             <input
                 type="text"
                 name="nickname"
@@ -132,9 +129,10 @@ const SignupFormUI = ({
                     {nicknameAvailable ? '사용 가능한 닉네임입니다.' : '이미 사용 중인 닉네임입니다.'}
                 </span>
             )}
-            <br/>
+            <br />
             {/* 핸드폰 번호 입력 */}
             <label>핸드폰 번호</label>
+            <br />
             <input
                 type="text"
                 name="phone"
@@ -143,9 +141,10 @@ const SignupFormUI = ({
                 required
                 className={style.input}
             />
-
+            <br />
             {/* 생년월일 입력 */}
             <label>생년월일</label>
+            <br />
             <input
                 type="text"
                 name="birthday"
@@ -154,21 +153,23 @@ const SignupFormUI = ({
                 required
                 className={style.input}
             />
-
+            <br />
             {/* 주소 입력 */}
             <label>주소</label>
+            <br />
             <input
                 type="text"
                 name="address"
                 value={formData.address}
                 onChange={handleInputChange}
-                readOnly 
+                readOnly
                 className={style.input}
             />
             <button type="button" onClick={() => setIsPopupOpen(true)} className={style.button}>주소 찾기</button>
-            <br/>
+            <br />
             {/* 주소 상세 입력 */}
             <label>주소 상세</label>
+            <br />
             <input
                 type="text"
                 name="addressDetail"
@@ -177,29 +178,7 @@ const SignupFormUI = ({
                 className={style.input}
             />
 
-            {/* 인증 코드 전송 */}
-            <button
-                type="button"
-                onClick={handleSendCode}
-                disabled={isButtonDisabled}
-                className={style.button}
-            >
-                인증 코드 전송
-            </button>
-
-            {isCodeSent && (
-                <>
-                    <label>인증 코드</label>
-                    <input
-                        type="text"
-                        value={verificationCode}
-                        onChange={(e) => setVerificationCode(e.target.value)}
-                        className={style.input}
-                    />
-                    <button type="button" onClick={handleVerifyCode} className={style.button}>인증 코드 확인</button>
-                </>
-            )}
-            <br/>
+            <br />
             {/* 약관 동의 체크박스 */}
             <label>
                 <input
@@ -210,7 +189,7 @@ const SignupFormUI = ({
                 <span>이용 약관에 동의합니다.</span>
                 <button type="button" onClick={() => setIsTermsPopupOpen(true)} className={style.button}>약관 보기</button>
             </label>
-
+            <br />
             {/* 약관 팝업 */}
             {isTermsPopupOpen && (
                 <div className={style.modalBackground}>
