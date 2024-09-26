@@ -38,12 +38,11 @@ function ReviewDetailForm() {
                         <div>
                             <h3>이미지</h3>
                             <div>
-                                {/* {reviewDetail.imageUrl && reviewDetail.imageUrl.length > 0 ? (
-                                    reviewDetail.imageUrl.map((imageName, index) => (
-                                    ))
+                                {reviewDetail.imageUrl && reviewDetail.imageUrl.length > 0 ? (
+                                    <img src={reviewDetail.imageUrl}/>
                                 ) : (
                                     <p>이미지가 없습니다.</p>
-                                )} */}
+                                )}
                             </div>
                         </div>
                     </>
