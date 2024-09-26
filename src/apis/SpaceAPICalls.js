@@ -7,7 +7,10 @@ export function callCreateSpaceAPI(spaceInfo, imageFiles) {
             // FormData 생성
             const formData = new FormData();
 
+            // 입력한 정보를 formData에 넣을때 Blob으로 감싸서 json으로잘 전송될수있게함
             formData.append("spaceInfo", new Blob([JSON.stringify(spaceInfo)], { type: "application/json" }));
+
+            // formData에 첨부한 이미지들 저장
             imageFiles.forEach(image => formData.append("images", image));
 
             const response = await tokenRequest(
