@@ -5,7 +5,7 @@ export function callLoginAPI(loginInfo, navigate) {
     return async (dispatch) => {
         try {
             // 'POST'로 '/holdup/login'에 로그인 입력 정보 전송
-            const response = await request("POST", "/login", loginInfo);
+            const response = await request(null, "POST", "/holdup/login", loginInfo); // 로그인 정보 전송, 토큰 필요 없음
 
             console.log("Response 응답로그 확인", response);
             
