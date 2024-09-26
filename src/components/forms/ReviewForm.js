@@ -22,9 +22,14 @@ function ReviewForm() {
         setCurrentPage(newPage);
     };
 
-        const handleClick = (id) => {
-            navigate(`/reviews/${id}`);
-        };
+    const handleClick = (id) => {
+        navigate(`/reviews/${id}`);
+    };
+
+    const handleWriteReview = () => {
+        navigate('/holdup/reviews/create');
+    };
+
 
     // 에러 발생 시 에러 메시지 표시
     if (error) {
@@ -52,7 +57,7 @@ function ReviewForm() {
                         </thead>
                         <tbody>
                             {reviewList.map(reviewList => (
-                                <tr key={reviewList.id} onClick={() => handleClick(reviewList.id)} style={{cursor: 'pointer'}}>
+                                <tr key={reviewList.id} onClick={() => handleClick(reviewList.id)} style={{ cursor: 'pointer' }}>
                                     <td >{reviewList.createDate}</td>
                                     <td >{reviewList.title}</td>
                                     <td>{reviewList.rating}</td>
@@ -66,6 +71,8 @@ function ReviewForm() {
             ) : (
                 <p>리뷰가 없습니다.</p>
             )}
+
+            <button onClick={handleWriteReview}>글쓰기</button>
 
             <Pagination
                 currentPage={currentPage}
