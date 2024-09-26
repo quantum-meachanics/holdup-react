@@ -1,26 +1,20 @@
 import { createSpaceFail, createSpaceSuccess } from "../modules/SpaceModule";
 import { tokenRequest } from "./Api";
 
-export function callCreateSpaceAPI(spaceInfo) {
+export function callCreateSpaceAPI(spaceInfo, imageFiles) {
     return async (dispatch) => {
         try {
-            const token = sessionStorage.getItem('token');
-
             // FormData 생성
             const formData = new FormData();
-            formData.append("spaceInfo", new Blob([JSON.stringify(spaceInfo)], { type: "application/json" }));
-            spaceInfo.images.forEach(image => formData.append("images", image));
 
-            for (let [key, value] of formData.entries()) {
-                console.log(key, value);
-            }
-            
-            console.log("spaceInfo:", formData.get("spaceInfo")); // JSON.stringify로 변환된 값 확인
-            const images = formData.getAll("images");
-            console.log("images:", images);
+            // 입력한 정보를 formData에 넣을때 Blob으로 감싸서 json으로잘 전송될수있게함
+            formData.append("spaceInfo", new Blob([JSON.stringify(spaceInfo)], { type: "application/json" }));
+
+            // formData에 첨부한 이미지들 저장
+            imageFiles.forEach(image => formData.append("images", image));
 
             const response = await tokenRequest(
-                token,
+                sessionStorage.getItem('token'),
                 "POST",
                 "/spaces",
                 formData
