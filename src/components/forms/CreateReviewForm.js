@@ -36,6 +36,7 @@ function CreateReviewForm() {
 
     const onClickHandler = () => {
         dispatch(callCreateReviewAPI(inputReviewInfo));
+        navigate('/holdup/reviews');
     };
 
 
