@@ -15,8 +15,10 @@ function CreateReviewForm() {
         content: '',
         rating: '',
         reservationId: '',
-        images:[]
     });
+
+    const [imageFiles, setImageFiles] = useState([]); // 파일 리스트 저장할 state
+    const [showImages, setShowImages] = useState([]); // 화면에 보여줄 이미지 state
 
 
     const onChangeHandler = e => {
@@ -26,16 +28,36 @@ function CreateReviewForm() {
         })
     };
 
-    // 파일 첨부 감지하여 저장
-    const fileChangeHandler = e => {
-        setReviewInfo({
-            ...inputReviewInfo,
-            images: Array.from(e.target.files)
-        })
+    // 이미지 업로드 처리 메소드
+    const fileChangeHandler = (e) => {
+        const imageLists = e.target.files;
+        let imageUrlLists = [...showImages];
+        let fileLists = [...imageFiles];
+
+        for (let i = 0; i < imageLists.length; i++) {
+            const currentImageUrl = URL.createObjectURL(imageLists[i]);
+            imageUrlLists.push(currentImageUrl);
+            fileLists.push(imageLists[i]);
+        };
+
+        if (imageUrlLists.length > 10) {
+            imageUrlLists = imageUrlLists.slice(0, 10);
+            fileLists = fileLists.slice(0, 10);
+        }
+
+        setShowImages(imageUrlLists);
+        setImageFiles(fileLists);
+    };
+
+    // 이미지 삭제 처리 메소드
+    const deleteImage = (id) => {
+        URL.revokeObjectURL(showImages[id]);
+        setShowImages(showImages.filter((_, index) => index !== id));
+        setImageFiles(imageFiles.filter((_, index) => index !== id));
     };
 
     const onClickHandler = () => {
-        dispatch(callCreateReviewAPI(inputReviewInfo));
+        dispatch(callCreateReviewAPI(inputReviewInfo, imageFiles));
         navigate('/holdup/reviews');
     };
 
@@ -62,8 +84,16 @@ function CreateReviewForm() {
             <span>예약ID: </span>
             <input type="text" name="reservationId" value={inputReviewInfo.reservationId} onChange={onChangeHandler} />
 
-            <span>이미지 업로드: </span>
-            <input type="file" multiple onChange={fileChangeHandler} />
+            <span>이미지 : </span>
+            <input type="file" multiple accept="image/*" onChange={fileChangeHandler} />
+            <div>
+                {showImages.map((image, id) => (
+                    <div key={id}>
+                        <img src={image} alt={`${image}-${id}`} />
+                        <button type="button" onClick={() => deleteImage(id)}>X</button>
+                    </div>
+                ))}
+            </div>
 
             <button onClick={onClickHandler}>등록하기</button>
         </>
