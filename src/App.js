@@ -13,6 +13,7 @@ import FindEmailForm from "./components/forms/FindEmailForm";
 import EmailVerification from "./components/forms/EmailVerification";
 import CreateReview from "./pages/CreateReview";
 import SuccessScreen from "./components/forms/SuccessScreen";
+import MyPage from "./components/forms/MypageForm";
 
 
 
@@ -29,7 +30,9 @@ function App() {
           <Route path="holdup/login" element={<Login />} />
           <Route path="holdup/spaces" element={<CreateSpace />} />
           <Route path="holdup/reviews" element={<Review/>} />
+          <Route path="holdup/mypage" element={<MyPage/>} />
           <Route path="holdup/reviews/create" element={<CreateReview/>} />
+          <Route path="holdup/mypage" element={<MyPage/>}/>
           <Route path="reviews/:id" element={<ReviewDetail/>} />
           <Route path="holdup/success" elemnt={<SuccessScreen/>}/>
           <Route path="holdup/spaces/success" element={<CreateSpaceSuccessPage />} />

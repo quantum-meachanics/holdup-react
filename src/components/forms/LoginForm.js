@@ -8,7 +8,7 @@ import { resetLoginUser } from "../../modules/UserModule";
 function LoginForm() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { user, error } = useSelector(state => state.userReducer);
+    const { user, error, loading } = useSelector(state => state.userReducer);
 
     const [loginInfo, setLoginInfo] = useState({
         email: '',
@@ -23,27 +23,29 @@ function LoginForm() {
     };
 
     const onClickHandler = () => {
-        dispatch(callLoginAPI(loginInfo, navigate)); // navigate를 함께 전달
+        dispatch(callLoginAPI(loginInfo, navigate));
+    };
+
+    const onSubmitHandler = e => {
+        e.preventDefault(); // 기본 폼 제출 방지
+        onClickHandler(); // 클릭 핸들러 호출
     };
 
     useEffect(() => {
-        console.log("User 상태가 변경되었습니다:", user);
-        
         if (user) {
             console.log("로그인 성공:", user);
             sessionStorage.setItem("isLogin", true);
             sessionStorage.setItem("user", JSON.stringify(user));
-            // navigate는 이제 API 호출 후 처리
         } else if (error) {
             console.error("로그인 오류:", error);
             alert(error);
-            setLoginInfo({ email: '', password: '' }); // 입력 필드 초기화
-            dispatch(resetLoginUser()); // 로그인 상태 초기화
+            setLoginInfo({ email: '', password: '' });
+            dispatch(resetLoginUser());
         } 
     }, [user, error, dispatch]);
 
     return (
-        <div className={styles.loginForm}>
+        <form className={styles.loginForm} onSubmit={onSubmitHandler}>
             <div className={styles.loginInputGroup}>
                 <label>ID:</label>
                 <input 
@@ -64,7 +66,9 @@ function LoginForm() {
                     required 
                 />
             </div>
-            <button className={styles.loginButton} onClick={onClickHandler}>로그인</button>
+            <button className={styles.loginButton} type="submit" disabled={loading}>
+                {loading ? "로그인 중..." : "로그인"}
+            </button>
             
             <div className={styles.links}>
                 <div className={styles.signupLink}>
@@ -75,7 +79,7 @@ function LoginForm() {
                     <a href="/holdup/email-verification">비밀번호 찾기</a>
                 </div>
             </div>
-        </div>
+        </form>
     );
 }
 
