@@ -96,3 +96,12 @@ header {
     color: #707070;
     text-decoration: none;
 }
+
+.logout {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.logout:hover {
+    cursor: pointer;
+}

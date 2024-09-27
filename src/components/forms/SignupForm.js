@@ -22,7 +22,7 @@ const initialFormData = {
 
 const SignupForm = () => {
     const [formData, setFormData] = useState(initialFormData);
-    const [selectedDomain, setSelectedDomain] = useState('@gmail.com');
+    const [selectedDomain, setSelectedDomain] = useState('');
     const [loading, setLoading] = useState(false);
     const [emailAvailable, setEmailAvailable] = useState(null);
     const [nicknameAvailable, setNicknameAvailable] = useState(null);
