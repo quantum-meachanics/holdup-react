@@ -6,10 +6,9 @@ import { callLoginAPI } from "../../apis/UserAPICalls"; // API 호출 함수
 import { resetLoginUser } from "../../modules/UserModule"; // 상태 초기화 액션
 
 function LoginForm() {
-
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { user, error, loading } = useSelector(state => state.userReducer);
+    const { user, error } = useSelector(state => state.userReducer);
 
     const [loginInfo, setLoginInfo] = useState({
         email: '',
@@ -17,10 +16,11 @@ function LoginForm() {
     });
 
     const onChangeHandler = e => {
-        setLoginInfo({
-            ...loginInfo,
-            [e.target.name]: e.target.value
-        });
+        const { name, value } = e.target;
+        setLoginInfo(prevInfo => ({
+            ...prevInfo,
+            [name]: value
+        }));
     };
 
     const onClickHandler = () => {
@@ -32,7 +32,6 @@ function LoginForm() {
             sessionStorage.setItem("isLogin", "true");
             sessionStorage.setItem("user", JSON.stringify(user));
             navigate('/'); // 로그인 후 메인 페이지로 리다이렉트
-
         } else if (error) {
             alert(error); // 에러 알림
             setLoginInfo({ email: '', password: '' }); // 입력 초기화
@@ -41,7 +40,7 @@ function LoginForm() {
     }, [user, error, dispatch, navigate]);
 
     return (
-        <form className={styles.loginForm} onSubmit={onSubmitHandler}>
+        <div className={styles.loginForm}>
             <div className={styles.loginInputGroup}>
                 <label>ID:</label>
                 <input
@@ -72,7 +71,7 @@ function LoginForm() {
                     <a href="/holdup/email-verification">비밀번호 찾기</a>
                 </div>
             </div>
-        </form>
+        </div>
     );
 }
 

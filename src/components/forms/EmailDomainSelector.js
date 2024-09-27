@@ -16,12 +16,12 @@ const EmailDomainSelector = ({
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
     const handleSendCodeClick = async (e) => {
-        e.preventDefault();  
-        setIsButtonDisabled(true);  
+        e.preventDefault();
+        setIsButtonDisabled(true);
 
         try {
-            await handleSendCode(); 
-            setIsCodeSent(true); 
+            await handleSendCode();
+            setIsCodeSent(true);
         } catch (error) {
             console.error("코드 전송 오류:", error);
             alert("코드 전송에 실패했습니다.");
@@ -40,23 +40,20 @@ const EmailDomainSelector = ({
                 required
             />
 
-            <select value={selectedDomain} onChange={onDomainChange}>
-                <option value=""></option>
-
             <select className={style.input} value={selectedDomain} onChange={onDomainChange}>
-
+                <option value=""></option>
                 <option value="@gmail.com">@gmail.com</option>
                 <option value="@naver.com">@naver.com</option>
                 <option value="@daum.net">@daum.net</option>
             </select>
             <button className={style.button} type="button" onClick={handleEmailCheck}>이메일 중복 확인</button>
-            <br/>
+            <br />
             {emailAvailable !== null && (
                 <span>
                     {emailAvailable ? '사용 가능한 이메일입니다.' : '이미 사용 중인 이메일입니다.'}
                 </span>
             )}
-            <br/>
+            <br />
             {/* 인증 코드 전송 */}
             <button
                 type="button"
@@ -66,7 +63,7 @@ const EmailDomainSelector = ({
             >
                 인증 코드 전송
             </button>
-            <br/>
+            <br />
 
             {isCodeSent && (
                 <>
