@@ -22,18 +22,18 @@
     max-height: 80vh; /* 최대 높이 설정 */
 }
 
-/* h2 {
+.h2 {
     font-size: 1.5em;
     color: #073929;
     margin-bottom: 10px;
 }
 
-p {
+.p {
     margin: 10px 0;
     line-height: 1.5;
 }
 
-button {
+.button {
     padding: 10px 15px;
     background-color: #073929;
     color: white;
@@ -45,7 +45,7 @@ button {
     margin-top: 20px;
 }
 
-button:hover {
+.button:hover {
     background-color: #055b4a;
     transform: translateY(-2px);
-} */
+}
