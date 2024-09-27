@@ -9,7 +9,7 @@ function LoginForm() {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { user, error } = useSelector(state => state.userReducer);
+    const { user, error, loading } = useSelector(state => state.userReducer);
 
     const [loginInfo, setLoginInfo] = useState({
         email: '',
@@ -41,7 +41,7 @@ function LoginForm() {
     }, [user, error, dispatch, navigate]);
 
     return (
-        <div className={styles.loginForm}>
+        <form className={styles.loginForm} onSubmit={onSubmitHandler}>
             <div className={styles.loginInputGroup}>
                 <label>ID:</label>
                 <input
@@ -72,7 +72,7 @@ function LoginForm() {
                     <a href="/holdup/email-verification">비밀번호 찾기</a>
                 </div>
             </div>
-        </div>
+        </form>
     );
 }
 

@@ -28,6 +28,8 @@ function Header() {
                 <NavLink className={style.menuLink} to="holdup/spaces">공간등록</NavLink>
                 <NavLink className={style.menuLink} to="/">공간이용</NavLink>
                 <NavLink className={style.menuLink} to="holdup/reviews">커뮤니티</NavLink>
+                
+                
             </div>
 
             <div className={style.memberSection}>
