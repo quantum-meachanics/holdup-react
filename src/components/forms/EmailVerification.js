@@ -12,6 +12,7 @@ const EmailVerification = () => {
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
     const [timer, setTimer] = useState(300); // 5분 타이머 (300초)
     const [showPassword, setShowPassword] = useState(false); // 비밀번호 표시 상태
+    const [passwordStrength, setPasswordStrength] = useState(''); // 비밀번호 강도 상태
 
     const enableButton = () => {
         setIsButtonDisabled(false);
@@ -26,6 +27,7 @@ const EmailVerification = () => {
             }, 1000); // 1초마다 타이머 감소
         } else if (timer === 0) {
             enableButton();
+            setMessage('인증 코드 전송 버튼을 다시 활성화합니다.'); // 타이머 종료 메시지
         }
         return () => clearInterval(interval); // 컴포넌트 언마운트 시 인터벌 클리어
     }, [isButtonDisabled, timer]);
@@ -39,12 +41,11 @@ const EmailVerification = () => {
 
         try {
             const response = await request('POST', '/send-verification-code', { email });
-            setMessage(response); // 성공 메시지 설정
+            setMessage('인증 코드가 성공적으로 전송되었습니다.'); // 성공 메시지 설정
             setIsCodeSent(true);
             setIsButtonDisabled(true);
-
-            // 5분 타이머 시작
-            setTimer(300);
+            setTimer(300); // 5분 타이머 시작
+            console.log(response); // 응답 로깅 (필요한 경우)
         } catch (error) {
             setMessage(error.response?.data?.message || "알 수 없는 오류가 발생했습니다.");
         }
@@ -59,10 +60,27 @@ const EmailVerification = () => {
 
         try {
             const response = await request('POST', '/verify-code', { email, verificationCode, newPassword });
-            setMessage(response); // 성공 메시지 설정
+            setMessage('비밀번호가 성공적으로 변경되었습니다.'); // 성공 메시지 설정
+            console.log(response); // 응답 로깅 (필요한 경우)
         } catch (error) {
             setMessage(error.response?.data?.message || "알 수 없는 오류가 발생했습니다.");
         }
+    };
+
+    // 비밀번호 강도 확인 함수
+    const getPasswordStrength = (password) => {
+        if (password.length < 6) return '너무 짧습니다.';
+        if (!/[A-Z]/.test(password)) return '대문자를 포함해야 합니다.';
+        if (!/[a-z]/.test(password)) return '소문자를 포함해야 합니다.';
+        if (!/[0-9]/.test(password)) return '숫자를 포함해야 합니다.';
+        if (!/[!@#$%^&*]/.test(password)) return '특수 문자를 포함해야 합니다.';
+        return '강함';
+    };
+
+    const handleNewPasswordChange = (e) => {
+        const password = e.target.value;
+        setNewPassword(password);
+        setPasswordStrength(getPasswordStrength(password)); // 비밀번호 강도 설정
     };
 
     return (
@@ -104,13 +122,16 @@ const EmailVerification = () => {
                             <input
                                 type={showPassword ? "text" : "password"} // 비밀번호 표시 여부에 따라 type 변경
                                 value={newPassword}
-                                onChange={(e) => setNewPassword(e.target.value)}
+                                onChange={handleNewPasswordChange} // 변경 사항 처리
                                 required
                             />
                             <span onClick={() => setShowPassword(!showPassword)} style={{ cursor: 'pointer', marginLeft: '10px' }}>
                                 {showPassword ? "숨기기" : "보기"}
                             </span>
                         </div>
+                        {passwordStrength && (
+                            <div className={styles.passwordStrength}>{passwordStrength}</div>
+                        )}
                     </div>
                     <div className={styles.inputGroup}>
                         <label>비밀번호 확인</label>

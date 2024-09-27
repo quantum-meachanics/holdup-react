@@ -63,9 +63,7 @@ const SignupForm = () => {
     const handleEmailCheck = async () => {
         if (!formData.email) return showAlert('이메일을 입력해주세요.');
 
-        // 전체 이메일 구성
         const fullEmail = `${formData.email}${selectedDomain}`;
-
         try {
             const { available } = await request('GET', `/check-email?email=${fullEmail}`);
             setEmailAvailable(available);
@@ -74,7 +72,6 @@ const SignupForm = () => {
             console.error('이메일 중복 확인 오류:', error);
         }
     };
-
 
     const handleNicknameCheck = async () => {
         if (!formData.nickname) return showAlert('닉네임을 입력해주세요.');
@@ -101,43 +98,42 @@ const SignupForm = () => {
     };
 
     const handleEmailChange = (e) => {
-        setFormData(prev => ({ ...prev, email: e.target.value + selectedDomain }));
+        setFormData(prev => ({ ...prev, email: e.target.value }));
     };
 
-    const handleSendCode = async (e) => {
-        e.preventDefault();
+    const handleSendCode = async () => {
         if (isButtonDisabled) return setMessage('5분 후에 다시 시도할 수 있습니다.');
 
+        const fullEmail = `${formData.email}${selectedDomain}`;
         try {
-            const response = await request('POST', '/signup-send-verification-code', { email: formData.email });
+            const response = await request('POST', '/signup-send-verification-code', { email: fullEmail });
             setMessage(response.message);
             setIsCodeSent(true);
             setIsButtonDisabled(true);
-            setTimer(300);
+            setTimer(300); // 타이머 초기화
         } catch (error) {
             setMessage(error.response?.data?.message || '알 수 없는 오류가 발생했습니다.');
         }
     };
 
-    const handleVerifyCode = async (e) => {
-        e.preventDefault();
+    const handleVerifyCode = async () => {
+        const fullEmail = `${formData.email}${selectedDomain}`;
         try {
             const response = await request('POST', '/signup-verify-code', {
-                email: formData.email,
+                email: fullEmail,
                 verificationCode
             });
-            console.log("응답 확인:", response); // 응답 로그 추가
+
             if (response.success) {
                 setMessage('인증 완료되었습니다!');
             } else {
                 setMessage('인증 실패하였습니다.');
             }
         } catch (error) {
-            console.error("오류 발생:", error);
+            console.error('인증 코드 확인 오류:', error);
             setMessage(error.response?.data?.message || '알 수 없는 오류가 발생했습니다.');
         }
     };
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -145,7 +141,6 @@ const SignupForm = () => {
         if (!isEmailAndNicknameValid(emailAvailable, nicknameAvailable)) return alert('이메일과 닉네임 중복 확인을 완료해주세요.');
         if (!isAgreed) return alert('이용약관에 동의해야 합니다.');
 
-        // 인증 코드 확인
         if (!isCodeSent || !verificationCode) {
             return alert('인증 코드를 입력해야 합니다.');
         }
@@ -164,7 +159,7 @@ const SignupForm = () => {
 
     return (
         <div className={styles.container}>
-            <h2>회원가입</h2>
+            <h2>이메일</h2>
             {isSuccess ? (
                 <SuccessScreen navigate={navigate} />
             ) : (
@@ -175,6 +170,10 @@ const SignupForm = () => {
                         onEmailChange={handleEmailChange}
                         handleEmailCheck={handleEmailCheck}
                         emailAvailable={emailAvailable}
+                        handleSendCode={handleSendCode}
+                        handleVerifyCode={handleVerifyCode} // 인증 코드 확인 함수 전달
+                        verificationCode={verificationCode} // verificationCode를 prop으로 전달
+                        setVerificationCode={setVerificationCode} // setVerificationCode를 prop으로 전달
                     />
                     <SignupFormUI
                         formData={formData}
@@ -186,7 +185,6 @@ const SignupForm = () => {
                         handleSendCode={handleSendCode}
                         verificationCode={verificationCode}
                         setVerificationCode={setVerificationCode}
-                        handleVerifyCode={handleVerifyCode}
                         handleSubmit={handleSubmit}
                         loading={loading}
                         message={message}

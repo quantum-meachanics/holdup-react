@@ -1,24 +1,19 @@
 import { createReviewSuccess, createReviewFail } from "../modules/ReviewCreateModule";
 import { tokenRequest } from "./Api";
 
-export function callCreateReviewAPI(reviewInfo) {
+export function callCreateReviewAPI(reviewInfo, imageFiles) {
     return async (dispatch) => {
         try {
             const token = sessionStorage.getItem('token');
 
             // FormData 생성
             const formData = new FormData();
+
+            // 입력한 정보를 formData에 넣을때 Blob으로 감싸서 json으로잘 전송될수있게함
             formData.append("reviewInfo", new Blob([JSON.stringify(reviewInfo)], { type: "application/json" }));
-            reviewInfo.images.forEach(image => formData.append("images", image));
 
-            for (let [key, value] of formData.entries()) {
-                console.log(key, value);
-            }
-
-            console.log("reviewInfo:", formData.get("reviewInfo")); // JSON.stringify로 변환된 값 확인
-            const images = formData.getAll("images");
-            console.log("images:", images);
-
+            // formData에 첨부한 이미지들 저장
+            imageFiles.forEach(image => formData.append("images", image));
 
             const response = await tokenRequest(
                 token,
