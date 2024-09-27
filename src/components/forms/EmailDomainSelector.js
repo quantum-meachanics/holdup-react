@@ -10,6 +10,7 @@ const EmailDomainSelector = ({ selectedDomain, onDomainChange, onEmailChange, ha
                 required
             />
             <select value={selectedDomain} onChange={onDomainChange}>
+                <option value=""></option>
                 <option value="@gmail.com">@gmail.com</option>
                 <option value="@naver.com">@naver.com</option>
                 <option value="@daum.net">@daum.net</option>

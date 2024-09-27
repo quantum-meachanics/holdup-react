@@ -32,6 +32,7 @@ function App() {
           <Route path="holdup/reviews" element={<Review/>} />
           <Route path="holdup/mypage" element={<MyPage/>} />
           <Route path="holdup/reviews/create" element={<CreateReview/>} />
+          <Route path="holdup/mypage" element={<MyPage/>}/>
           <Route path="reviews/:id" element={<ReviewDetail/>} />
           <Route path="holdup/success" elemnt={<SuccessScreen/>}/>
           <Route path="holdup/spaces/success" element={<CreateSpaceSuccessPage />} />

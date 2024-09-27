@@ -1,11 +1,11 @@
 import { loginFail, loginSuccess } from "../modules/UserModule"; // 액션 가져오기
-import { request } from "./Api"; // API 요청 함수
+import { tokenRequest } from "./Api"; // API 요청 함수
 
 export function callLoginAPI(loginInfo, navigate) {
     return async (dispatch) => {
         try {
             // 'POST'로 '/holdup/login'에 로그인 입력 정보 전송
-            const response = await request(null, "POST", "/holdup/login", loginInfo); // 로그인 정보 전송, 토큰 필요 없음
+            const response = await tokenRequest(null, "POST", "/login", loginInfo); // 로그인 정보 전송, 토큰 필요 없음
 
             console.log("Response 응답로그 확인", response);
             
@@ -13,10 +13,12 @@ export function callLoginAPI(loginInfo, navigate) {
             if (response.token) {
                 // 필요한 사용자 정보만 추출
                 const userData = {
+                    id: response.userInfo.id,
                     name: response.userInfo.name,       // 이름
                     nickname: response.userInfo.nickname, // 닉네임
                     email: response.userInfo.email,       // 이메일
-                    role: response.userInfo.role          // 역할
+                    role: response.userInfo.role,          // 역할
+                    password: response.userInfo.password, // 비밀번호
                 };
 
                 console.log("추출된 사용자 정보 확인", userData);
@@ -35,4 +37,6 @@ export function callLoginAPI(loginInfo, navigate) {
             dispatch(loginFail(error.message || '로그인 실패'));
         }
     }
+
 }
+

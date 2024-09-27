@@ -1,22 +1,11 @@
 import { tokenRequest } from './Api'; // API 요청 함수
 
-export const myPageAPICall = async () => {
+export async function updateUserInfo(token, updatedInfo) {
     try {
-        const token = sessionStorage.getItem("token"); // 저장된 JWT 토큰 가져오기
-        if (!token) {
-            throw new Error("토큰이 존재하지 않습니다.");
-        }
-        
-        const response = await tokenRequest(token, 'GET', '/mypage');
-        
-        return {
-            success: true,
-            data: response.data // 사용자 정보
-        };
+        const response = await tokenRequest(token, "PUT", "/update", updatedInfo);
+        return response; // 수정된 사용자 정보 반환
     } catch (error) {
-        return {
-            success: false,
-            message: error.response?.data?.message || error.message || "사용자 정보를 가져오는 데 오류가 발생했습니다."
-        };
+        throw new Error("회원 정보 수정 실패: " + error.message); // 오류 처리
     }
-};
+}
+
