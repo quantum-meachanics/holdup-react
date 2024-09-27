@@ -19,6 +19,10 @@ function ReviewDetailForm() {
         navigate('/holdup/reviews');
     };
 
+    const handleUpdate = () => {
+        navigate(`/holdup/reviews/${id}`);
+    };
+
     if (error) return <div>에러 발생: {error}</div>;
 
 
@@ -53,6 +57,7 @@ function ReviewDetailForm() {
 
             </div>
             <button onClick={handleGoBack}>목록으로 돌아가기</button>
+            <button onClick={handleUpdate}>수정</button>
         </div>
     );
 }
