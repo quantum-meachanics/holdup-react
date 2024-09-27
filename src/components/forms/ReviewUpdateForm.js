@@ -7,7 +7,7 @@ function ReviewUpdateForm() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { id } = useParams();
-    const { modifyInfo, error } = useSelector(state => state.reviewUpdateReducer);
+    const { modifyInfo, error } = useSelector(state => state.reviewReducer);
 
     const [inputModifyInfo, setModifyInfo] = useState({
         title: '',
@@ -16,15 +16,25 @@ function ReviewUpdateForm() {
         reservationId: '',
     });
 
-    const [newImages, setNewImages] = useState([]); // 파일 리스트 저장할 state
-    const [showImages, setShowImages] = useState([]); // 화면에 보여줄 이미지 state
-    const [deletedImageId, setdeletedImageId] = useState([]); // 삭제할 이미지 state
-
+    const [newImages, setNewImages] = useState([]);
+    const [showImages, setShowImages] = useState([]);
+    const [deletedImageId, setDeletedImageId] = useState([]);
 
     useEffect(() => {
-        dispatch(callUpdateReviewAPI(id,inputModifyInfo, newImages, deletedImageId) );
-        // 예: dispatch(fetchReviewDetails(reviewId));
+        dispatch(callGetReviewDetailAPI(id));
     }, [id, dispatch]);
+
+    useEffect(() => {
+        if (reviewDetails) {
+            setModifyInfo({
+                title: reviewDetails.title || '',
+                content: reviewDetails.content || '',
+                rating: reviewDetails.rating || '',
+                reservationId: reviewDetails.reservationId || '',
+            });
+            setShowImages(reviewDetails.images || []);
+        }
+    }, [reviewDetails]);
 
     useEffect(() => {
         if (error) {
@@ -62,16 +72,13 @@ function ReviewUpdateForm() {
     };
 
     const deleteImage = (id, isExistingImage) => {
-        URL.revokeObjectURL(showImages[id]);
-        setShowImages(showImages.filter((_, index) => index !== id));
-        
         if (isExistingImage) {
-            // 기존 이미지인 경우
-            setdeletedImageId([...deletedImageId, showImages[id].id]);
+            setDeletedImageId([...deletedImageId, showImages[id].id]);
         } else {
-            // 새로 추가된 이미지인 경우
+            URL.revokeObjectURL(showImages[id]);
             setNewImages(newImages.filter((_, index) => index !== id));
         }
+        setShowImages(showImages.filter((_, index) => index !== id));
     };
 
     const onClickHandler = () => {
@@ -79,7 +86,7 @@ function ReviewUpdateForm() {
     };
 
     const handleGoBack = () => {
-        navigate(`/holdup/reviews/${id}`);
+        navigate("/holdup/reviews");
     };
 
     return (
@@ -91,18 +98,18 @@ function ReviewUpdateForm() {
             <textarea name="content" value={inputModifyInfo.content} onChange={onChangeHandler} />
 
             <span>별점 : </span>
-            <input type="text" name="rating" value={inputModifyInfo.rating} onChange={onChangeHandler} />
+            <input type="number" name="rating" value={inputModifyInfo.rating} onChange={onChangeHandler} min="1" max="5" />
 
             <span>예약ID: </span>
-            <input type="text" name="reservationId" value={inputModifyInfo.reservationId} onChange={onChangeHandler} />
+            <input type="text" name="reservationId" value={inputModifyInfo.reservationId} onChange={onChangeHandler} readOnly />
 
             <span>이미지 : </span>
             <input type="file" multiple accept="image/*" onChange={fileChangeHandler} />
             <div>
                 {showImages.map((image, id) => (
                     <div key={id}>
-                        <img src={image} alt={`${image}-${id}`} />
-                        <button type="button" onClick={() => deleteImage(id)}>X</button>
+                        <img src={typeof image === 'string' ? image : image.url} alt={`review-${id}`} />
+                        <button type="button" onClick={() => deleteImage(id, typeof image !== 'string')}>X</button>
                     </div>
                 ))}
             </div>
