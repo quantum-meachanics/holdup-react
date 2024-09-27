@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import style from "../../css/Header.module.css";
 
 function Header() {
+
     return (
         <header>
             <NavLink to="/" className={style.logoSection}>
@@ -17,12 +18,24 @@ function Header() {
             </div>
 
             <div className={style.memberSection}>
-                <NavLink className={style.memberLink} to="holdup/login">로그인</NavLink>
-                <span>|</span>
-                <NavLink className={style.memberLink} to="holdup/signup">회원가입</NavLink>
+                {sessionStorage.getItem("isLogin") === "true" ? (
+                    <>
+                        <NavLink className={style.memberLink} to="/mypage">마이페이지</NavLink>
+                        <span>|</span>
+                        <NavLink className={style.memberLink} to="/chat">내 채팅</NavLink>
+                        <span>|</span>
+                        <span className={style.logout} onClick={logout}>로그아웃</span>
+                    </>
+                ) : (
+                    <>
+                        <NavLink className={style.memberLink} to="holdup/login">로그인</NavLink>
+                        <span>|</span>
+                        <NavLink className={style.memberLink} to="holdup/signup">회원가입</NavLink>
+                    </>
+                )}
             </div>
         </header>
-    )
+    );
 }
 
 export default Header;
