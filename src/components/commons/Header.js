@@ -3,6 +3,12 @@ import style from "../../css/Header.module.css";
 
 function Header() {
 
+    const logout = () => {
+        dispatch(resetLoginUser()); // Redux 상태 초기화
+        sessionStorage.removeItem("isLogin"); // 세션 스토리지 업데이트
+        sessionStorage.removeItem("user"); // 세션 스토리지 업데이트
+    };
+
     return (
         <header>
             <NavLink to="/" className={style.logoSection}>
