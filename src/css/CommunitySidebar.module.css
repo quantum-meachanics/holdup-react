@@ -1,0 +1,145 @@
+.communitySidebar {
+    display: flex;
+    flex-direction: column;
+}
+
+.userSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    width: 200px;
+
+    border-radius: 20px;
+
+    background-color: #FFC600;
+}
+
+.loginButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 50px;
+    width: 150px;
+    border-radius: 20px;
+    background-color: #FFE27f;
+
+    color: black;
+    font-size: 25px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.userInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 160px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+
+    background-color: #FFE27f;
+
+}
+
+.nickname {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.creditSection {
+    display: flex;
+
+    width: 140px;
+    padding: 3px;
+    background-color: white;
+    border-radius: 5px;
+
+    font-size: 12px;
+}
+
+.credit {
+    text-align: right;
+
+    min-width: 68px;
+    max-width: 68px;
+
+    margin-left: 3px;
+    margin-right: 3px;
+    
+    font-weight: 600;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.creditButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 15px;
+    min-width: 25PX;
+    max-width: 25PX;
+    border-radius: 5px;
+    background-color: #073929;
+
+    color: white;
+    font-size: 10px;
+    text-decoration: none;
+}
+
+.userButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 40px;
+    width: 150px;
+    border-radius: 10px;
+
+    margin-top: 10px;
+
+    background-color: #FFE27f;
+
+    color: black;
+    font-size: 20px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.userButton:hover {
+    cursor: pointer;
+}
+
+.menuSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 200px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-radius: 20px;
+    background-color: #073929;
+}
+
+.menuLink {
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+    color: white;
+    text-decoration: none;
+    font-size: 25px;
+    font-weight: 600;
+}

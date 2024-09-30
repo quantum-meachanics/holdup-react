@@ -12,7 +12,6 @@ function Header() {
         sessionStorage.removeItem("isLogin");
         sessionStorage.removeItem("user");
         dispatch(resetLoginUser()); // 상태 초기화
-        // window.location.reload(); // 페이지 새로 고침은 권장하지 않음
     };
 
     return (
@@ -24,8 +23,8 @@ function Header() {
 
             <div className={style.menuSection}>
                 <NavLink className={style.menuLink} to="holdup/guideline">가이드라인</NavLink>
-                <NavLink className={style.menuLink} to="holdup/spaces">공간등록</NavLink>
-                <NavLink className={style.menuLink} to="/">공간이용</NavLink>
+                <NavLink className={style.menuLink} to="holdup/createSpace">공간등록</NavLink>
+                <NavLink className={style.menuLink} to="holdup/spaces">공간이용</NavLink>
                 <NavLink className={style.menuLink} to="holdup/reviews">커뮤니티</NavLink>
             </div>
 

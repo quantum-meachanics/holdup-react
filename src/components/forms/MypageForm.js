@@ -22,9 +22,9 @@ const MyPage = () => {
         if (storedUserInfo) {
             const user = JSON.parse(storedUserInfo); // JSON 문자열을 객체로 변환하여 상태에 저장
             setUserInfo(user);
-            setUpdatedInfo({ 
+            setUpdatedInfo({
                 id: user.id, // id 초기값 설정
-                nickname: user.nickname, 
+                nickname: user.nickname,
                 email: user.email // email 초기값 설정
             });
         }
@@ -50,10 +50,10 @@ const MyPage = () => {
     const handleUpdateUserInfo = async () => {
         try {
             const token = sessionStorage.getItem("token"); // 토큰 가져오기
-            const response = await updateUserInfo(token, { 
+            const response = await updateUserInfo(token, {
                 email: userInfo.email, // 이메일 포함
                 ...updatedInfo // 다른 수정할 정보
-            }); 
+            });
             setUserInfo(response.userInfo); // 수정된 사용자 정보로 상태 업데이트
             sessionStorage.setItem("user", JSON.stringify(response.userInfo)); // sessionStorage에 수정된 정보 저장
             alert("회원 정보가 수정되었습니다.");
