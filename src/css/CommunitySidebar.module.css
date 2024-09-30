@@ -1,6 +1,7 @@
 .communitySidebar {
     display: flex;
     flex-direction: column;
+    margin-right: 20px;
 }
 
 .userSection {
@@ -9,10 +10,11 @@
     align-items: center;
     justify-content: center;
 
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 
-    width: 200px;
+    min-width: 160px;
+    max-width: 160px;
 
     border-radius: 20px;
 
@@ -24,13 +26,13 @@
     align-items: center;
     justify-content: center;
 
-    height: 50px;
-    width: 150px;
+    height: 40px;
+    width: 140px;
     border-radius: 20px;
     background-color: #FFE27f;
 
     color: black;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 600;
     text-decoration: none;
 }
@@ -41,41 +43,45 @@
     justify-content: center;
     align-items: center;
 
-    width: 160px;
+    width: 150px;
     padding-top: 10px;
     padding-bottom: 10px;
     border-radius: 10px;
-
-    background-color: #FFE27f;
-
 }
 
 .nickname {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .creditSection {
     display: flex;
+    justify-content: center;
+    align-items: center;
 
-    width: 140px;
-    padding: 3px;
+    min-height: 20px;
+    max-height: 20px;
+    min-width: 140px;
+    max-width: 140px;
     background-color: white;
     border-radius: 5px;
 
     font-size: 12px;
 }
 
+.creditLabel {
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
 .credit {
+    flex: 1;
     text-align: right;
 
-    min-width: 68px;
-    max-width: 68px;
+    margin-left: 2px;
+    margin-right: 2px;
 
-    margin-left: 3px;
-    margin-right: 3px;
-    
     font-weight: 600;
 
     overflow: hidden;
@@ -87,14 +93,15 @@
     justify-content: center;
     align-items: center;
 
-    height: 15px;
-    min-width: 25PX;
-    max-width: 25PX;
-    border-radius: 5px;
+    height: 10px;
+    min-width: 10PX;
+    max-width: 10PX;
+    margin-left: 2px;
+    margin-right: 2px;
+    border-radius: 7.5px;
     background-color: #073929;
 
     color: white;
-    font-size: 10px;
     text-decoration: none;
 }
 
@@ -103,12 +110,11 @@
     justify-content: center;
     align-items: center;
 
-    height: 40px;
-    width: 150px;
+    height: 30px;
+    width: 140px;
     border-radius: 10px;
 
-    margin-top: 10px;
-
+    margin-top: 5px;
     background-color: #FFE27f;
 
     color: black;
@@ -127,19 +133,20 @@
     justify-content: center;
     align-items: center;
 
-    width: 200px;
-    padding-top: 15px;
-    padding-bottom: 15px;
+    min-width: 160px;
+    max-width: 160px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     border-radius: 20px;
     background-color: #073929;
 }
 
 .menuLink {
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 
     color: white;
     text-decoration: none;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 600;
 }
