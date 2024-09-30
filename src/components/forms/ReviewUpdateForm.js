@@ -1,123 +1,70 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
-import { callUpdateReviewAPI } from '../../apis/ReviewUpdateAPICall';
+import { useParams, useNavigate } from 'react-router-dom';
+import { callGetReviewDetailAPI } from '../../apis/ReviewDetailAPICall';
 
-function ReviewUpdateForm() {
+function ReviewDetailForm() {
+    const { id } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { id } = useParams();
-    const { modifyInfo, error } = useSelector(state => state.reviewReducer);
+    const { reviewDetail, error } = useSelector(state => state.reviewDetailReducer);
 
-    const [inputModifyInfo, setModifyInfo] = useState({
-        title: '',
-        content: '',
-        rating: '',
-        reservationId: '',
-    });
-
-    const [newImages, setNewImages] = useState([]);
-    const [showImages, setShowImages] = useState([]);
-    const [deletedImageId, setDeletedImageId] = useState([]);
-
-    useEffect(() => {
-        dispatch(callGetReviewDetailAPI(id));
-    }, [id, dispatch]);
-
-    useEffect(() => {
-        if (reviewDetails) {
-            setModifyInfo({
-                title: reviewDetails.title || '',
-                content: reviewDetails.content || '',
-                rating: reviewDetails.rating || '',
-                reservationId: reviewDetails.reservationId || '',
-            });
-            setShowImages(reviewDetails.images || []);
-        }
-    }, [reviewDetails]);
-
-    useEffect(() => {
-        if (error) {
-            alert(error);
-        } else if (modifyInfo) {
-            navigate("/holdup/reviews");
-        }
-    }, [modifyInfo, error, navigate]);
-
-    const onChangeHandler = e => {
-        setModifyInfo({
-            ...inputModifyInfo,
-            [e.target.name]: e.target.value
-        });
-    };
-
-    const fileChangeHandler = (e) => {
-        const imageLists = e.target.files;
-        let imageUrlLists = [...showImages];
-        let fileLists = [...newImages];
-
-        for (let i = 0; i < imageLists.length; i++) {
-            const currentImageUrl = URL.createObjectURL(imageLists[i]);
-            imageUrlLists.push(currentImageUrl);
-            fileLists.push(imageLists[i]);
-        }
-
-        if (imageUrlLists.length > 10) {
-            imageUrlLists = imageUrlLists.slice(0, 10);
-            fileLists = fileLists.slice(0, 10);
-        }
-
-        setShowImages(imageUrlLists);
-        setNewImages(fileLists);
-    };
-
-    const deleteImage = (id, isExistingImage) => {
-        if (isExistingImage) {
-            setDeletedImageId([...deletedImageId, showImages[id].id]);
-        } else {
-            URL.revokeObjectURL(showImages[id]);
-            setNewImages(newImages.filter((_, index) => index !== id));
-        }
-        setShowImages(showImages.filter((_, index) => index !== id));
-    };
-
-    const onClickHandler = () => {
-        dispatch(callUpdateReviewAPI(id, inputModifyInfo, newImages, deletedImageId));
-    };
+    
+    // useEffect(() => {
+    //     dispatch(callGetReviewDetailAPI(id));
+    //     console.log('Fetching review for id:', id);
+    // }, [dispatch, id]);
 
     const handleGoBack = () => {
-        navigate("/holdup/reviews");
+        navigate('/holdup/reviews');
     };
 
+    const handleUpdate = () => {
+        navigate(`/holdup/reviews/${id}`);
+    };
+
+    if (error) return <div>에러 발생: {error}</div>;
+
+
+
     return (
-        <>
-            <span>제목 : </span>
-            <input type="text" name="title" value={inputModifyInfo.title} onChange={onChangeHandler} />
-
-            <span>내용 : </span>
-            <textarea name="content" value={inputModifyInfo.content} onChange={onChangeHandler} />
-
-            <span>별점 : </span>
-            <input type="number" name="rating" value={inputModifyInfo.rating} onChange={onChangeHandler} min="1" max="5" />
-
-            <span>예약ID: </span>
-            <input type="text" name="reservationId" value={inputModifyInfo.reservationId} onChange={onChangeHandler} readOnly />
-
-            <span>이미지 : </span>
-            <input type="file" multiple accept="image/*" onChange={fileChangeHandler} />
+        <div>
             <div>
-                {showImages.map((image, id) => (
-                    <div key={id}>
-                        <img src={typeof image === 'string' ? image : image.url} alt={`review-${id}`} />
-                        <button type="button" onClick={() => deleteImage(id, typeof image !== 'string')}>X</button>
-                    </div>
-                ))}
-            </div>
+                {reviewDetail ? (
+                    <>
+                        <span>제목: </span>
+                        <input type='text' name='title' defaultValue={reviewDetail.title} />
 
-            <button onClick={onClickHandler}>수정하기</button>
+                        <span>내용:</span>
+                        <input type='textarea' name='content' defaultValue={reviewDetail.content} />
+
+                        <span>평점: </span>
+                        <input type='text' name='rating' defaultValue={reviewDetail.rating} />
+
+                        <span>예약ID: </span>
+                        <input type='text' name='reservationId' defaultValue={reviewDetail.reservation.id} />
+                        <div>
+                            <h3>이미지</h3>
+                            <input type="file" multiple accept="image/*"/>
+                            <div>
+                                {reviewDetail.imageUrl && reviewDetail.imageUrl.length > 0 ? (
+                                    <img src={reviewDetail.imageUrl}/>
+                                ) : (
+                                    <p>이미지가 없습니다.</p>
+                                )}
+                            </div>
+                        </div>
+                    </>
+                ) : (
+                    <h2>게시글이 존재 하지 않습니다.</h2>
+                )}
+
+
+            </div>
             <button onClick={handleGoBack}>돌아가기</button>
-        </>
+            <button onClick={handleUpdate}>작성하기</button>
+        </div>
     );
 }
 
-export default ReviewUpdateForm;
+export default ReviewDetailForm;
