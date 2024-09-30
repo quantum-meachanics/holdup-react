@@ -9,12 +9,18 @@ const initialState = {
 export const LOGIN_SUCCESS = "user/LOGIN_SUCCESS";
 export const LOGIN_FAIL = "user/LOGIN_FAIL";
 export const RESET_LOGIN_USER = "user/RESET_LOGIN_USER";
+export const LOGOUT_USER = "user/LOGOUT_USER"; // 로그아웃 액션 
+export const UPDATE_USER_INFO_SUCCESS = "user/UPDATE_USER_INFO_SUCCESS";
+export const UPDATE_USER_INFO_FAIL = "user/UPDATE_USER_INFO_FAIL";
 
 // 액션 생성
-export const { user: { loginSuccess, loginFail, resetLoginUser } } = createActions({
+export const { user: { loginSuccess, loginFail, resetLoginUser , logoutUser , updateUserInfoSuccess, updateUserInfoFail } } = createActions({
     [LOGIN_SUCCESS]: (userInfo) => ({ userInfo }),
     [LOGIN_FAIL]: (error) => ({ error }),
     [RESET_LOGIN_USER]: () => ({}),
+    [LOGOUT_USER]: () => ({}),
+    [UPDATE_USER_INFO_SUCCESS]: (userInfo) => ({ userInfo }),
+    [UPDATE_USER_INFO_FAIL]: (error) => ({ error }),
 });
 
 // 리듀서
@@ -51,6 +57,29 @@ const userReducer = handleActions({
             error: null
         };
     },
+
+    [LOGOUT_USER]: (state) => {
+        sessionStorage.removeItem("isLogin");
+        sessionStorage.removeItem("user");
+        return {
+            ...state,
+            isLogin: false,
+            userInfo: null,
+            error: null
+        };
+    },
+
+    [UPDATE_USER_INFO_SUCCESS]: (state, { payload: { userInfo } }) => ({
+        ...state,
+        userInfo,
+        error: null
+    }),
+
+    [UPDATE_USER_INFO_FAIL]: (state, { payload: { error } }) => ({
+        ...state,
+        error
+    }),
+
 }, initialState);
 
 export default userReducer;

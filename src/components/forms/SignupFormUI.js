@@ -190,13 +190,12 @@ const SignupFormUI = ({
                 <button type="button" onClick={() => setIsTermsPopupOpen(true)} className={style.button}>약관 보기</button>
             </label>
             <br />
-            {/* 약관 팝업 */}
             {isTermsPopupOpen && (
                 <div className={style.modalBackground}>
                     <div className={style.modal}>
-                        <TermsPopup />
+                        <TermsPopup onClose={() => setIsTermsPopupOpen(false)} /> {/* onClose prop 추가 */}
                         <button
-                            className={style.modalCloseButton}
+                            className={style.button}
                             onClick={() => setIsTermsPopupOpen(false)}
                         >
                             닫기

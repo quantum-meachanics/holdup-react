@@ -22,7 +22,7 @@ const initialFormData = {
 
 const SignupForm = () => {
     const [formData, setFormData] = useState(initialFormData);
-    const [selectedDomain, setSelectedDomain] = useState('@gmail.com');
+    const [selectedDomain, setSelectedDomain] = useState('');
     const [loading, setLoading] = useState(false);
     const [emailAvailable, setEmailAvailable] = useState(null);
     const [nicknameAvailable, setNicknameAvailable] = useState(null);
@@ -85,13 +85,24 @@ const SignupForm = () => {
     };
 
     const handleAddressSelect = (selectedAddress) => {
+        // 팝업을 닫기 전에 상태 업데이트
         setFormData(prev => ({
             ...prev,
             address: selectedAddress.roadFullAddr,
             addressDetail: selectedAddress.addressDetail,
         }));
-        setIsPopupOpen(false);
+    
+        // 팝업 닫기
+        if (isPopupOpen) {
+            setIsPopupOpen(false);
+        }
     };
+    
+    // useEffect를 사용해 상태 변경을 감지
+    useEffect(() => {
+        if (!isPopupOpen) {
+        }
+    }, [isPopupOpen]);
 
     const handleDomainChange = (e) => {
         setSelectedDomain(e.target.value);

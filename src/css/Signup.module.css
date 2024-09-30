@@ -4,13 +4,13 @@
     padding: 20px; /* 내부 여백 */
 }
 
-h1 {
+.h1 {
     color: #073929; /* 제목 색상 */
     font-size: 2.5em; /* 제목 크기 */
     margin-bottom: 10px; /* 제목과 아래 요소 사이의 간격 */
 }
 
-p {
+.p {
     color: #555; /* 부드러운 회색 텍스트 */
     font-size: 1.2em; /* 부가 텍스트 크기 */
     margin-bottom: 20px; /* 부가 텍스트와 아래 요소 사이의 간격 */
@@ -27,4 +27,6 @@ p {
 .signup_container p {
     margin: 0; /* 기본 마진 제거 */
 }
+
+
 
