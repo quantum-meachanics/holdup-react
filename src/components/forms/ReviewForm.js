@@ -43,6 +43,7 @@ function ReviewForm() {
 
     return (
         <div>
+            <h1>리뷰 게시판</h1>
             {reviewList && reviewList.length > 0 ? (
                 <div>
                     <table>

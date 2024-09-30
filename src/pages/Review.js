@@ -1,12 +1,14 @@
+import CommunitySidebar from "../components/commons/CommunitySidebar"
 import ReviewForm from "../components/forms/ReviewForm"
+import style from "../css/Review.module.css"
 
 function Review() {
-    return(
-        <>
-            <h1>리뷰 게시판</h1>
-            <ReviewForm/>
-        </>
+    return (
+        <div className={style.review}>
+            <CommunitySidebar />
+            <ReviewForm />
+        </div>
     )
 }
 
-export default Review
+export default Review;

@@ -22,6 +22,7 @@ const MyPage = () => {
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
+
         const user = JSON.parse(sessionStorage.getItem("user") || "null");
         if (user) {
             setUserInfo(prevInfo => ({
@@ -32,6 +33,18 @@ const MyPage = () => {
             }));
         } else {
             navigate('/holdup/login');
+
+        // sessionStorage에서 사용자 정보 가져오기
+        const storedUserInfo = sessionStorage.getItem("user");
+        if (storedUserInfo) {
+            const user = JSON.parse(storedUserInfo); // JSON 문자열을 객체로 변환하여 상태에 저장
+            setUserInfo(user);
+            setUpdatedInfo({
+                id: user.id, // id 초기값 설정
+                nickname: user.nickname,
+                email: user.email // email 초기값 설정
+            });
+
         }
     }, [navigate]);
 
@@ -47,6 +60,7 @@ const MyPage = () => {
 
     const handleUpdateUserInfo = async () => {
         try {
+
             const token = sessionStorage.getItem("token");
             if (!token) {
                 setErrors({ general: "인증 정보가 없습니다. 다시 로그인 해주세요." });
@@ -75,6 +89,16 @@ const MyPage = () => {
             } else {
                 setErrors({ general: response.message });
             }
+
+            const token = sessionStorage.getItem("token"); // 토큰 가져오기
+            const response = await updateUserInfo(token, {
+                email: userInfo.email, // 이메일 포함
+                ...updatedInfo // 다른 수정할 정보
+            });
+            setUserInfo(response.userInfo); // 수정된 사용자 정보로 상태 업데이트
+            sessionStorage.setItem("user", JSON.stringify(response.userInfo)); // sessionStorage에 수정된 정보 저장
+            alert("회원 정보가 수정되었습니다.");
+
         } catch (error) {
             console.error("회원 정보 수정 중 오류:", error);
             setErrors({ general: "회원 정보 수정 중 오류가 발생했습니다." });
