@@ -30,7 +30,6 @@ function ReviewForm() {
         navigate('/holdup/reviews/create');
     };
 
-
     // 에러 발생 시 에러 메시지 표시
     if (error) {
         return <div>에러 발생: {error.message || '알 수 없는 오류'}</div>;

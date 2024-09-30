@@ -1,7 +1,7 @@
 import { createActions, handleActions } from "redux-actions";
 
 const initialState = {
-    pageList: [],
+    spaceList: [],
     totalPages: 0,
     error: null
 };
@@ -10,8 +10,8 @@ export const GET_SPCAES_LIST_SUCCESS = "spaceList/GET_SPACE_LIST_SUCCESS";
 export const GET_SPCAES_LIST_FAIL = "spaceList/GET_SPACE_LIST_FAIL";
 
 export const { spaceList: { getSpaceListSeccess, getSpaceListFail } } = createActions({
-    [GET_SPCAES_LIST_SUCCESS]: (spaceList, totalPages) => { (spaceList, totalPages) },
-    [GET_SPCAES_LIST_FAIL]: (error) => { (error) }
+    [GET_SPCAES_LIST_SUCCESS]: (spaceList, totalPages) => ({ spaceList, totalPages }),
+    [GET_SPCAES_LIST_FAIL]: (error) => ({ error })
 });
 
 const spacePageReducer = handleActions({
@@ -21,7 +21,7 @@ const spacePageReducer = handleActions({
         totalPages: payload.totalPages,
         error: null
     }),
-    [GET_SPCAES_LIST_FAIL]: (state, { payload }) => ({
+    [GET_SPCAES_LIST_FAIL]: (state, { payload: error }) => ({
         ...state,
         spaceList: [],
         totalPages: 0,
