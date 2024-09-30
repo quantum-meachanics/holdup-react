@@ -35,11 +35,9 @@ function ReviewForm() {
     if (error) {
         return <div>에러 발생: {error.message || '알 수 없는 오류'}</div>;
     }
+
     console.log('Current state:', { reviewList, totalPages, error });
-
     console.log("리뷰 컴포넌트 재랜더링됨");
-
-
 
     return (
         <div>
@@ -80,7 +78,6 @@ function ReviewForm() {
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
             />
-
         </div>
     );
 }

@@ -1,10 +1,9 @@
-import CommunitySidebar from "../components/commons/CommunitySidebar"
-import ReviewForm from "../components/forms/ReviewForm"
-import style from "../css/Review.module.css"
+import CommunitySidebar from "../components/commons/CommunitySidebar";
+import ReviewForm from "../components/forms/ReviewForm";
 
 function Review() {
     return (
-        <div className={style.review}>
+        <div style={{ display: "flex" }}>
             <CommunitySidebar />
             <ReviewForm />
         </div>
