@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { callGetReviewDetailAPI } from '../../apis/ReviewDetailAPICall';
 
 function ReviewDetailForm() {
@@ -39,7 +39,7 @@ function ReviewDetailForm() {
                             <h3>이미지</h3>
                             <div>
                                 {reviewDetail.imageUrl && reviewDetail.imageUrl.length > 0 ? (
-                                    <img src={reviewDetail.imageUrl}/>
+                                    <img src={reviewDetail.imageUrl} />
                                 ) : (
                                     <p>이미지가 없습니다.</p>
                                 )}
