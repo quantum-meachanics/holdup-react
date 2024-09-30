@@ -22,7 +22,7 @@ const initialFormData = {
 
 const SignupForm = () => {
     const [formData, setFormData] = useState(initialFormData);
-    const [selectedDomain, setSelectedDomain] = useState('');
+    const [selectedDomain, setSelectedDomain] = useState('@gmail.com');
     const [loading, setLoading] = useState(false);
     const [emailAvailable, setEmailAvailable] = useState(null);
     const [nicknameAvailable, setNicknameAvailable] = useState(null);
@@ -35,6 +35,8 @@ const SignupForm = () => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isTermsPopupOpen, setIsTermsPopupOpen] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
+    const [isEmailEditable, setIsEmailEditable] = useState(true); // 이메일 수정 가능 여부 상태
+
 
     const navigate = useNavigate();
 
@@ -85,24 +87,29 @@ const SignupForm = () => {
     };
 
     const handleAddressSelect = (selectedAddress) => {
-        // 팝업을 닫기 전에 상태 업데이트
-        setFormData(prev => ({
-            ...prev,
-            address: selectedAddress.roadFullAddr,
-            addressDetail: selectedAddress.addressDetail,
-        }));
-    
-        // 팝업 닫기
-        if (isPopupOpen) {
-            setIsPopupOpen(false);
+        if (selectedAddress) {
+            setFormData(prev => ({
+                ...prev,
+                address: selectedAddress.roadFullAddr,
+                addressDetail: selectedAddress.addressDetail,
+            }));
         }
+        setIsPopupOpen(false); // 팝업을 닫음
     };
     
-    // useEffect를 사용해 상태 변경을 감지
+    // // 팝업 강제로 닫기
+    // const closeAddressPopup = () => {
+    //     setIsPopupOpen(false);
+    // };
+
     useEffect(() => {
-        if (!isPopupOpen) {
+        if (timer === 0) {
+            setIsButtonDisabled(false);
         }
-    }, [isPopupOpen]);
+        if (isPopupOpen) {
+        }
+    }, [timer, isPopupOpen]); // 의존성 배열을 올바르게 수정
+    
 
     const handleDomainChange = (e) => {
         setSelectedDomain(e.target.value);
@@ -114,7 +121,10 @@ const SignupForm = () => {
 
     const handleSendCode = async () => {
         if (isButtonDisabled) return setMessage('5분 후에 다시 시도할 수 있습니다.');
-
+        
+        // 이메일 중복 확인 후 사용 불가능하면 요청을 막음
+        if (emailAvailable === false) return showAlert('이미 사용 중인 이메일입니다.');
+    
         const fullEmail = `${formData.email}${selectedDomain}`;
         try {
             const response = await request('POST', '/signup-send-verification-code', { email: fullEmail });
@@ -134,9 +144,10 @@ const SignupForm = () => {
                 email: fullEmail,
                 verificationCode
             });
-
+    
             if (response.success) {
                 setMessage('인증 완료되었습니다!');
+                setIsEmailEditable(false); // 인증 성공 시 이메일 수정 불가 처리
             } else {
                 setMessage('인증 실패하였습니다.');
             }
@@ -148,18 +159,21 @@ const SignupForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
         if (isFormIncomplete(formData)) return alert('모든 필드를 채워야 합니다.');
         if (!isEmailAndNicknameValid(emailAvailable, nicknameAvailable)) return alert('이메일과 닉네임 중복 확인을 완료해주세요.');
         if (!isAgreed) return alert('이용약관에 동의해야 합니다.');
-
+    
         if (!isCodeSent || !verificationCode) {
             return alert('인증 코드를 입력해야 합니다.');
         }
-
+    
         setLoading(true);
         try {
             const finalAddress = `${formData.address} ${formData.addressDetail}`.trim();
-            await request('POST', '/signup', { ...formData, address: finalAddress });
+            const finalEmail = `${formData.email}${selectedDomain}`; // 이메일 도메인과 결합
+    
+            await request('POST', '/signup', { ...formData, email: finalEmail, address: finalAddress }); // 최종 이메일과 주소 포함
             setIsSuccess(true);
         } catch (error) {
             alert('회원가입에 실패했습니다.');
@@ -185,6 +199,7 @@ const SignupForm = () => {
                         handleVerifyCode={handleVerifyCode} // 인증 코드 확인 함수 전달
                         verificationCode={verificationCode} // verificationCode를 prop으로 전달
                         setVerificationCode={setVerificationCode} // setVerificationCode를 prop으로 전달
+                        isEmailEditable={isEmailEditable} // 이메일 수정 가능 여부 전달
                     />
                     <SignupFormUI
                         formData={formData}
@@ -211,7 +226,9 @@ const SignupForm = () => {
                     />
                 </>
             )}
+            {/* {isPopupOpen && <AddressPopup onAddressSelect={handleAddressSelect} onClose={closeAddressPopup} />} */}
             {isPopupOpen && <AddressPopup onAddressSelect={handleAddressSelect} />}
+
             {isTermsPopupOpen && <TermsPopup onClose={() => setIsTermsPopupOpen(false)} />}
         </div>
     );
