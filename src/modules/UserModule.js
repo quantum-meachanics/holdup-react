@@ -9,7 +9,7 @@ const initialState = {
 export const LOGIN_SUCCESS = "user/LOGIN_SUCCESS";
 export const LOGIN_FAIL = "user/LOGIN_FAIL";
 export const RESET_LOGIN_USER = "user/RESET_LOGIN_USER";
-export const LOGOUT_USER = "user/LOGOUT_USER"; // 로그아웃 액션 
+export const LOGOUT_USER = "user/LOGOUT_USER";
 export const UPDATE_USER_INFO_SUCCESS = "user/UPDATE_USER_INFO_SUCCESS";
 export const UPDATE_USER_INFO_FAIL = "user/UPDATE_USER_INFO_FAIL";
 
