@@ -20,9 +20,9 @@ export const request = async (method, url, data) => {
 export const tokenRequest = async (token, method, url, data) => {
     try {
         const response = await axios({
-            headers: { Authorization: `Bearer ${token}` },
             method,
             url: `${DOMAIN}${url}`,
+            headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }, // 'Content-Type' 추가
             data
         });
         return response.data;

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
-import { logoutUser } from '../../modules/UserModule';
+import { logoutUser } from '../../modules/UserModule'; // 로그아웃 액션 가져오기
 import { updateUserInfo } from '../../apis/MypageAPICall';
+import AddressPopup from './AddressPopup'; // AddressPopup 컴포넌트 가져오기
 
 const MyPage = () => {
     const navigate = useNavigate();
@@ -14,15 +15,11 @@ const MyPage = () => {
         address: '',
         addressDetail: '',
     });
-    const [password, setPassword] = useState({
-        current: '',
-        new: '',
-        confirm: '',
-    });
     const [errors, setErrors] = useState({});
+    const [showAddressPopup, setShowAddressPopup] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-
         const user = JSON.parse(sessionStorage.getItem("user") || "null");
         if (user) {
             setUserInfo(prevInfo => ({
@@ -33,55 +30,49 @@ const MyPage = () => {
             }));
         } else {
             navigate('/holdup/login');
-
-        // sessionStorage에서 사용자 정보 가져오기
-        const storedUserInfo = sessionStorage.getItem("user");
-        if (storedUserInfo) {
-            const user = JSON.parse(storedUserInfo); // JSON 문자열을 객체로 변환하여 상태에 저장
-            setUserInfo(user);
-            setUpdatedInfo({
-                id: user.id, // id 초기값 설정
-                nickname: user.nickname,
-                email: user.email // email 초기값 설정
-            });
-
         }
     }, [navigate]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        if (name in userInfo) {
-            setUserInfo(prev => ({ ...prev, [name]: value }));
-        } else if (name in password) {
-            setPassword(prev => ({ ...prev, [name]: value }));
-        }
+        setUserInfo(prev => ({ ...prev, [name]: value }));
     };
 
+    const handleAddressSelect = (selectedAddress) => {
+        setUserInfo(prev => ({
+            ...prev,
+            address: selectedAddress.roadFullAddr,
+            addressDetail: '', // 주소 선택 시 상세 주소 초기화
+        }));
+        setShowAddressPopup(false); // 팝업 닫기
+    };
 
     const handleUpdateUserInfo = async () => {
-        try {
+        // 유효성 검사
+        if (!userInfo.nickname) {
+            setErrors({ general: "닉네임을 입력해주세요." });
+            return;
+        }
 
+        setErrors({}); // 에러 초기화
+        setIsLoading(true); // 로딩 시작
+
+        try {
             const token = sessionStorage.getItem("token");
             if (!token) {
                 setErrors({ general: "인증 정보가 없습니다. 다시 로그인 해주세요." });
                 return;
             }
-    
-            console.log("Token:", token); // 토큰 로그
-            console.log("UserInfo:", userInfo); // 사용자 정보 로그
-    
+
             const response = await updateUserInfo(token, {
                 email: userInfo.email,
-                currentPassword: password.current,
                 nickname: userInfo.nickname,
-                newPassword: password.new || undefined,
                 address: userInfo.address,
                 addressDetail: userInfo.addressDetail,
             });
-    
+
             if (response.success) {
                 alert(response.message);
-                // 세션 스토리지의 사용자 정보 업데이트
                 sessionStorage.setItem("user", JSON.stringify({
                     ...userInfo,
                     address: `${userInfo.address} ${userInfo.addressDetail}`.trim(),
@@ -89,29 +80,18 @@ const MyPage = () => {
             } else {
                 setErrors({ general: response.message });
             }
-
-            const token = sessionStorage.getItem("token"); // 토큰 가져오기
-            const response = await updateUserInfo(token, {
-                email: userInfo.email, // 이메일 포함
-                ...updatedInfo // 다른 수정할 정보
-            });
-            setUserInfo(response.userInfo); // 수정된 사용자 정보로 상태 업데이트
-            sessionStorage.setItem("user", JSON.stringify(response.userInfo)); // sessionStorage에 수정된 정보 저장
-            alert("회원 정보가 수정되었습니다.");
-
         } catch (error) {
             console.error("회원 정보 수정 중 오류:", error);
             setErrors({ general: "회원 정보 수정 중 오류가 발생했습니다." });
+        } finally {
+            setIsLoading(false); // 로딩 종료
         }
     };
-    
-    
 
     const handleLogout = () => {
-        dispatch(logoutUser());
-        sessionStorage.removeItem("isLogin");
-        sessionStorage.removeItem("user");
         sessionStorage.removeItem("token");
+        sessionStorage.removeItem("user");
+        dispatch(logoutUser());
         navigate('/holdup/login');
     };
 
@@ -126,18 +106,6 @@ const MyPage = () => {
             <form onSubmit={(e) => { e.preventDefault(); handleUpdateUserInfo(); }}>
                 <div>
                     <label>
-                        현재 비밀번호:
-                        <input
-                            type="password"
-                            name="current"
-                            value={password.current}
-                            onChange={handleInputChange}
-                            required
-                        />
-                    </label>
-                </div>
-                <div>
-                    <label>
                         닉네임:
                         <input
                             type="text"
@@ -150,35 +118,14 @@ const MyPage = () => {
                 </div>
                 <div>
                     <label>
-                        새 비밀번호:
-                        <input
-                            type="password"
-                            name="new"
-                            value={password.new}
-                            onChange={handleInputChange}
-                        />
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        새 비밀번호 확인:
-                        <input
-                            type="password"
-                            name="confirm"
-                            value={password.confirm}
-                            onChange={handleInputChange}
-                        />
-                    </label>
-                </div>
-                <div>
-                    <label>
                         주소:
                         <input
                             type="text"
                             name="address"
                             value={userInfo.address}
-                            onChange={handleInputChange}
+                            readOnly
                         />
+                        <button type="button" onClick={() => setShowAddressPopup(true)}>주소 선택</button>
                     </label>
                 </div>
                 <div>
@@ -193,11 +140,12 @@ const MyPage = () => {
                     </label>
                 </div>
                 {errors.general && <p className="error">{errors.general}</p>}
-                {errors.password && <p className="error">{errors.password}</p>}
-                <button type="submit">정보 수정</button>
+                <button type="submit" disabled={isLoading}>{isLoading ? "로딩 중..." : "정보 수정"}</button>
             </form>
 
             <button onClick={handleLogout}>로그아웃</button>
+
+            {showAddressPopup && <AddressPopup onAddressSelect={handleAddressSelect} />}
         </div>
     );
 };
