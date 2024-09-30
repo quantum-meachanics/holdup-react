@@ -39,8 +39,8 @@ function App() {
           <Route index element={<Main />} />
           <Route path="holdup/guideline" element={<Guideline />} />
           <Route path="holdup/signup" element={<Signup />} />
-          <Route path="/holdup/find-email" element={<FindEmailForm />} />
-          <Route path="/holdup/email-verification" element={<EmailVerification />} />
+          <Route path="holdup/find-email" element={<FindEmailForm />} />
+          <Route path="holdup/email-verification" element={<EmailVerification />} />
           <Route path="holdup/login" element={<Login />} />
           <Route path="holdup/spaces" element={<CreateSpace />} />
           <Route path="holdup/reviews" element={<Review />} />
