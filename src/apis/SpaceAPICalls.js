@@ -26,3 +26,17 @@ export function callCreateSpaceAPI(spaceInfo, imageFiles) {
         }
     };
 }
+
+export function callSpacePageAPI(page = 0, size = 0) {
+    return async (dispatch) => {
+        try {
+            const response = await tokenRequest(
+                sessionStorage.getItem("token"),
+                "GET",
+                `/spaces?page=${page}&size=${size}`
+            )
+        } catch (error) {
+            dispatch(getSpacePageFail(error.message || "공간 페이지 조회를 실패했습니다."))
+        }
+    }
+}
