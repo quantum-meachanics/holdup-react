@@ -1,0 +1,152 @@
+.communitySidebar {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+}
+
+.userSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    min-width: 160px;
+    max-width: 160px;
+
+    border-radius: 20px;
+
+    background-color: #FFC600;
+}
+
+.loginButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 40px;
+    width: 140px;
+    border-radius: 20px;
+    background-color: #FFE27f;
+
+    color: black;
+    font-size: 20px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.userInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 150px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+}
+
+.nickname {
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.creditSection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 20px;
+    max-height: 20px;
+    min-width: 140px;
+    max-width: 140px;
+    background-color: white;
+    border-radius: 5px;
+
+    font-size: 12px;
+}
+
+.creditLabel {
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.credit {
+    flex: 1;
+    text-align: right;
+
+    margin-left: 2px;
+    margin-right: 2px;
+
+    font-weight: 600;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.creditButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 10px;
+    min-width: 10PX;
+    max-width: 10PX;
+    margin-left: 2px;
+    margin-right: 2px;
+    border-radius: 7.5px;
+    background-color: #073929;
+
+    color: white;
+    text-decoration: none;
+}
+
+.userButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 30px;
+    width: 140px;
+    border-radius: 10px;
+
+    margin-top: 5px;
+    background-color: #FFE27f;
+
+    color: black;
+    font-size: 20px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.userButton:hover {
+    cursor: pointer;
+}
+
+.menuSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    min-width: 160px;
+    max-width: 160px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 20px;
+    background-color: #073929;
+}
+
+.menuLink {
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: 600;
+}

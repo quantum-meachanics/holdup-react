@@ -13,7 +13,8 @@ const SignupFormUI = ({
     setIsAgreed,
     setIsPopupOpen,
     handlePhoneChange,
-    handleBirthdayChange
+    handleBirthdayChange,
+    isPopupOpen,
 }) => {
 
     const [isTermsPopupOpen, setIsTermsPopupOpen] = useState(false);
@@ -165,7 +166,15 @@ const SignupFormUI = ({
                 readOnly
                 className={style.input}
             />
-            <button type="button" onClick={() => setIsPopupOpen(true)} className={style.button}>주소 찾기</button>
+            <button
+                type="button"
+                onClick={() => {
+                    if (!isPopupOpen) setIsPopupOpen(true);
+                }}
+                className={`${style.button} ${!formData.address ? style.emptyAddressButton : ''}`}
+            >
+                주소 찾기
+            </button>
             <br />
             {/* 주소 상세 입력 */}
             <label>주소 상세</label>
