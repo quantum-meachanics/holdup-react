@@ -21,15 +21,29 @@ import Spaces from "./pages/Spaces";
 function App() {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    // 페이지가 로드될 때 세션 스토리지에서 로그인 상태 확인
-    const isLogin = sessionStorage.getItem("isLogin") === "true";
-    const user = JSON.parse(sessionStorage.getItem("user"));
+  // useEffect(() => {
+  //   // 페이지가 로드될 때 세션 스토리지에서 로그인 상태 확인
+  //   const isLogin = sessionStorage.getItem("isLogin") === "true";
+  //   const user = JSON.parse(sessionStorage.getItem("user"));
 
-    if (isLogin && user) {
-      dispatch(loginSuccess(user)); // 로그인 성공 액션으로 Redux 상태 업데이트
-    } else {
-      dispatch(resetLoginUser()); // 상태 초기화
+  //   if (isLogin && user) {
+  //     dispatch(loginSuccess(user)); // 로그인 성공 액션으로 Redux 상태 업데이트
+  //   } else {
+  //     dispatch(resetLoginUser()); // 상태 초기화
+  //   }
+  // }, [dispatch]);
+  useEffect(() => {
+    // 로그인 상태를 sessionStorage 대신 localStorage에 저장
+    const isLogin = sessionStorage.getItem("isLogin") === "true";
+    const user = JSON.parse(localStorage.getItem("user"));
+    const token = sessionStorage.getItem("token");
+
+    // 로그인 상태와 유저 정보가 모두 있을 때만 Redux 상태 업데이트
+    if (isLogin && user && token) {
+      dispatch(loginSuccess(JSON.parse(user)));
+    } else if (!user || !isLogin) {
+      // 유저 정보가 없거나 로그인이 아닌 경우만 상태 초기화
+      dispatch(resetLoginUser());
     }
   }, [dispatch]);
 
