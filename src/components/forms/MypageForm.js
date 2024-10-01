@@ -137,6 +137,30 @@ const MyPage = () => {
                             name="nickname"
                             value={userInfo.nickname}
                             onChange={handleInputChange}
+
+                        />
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        새 비밀번호:
+                        <input
+                            type="password"
+                            name="new"
+                            value={password.new}
+                            onChange={handleInputChange}
+                        />
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        새 비밀번호 확인:
+                        <input
+                            type="password"
+                            name="confirm"
+                            value={password.confirm}
+                            onChange={handleInputChange}
+
                         />
                     </label>
                 </div>
