@@ -170,10 +170,9 @@ const SignupForm = () => {
     
         setLoading(true);
         try {
-            const finalAddress = `${formData.address} ${formData.addressDetail}`.trim();
             const finalEmail = `${formData.email}${selectedDomain}`; // 이메일 도메인과 결합
     
-            await request('POST', '/signup', { ...formData, email: finalEmail, address: finalAddress }); // 최종 이메일과 주소 포함
+            await request('POST', '/signup', { ...formData, email: finalEmail }); // 최종 이메일과 주소 포함
             setIsSuccess(true);
         } catch (error) {
             alert('회원가입에 실패했습니다.');
