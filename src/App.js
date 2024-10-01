@@ -15,9 +15,13 @@ import Login from "./pages/Login";
 import Main from "./pages/Main";
 import Review from "./pages/Review";
 import ReviewDetail from "./pages/ReviewDetail";
-import Signup from "./pages/Signup";
-import SpaceDetail from "./pages/SpaceDetail";
+import FindEmailForm from "./components/forms/FindEmailForm";
+import EmailVerification from "./components/forms/EmailVerification";
+import CreateReview from "./pages/CreateReview";
+import SuccessScreen from "./components/forms/SuccessScreen";
+import MyPage from "./pages/Mypage";
 import Spaces from "./pages/Spaces";
+import CreditPage from "./components/forms/CreditPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -55,6 +59,7 @@ function App() {
           <Route path="holdup/find-email" element={<FindEmailForm />} />
           <Route path="holdup/email-verification" element={<EmailVerification />} />
           <Route path="holdup/success" element={<SuccessScreen />} />
+          <Route path="holdup/mypage/credit" element={<CreditPage/>}/>
 
           <Route path="holdup/reviews" element={<Review />} />
           <Route path="holdup/reviews/create" element={<CreateReview />} />

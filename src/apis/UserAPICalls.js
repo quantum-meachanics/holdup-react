@@ -12,7 +12,7 @@ export function callLoginAPI(loginInfo, navigate) {
             // 서버에서 로그인 성공 시 JWT 토큰 반환
             if (response.token) {
                 // 필요한 사용자 정보만 추출
-                const { id, name, nickname, email, role , address , addressDetail } = response.userInfo;
+                const { id, name, nickname, email, role , address , addressDetail , credit } = response.userInfo;
 
                 const userData = {
                     id,
@@ -21,7 +21,9 @@ export function callLoginAPI(loginInfo, navigate) {
                     email,      // 이메일
                     role,        // 역할
                     address,      // 주소
-                    addressDetail
+                    addressDetail, // 상세주소
+                    credit
+
                 };
 
                 console.log("추출된 사용자 정보 확인", userData);
