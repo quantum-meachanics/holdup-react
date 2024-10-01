@@ -43,7 +43,9 @@ function ReviewDetailForm() {
                             <h3>이미지</h3>
                             <div>
                                 {reviewDetail.imageUrl && reviewDetail.imageUrl.length > 0 ? (
-                                    <img src={reviewDetail.imageUrl} />
+                                    reviewDetail.imageUrl.map((url, index) => (
+                                        <img key={index} src={url} alt={`리뷰 이미지 ${index + 1}`} />
+                                    ))
                                 ) : (
                                     <p>이미지가 없습니다.</p>
                                 )}
