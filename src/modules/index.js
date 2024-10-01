@@ -4,10 +4,12 @@ import spaceReducer from "./SpaceModule";
 import reviewReducer from "./ReviewModule";
 import reviewDetailReducer from "./ReviewDetailModule";
 import reviewcreateReducer from "./ReviewCreateModule";
+import spacePageReducer from "./SpacePageModule";
 
 const rootReducer = combineReducers({
     userReducer,
     spaceReducer,
+    spacePageReducer,
     reviewReducer,
     reviewDetailReducer,
     reviewcreateReducer
