@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
-import { logoutUser } from '../../modules/UserModule'; // 로그아웃 액션 가져오기
+import { logoutUser } from '../../modules/UserModule';
 import { updateUserInfo } from '../../apis/MypageAPICall';
 import AddressPopup from './AddressPopup'; // AddressPopup 컴포넌트 import
 
@@ -14,6 +14,11 @@ const MyPage = () => {
         role: '',
         address: '',
         addressDetail: '',
+    });
+    const [password, setPassword] = useState({
+        current: '',
+        new: '',
+        confirm: '',
     });
     const [errors, setErrors] = useState({});
     const [isPopupOpen, setIsPopupOpen] = useState(false); // 팝업 상태
@@ -34,7 +39,22 @@ const MyPage = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setUserInfo(prev => ({ ...prev, [name]: value }));
+        if (name in userInfo) {
+            setUserInfo(prev => ({ ...prev, [name]: value }));
+        } else if (name in password) {
+            setPassword(prev => ({ ...prev, [name]: value }));
+        }
+    };
+
+    const handleAddressSelect = (selectedAddress) => {
+        if (selectedAddress) {
+            setUserInfo(prev => ({
+                ...prev,
+                address: selectedAddress.roadFullAddr,
+                addressDetail: '', // 상세주소는 사용자에게 입력받기
+            }));
+        }
+        setIsPopupOpen(false); // 팝업 닫기
     };
 
 
@@ -57,7 +77,6 @@ const MyPage = () => {
                 return;
             }
 
-
             // 새 비밀번호와 비밀번호 확인이 일치하는지 확인
             if (password.new && password.new !== password.confirm) {
                 setErrors({ password: "새 비밀번호와 비밀번호 확인이 일치하지 않습니다." });
@@ -71,13 +90,19 @@ const MyPage = () => {
 
             const response = await updateUserInfo(token, {
                 email: userInfo.email,
+                currentPassword: password.current,
                 nickname: userInfo.nickname,
+
+                newPassword: password.new || undefined,
+                address: fullAddress,
+
 
                 newPassword: password.new || undefined,
                 address: fullAddress,
 
                 address: userInfo.address,
                 addressDetail: userInfo.addressDetail,
+
 
             });
 
@@ -97,13 +122,13 @@ const MyPage = () => {
             setErrors({ general: "회원 정보 수정 중 오류가 발생했습니다." });
         }
     };
-
+    
     const handleLogout = () => {
-        // 로그아웃 처리
-        sessionStorage.removeItem("token");
+        dispatch(logoutUser());
+        sessionStorage.removeItem("isLogin");
         sessionStorage.removeItem("user");
-        dispatch(logoutUser()); // Redux 액션으로 로그아웃
-        navigate('/holdup/login'); // 로그인 페이지로 이동
+        sessionStorage.removeItem("token");
+        navigate('/holdup/login');
     };
 
     return (
@@ -117,12 +142,48 @@ const MyPage = () => {
             <form onSubmit={(e) => { e.preventDefault(); handleUpdateUserInfo(); }}>
                 <div>
                     <label>
+                        현재 비밀번호:
+                        <input
+                            type="password"
+                            name="current"
+                            value={password.current}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </label>
+                </div>
+                <div>
+                    <label>
                         닉네임:
                         <input
                             type="text"
                             name="nickname"
                             value={userInfo.nickname}
                             onChange={handleInputChange}
+
+                        />
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        새 비밀번호:
+                        <input
+                            type="password"
+                            name="new"
+                            value={password.new}
+                            onChange={handleInputChange}
+                        />
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        새 비밀번호 확인:
+                        <input
+                            type="password"
+                            name="confirm"
+                            value={password.confirm}
+                            onChange={handleInputChange}
+
                         />
                     </label>
                 </div>
@@ -150,6 +211,7 @@ const MyPage = () => {
                     </label>
                 </div>
                 {errors.general && <p className="error">{errors.general}</p>}
+                {errors.password && <p className="error">{errors.password}</p>}
                 <button type="submit">정보 수정</button>
             </form>
 
