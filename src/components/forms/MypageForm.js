@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { logoutUser } from '../../modules/UserModule';
 import { updateUserInfo } from '../../apis/MypageAPICall';
-import AddressPopup from './AddressPopup'; // AddressPopup 컴포넌트 import
+import AddressPopup from './AddressPopup';
 
 const MyPage = () => {
     const navigate = useNavigate();
@@ -30,7 +30,7 @@ const MyPage = () => {
                 ...prevInfo,
                 ...user,
                 address: user.address || '',
-                addressDetail: '', // 초기 상세 주소는 빈 문자열로 설정
+                addressDetail: user.addressDetail || '',
             }));
         } else {
             navigate('/holdup/login');
@@ -51,7 +51,7 @@ const MyPage = () => {
             setUserInfo(prev => ({
                 ...prev,
                 address: selectedAddress.roadFullAddr,
-                addressDetail: '', // 상세주소는 사용자에게 입력받기
+                addressDetail: '', 
             }));
         }
         setIsPopupOpen(false); // 팝업 닫기
@@ -64,47 +64,38 @@ const MyPage = () => {
                 setErrors({ general: "인증 정보가 없습니다. 다시 로그인 해주세요." });
                 return;
             }
-
+    
             // 새 비밀번호와 비밀번호 확인이 일치하는지 확인
             if (password.new && password.new !== password.confirm) {
                 setErrors({ password: "새 비밀번호와 비밀번호 확인이 일치하지 않습니다." });
                 return;
             }
-
+    
             console.log("Token:", token);
             console.log("UserInfo:", userInfo);
-
-            const fullAddress = `${userInfo.address} ${userInfo.addressDetail}`.trim(); // 전체 주소 결합
-
+    
+            // address와 addressDetail을 별도로 보내도록 설정
             const response = await updateUserInfo(token, {
                 email: userInfo.email,
                 currentPassword: password.current,
                 nickname: userInfo.nickname,
-
                 newPassword: password.new || undefined,
-                address: fullAddress,
-
-
-                newPassword: password.new || undefined,
-                address: fullAddress,
-
-                address: userInfo.address,
-                addressDetail: userInfo.addressDetail,
-
-
+                address: userInfo.address, // address 전송
+                addressDetail: userInfo.addressDetail, // addressDetail 전송
             });
-
+    
             if (response.success) {
                 alert(response.message);
                 // 세션 스토리지의 사용자 정보 업데이트
                 sessionStorage.setItem("user", JSON.stringify({
                     ...userInfo,
-                    address: fullAddress,
+                    address: userInfo.address,
+                    addressDetail: userInfo.addressDetail, 
                 }));
             } else {
                 setErrors({ general: response.message });
             }
-
+    
         } catch (error) {
             console.error("회원 정보 수정 중 오류:", error);
             setErrors({ general: "회원 정보 수정 중 오류가 발생했습니다." });
@@ -125,6 +116,7 @@ const MyPage = () => {
             <h2>환영합니다, {userInfo.nickname}님!</h2>
             <p>이메일: {userInfo.email}</p>
             <p>역할: {userInfo.role}</p>
+            <p>크레딧: {userInfo.credit}</p>
 
             <h3>회원 정보 수정</h3>
             <form onSubmit={(e) => { e.preventDefault(); handleUpdateUserInfo(); }}>
@@ -148,7 +140,6 @@ const MyPage = () => {
                             name="nickname"
                             value={userInfo.nickname}
                             onChange={handleInputChange}
-
                         />
                     </label>
                 </div>
@@ -171,7 +162,6 @@ const MyPage = () => {
                             name="confirm"
                             value={password.confirm}
                             onChange={handleInputChange}
-
                         />
                     </label>
                 </div>
