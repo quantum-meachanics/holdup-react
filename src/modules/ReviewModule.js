@@ -19,7 +19,6 @@ const reviewReducer = handleActions({
         ...state,
         reviewList: payload.reviewList,
         totalPages: payload.totalPages,
-
         error: null
     }),
     [GET_REVIEW_LIST_FAIL]: (state, { payload: error }) => ({
