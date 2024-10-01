@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { logoutUser } from '../../modules/UserModule';
 import { updateUserInfo } from '../../apis/MypageAPICall';
+import AddressPopup from './AddressPopup'; // AddressPopup 컴포넌트 import
 
 const MyPage = () => {
     const navigate = useNavigate();
@@ -20,31 +21,19 @@ const MyPage = () => {
         confirm: '',
     });
     const [errors, setErrors] = useState({});
+    const [isPopupOpen, setIsPopupOpen] = useState(false); // 팝업 상태
 
     useEffect(() => {
-
         const user = JSON.parse(sessionStorage.getItem("user") || "null");
         if (user) {
             setUserInfo(prevInfo => ({
                 ...prevInfo,
                 ...user,
-                address: user.address?.split(' ')[0] || '',
-                addressDetail: user.address?.split(' ').slice(1).join(' ') || '',
+                address: user.address || '',
+                addressDetail: '', // 초기 상세 주소는 빈 문자열로 설정
             }));
         } else {
             navigate('/holdup/login');
-
-        // sessionStorage에서 사용자 정보 가져오기
-        const storedUserInfo = sessionStorage.getItem("user");
-        if (storedUserInfo) {
-            const user = JSON.parse(storedUserInfo); // JSON 문자열을 객체로 변환하여 상태에 저장
-            setUserInfo(user);
-            setUpdatedInfo({
-                id: user.id, // id 초기값 설정
-                nickname: user.nickname,
-                email: user.email // email 초기값 설정
-            });
-
         }
     }, [navigate]);
 
@@ -57,47 +46,54 @@ const MyPage = () => {
         }
     };
 
+    const handleAddressSelect = (selectedAddress) => {
+        if (selectedAddress) {
+            setUserInfo(prev => ({
+                ...prev,
+                address: selectedAddress.roadFullAddr,
+                addressDetail: '', // 상세주소는 사용자에게 입력받기
+            }));
+        }
+        setIsPopupOpen(false); // 팝업 닫기
+    };
 
     const handleUpdateUserInfo = async () => {
         try {
-
             const token = sessionStorage.getItem("token");
             if (!token) {
                 setErrors({ general: "인증 정보가 없습니다. 다시 로그인 해주세요." });
                 return;
             }
-    
-            console.log("Token:", token); // 토큰 로그
-            console.log("UserInfo:", userInfo); // 사용자 정보 로그
-    
+
+            // 새 비밀번호와 비밀번호 확인이 일치하는지 확인
+            if (password.new && password.new !== password.confirm) {
+                setErrors({ password: "새 비밀번호와 비밀번호 확인이 일치하지 않습니다." });
+                return;
+            }
+
+            console.log("Token:", token);
+            console.log("UserInfo:", userInfo);
+
+            const fullAddress = `${userInfo.address} ${userInfo.addressDetail}`.trim(); // 전체 주소 결합
+
             const response = await updateUserInfo(token, {
                 email: userInfo.email,
                 currentPassword: password.current,
                 nickname: userInfo.nickname,
                 newPassword: password.new || undefined,
-                address: userInfo.address,
-                addressDetail: userInfo.addressDetail,
+                address: fullAddress,
             });
-    
+
             if (response.success) {
                 alert(response.message);
                 // 세션 스토리지의 사용자 정보 업데이트
                 sessionStorage.setItem("user", JSON.stringify({
                     ...userInfo,
-                    address: `${userInfo.address} ${userInfo.addressDetail}`.trim(),
+                    address: fullAddress,
                 }));
             } else {
                 setErrors({ general: response.message });
             }
-
-            const token = sessionStorage.getItem("token"); // 토큰 가져오기
-            const response = await updateUserInfo(token, {
-                email: userInfo.email, // 이메일 포함
-                ...updatedInfo // 다른 수정할 정보
-            });
-            setUserInfo(response.userInfo); // 수정된 사용자 정보로 상태 업데이트
-            sessionStorage.setItem("user", JSON.stringify(response.userInfo)); // sessionStorage에 수정된 정보 저장
-            alert("회원 정보가 수정되었습니다.");
 
         } catch (error) {
             console.error("회원 정보 수정 중 오류:", error);
@@ -105,8 +101,6 @@ const MyPage = () => {
         }
     };
     
-    
-
     const handleLogout = () => {
         dispatch(logoutUser());
         sessionStorage.removeItem("isLogin");
@@ -144,7 +138,6 @@ const MyPage = () => {
                             name="nickname"
                             value={userInfo.nickname}
                             onChange={handleInputChange}
-                            required
                         />
                     </label>
                 </div>
@@ -177,8 +170,9 @@ const MyPage = () => {
                             type="text"
                             name="address"
                             value={userInfo.address}
-                            onChange={handleInputChange}
+                            readOnly // 주소는 팝업으로 선택하도록 수정
                         />
+                        <button type="button" onClick={() => setIsPopupOpen(true)}>주소 선택</button>
                     </label>
                 </div>
                 <div>
@@ -198,6 +192,8 @@ const MyPage = () => {
             </form>
 
             <button onClick={handleLogout}>로그아웃</button>
+
+            {isPopupOpen && <AddressPopup onAddressSelect={handleAddressSelect} />}
         </div>
     );
 };
