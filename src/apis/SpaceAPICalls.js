@@ -1,6 +1,5 @@
 import { createSpaceFail, createSpaceSuccess } from "../modules/SpaceModule";
-import { getSpaceListSeccess, getSpaceListFail } from "../modules/SpacePageModule";
-import { getSpaceListSuccess } from "../modules/SpacePageModule";
+import { getSpaceListSuccess, getSpaceListFail } from "../modules/SpacePageModule";
 import { tokenRequest } from "./Api";
 
 export function callCreateSpaceAPI(spaceInfo, imageFiles) {
@@ -38,7 +37,7 @@ export function callSpacePageAPI(page = 0, size = 0) {
                 `/spaces?page=${page}&size=${size}`
             )
 
-            dispatch(getSpaceListSeccess(
+            dispatch(getSpaceListSuccess(
                 response.result.content,
                 response.result.totalPages,
                 page,

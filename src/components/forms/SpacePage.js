@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { callSpacePageAPI } from "../../apis/SpaceAPICalls";
+import Pagination from "./Pagination";
 
 function SpacePage() {
 
@@ -52,6 +53,12 @@ function SpacePage() {
             ) : (
                 <span>등록된 공간이 없습니다.</span>
             )}
+
+            <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={pageChangeHandler}
+            />
         </div>
     );
 }
