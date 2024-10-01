@@ -3,10 +3,14 @@ import { tokenRequest } from './Api'; // API 요청 함수
 // 회원 정보 수정 함수
 export const updateUserInfo = async (token, userData) => {
     const { address = '', addressDetail = '', ...rest } = userData; // 기본값 설정
-    const combinedAddress = `${address.trim()} ${addressDetail.trim()}`.trim(); // 주소와 상세 주소 합치기
 
     try {
-        const response = await tokenRequest(token, "PUT", `/update/${rest.email}`, { ...rest, address: combinedAddress });
+        // address와 addressDetail을 별도로 전송
+        const response = await tokenRequest(token, "PUT", `/update/${rest.email}`, { 
+            ...rest, 
+            address, // address 전송
+            addressDetail // addressDetail 전송
+        });
 
         if (response.success) {
             return { success: true, message: "회원 정보가 성공적으로 수정되었습니다." };
@@ -45,3 +49,20 @@ export const checkPassword = async (token, email, currentPassword) => {
         throw new Error(error.message || "비밀번호 확인 요청 중 오류가 발생했습니다."); // 오류를 다시 던짐
     }
 };
+
+// 크레딧 충전
+export const rechargeCredits = async (email, amount) => {
+    try {
+        const token = sessionStorage.getItem("token");
+
+        // email과 amount를 포함하여 요청
+        const response = await tokenRequest(token, 'PUT', `/${email}/recharge-credits`, { amount });
+
+        console.log("충전 API 응답:", response); // 응답 로그 추가
+        return response; // 성공적인 응답 반환
+    } catch (error) {
+        console.error('Error recharging credits:', error);
+        throw error; // 오류를 호출자에게 전파
+    }
+};
+
