@@ -5,10 +5,12 @@ import reviewReducer from "./ReviewModule";
 import reviewDetailReducer from "./ReviewDetailModule";
 import reviewcreateReducer from "./ReviewCreateModule";
 import reviewUpdateReducer from "./ReviewUpdateModule";
+import spacePageReducer from "./SpacePageModule";
 
 const rootReducer = combineReducers({
     userReducer,
     spaceReducer,
+    spacePageReducer,
     reviewReducer,
     reviewDetailReducer,
     reviewcreateReducer,

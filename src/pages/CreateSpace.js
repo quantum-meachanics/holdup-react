@@ -1,11 +1,12 @@
+import CommunitySidebar from "../components/commons/CommunitySidebar";
 import CreateSpaceForm from "../components/forms/CreateSpaceForm";
 
 function CreateSpace() {
     return (
-        <>
-            <h1>공간 등록 페이지</h1>
+        <div style={{display: "flex"}}>
+            <CommunitySidebar />
             <CreateSpaceForm />
-        </>
+        </div>
     );
 }
 
