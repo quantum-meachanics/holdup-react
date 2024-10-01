@@ -24,8 +24,8 @@ function CommunitySidebar() {
                 {isLogin ? (
                     <>
                         <div className={style.userInfo}>
-                            <span className={style.nickname}>열두글자까지가능한닉네임</span>
-                            {/* <span className={style.nickname}>{userInfo.nickname}</span> */}
+                            {/* <span className={style.nickname}>열두글자까지가능한닉네임</span> */}
+                            <span className={style.nickname}>{userInfo.nickname}</span>
                             <div className={style.creditSection}>
                                 <span className={style.creditLabel}>크레딧 : </span>
                                 <span className={style.credit}>1234567890</span>

@@ -1,11 +1,11 @@
 import CommunitySidebar from "../components/commons/CommunitySidebar";
-import style from "../css/Spcaes.module.css"
+import SpacePage from "../components/forms/SpacePage";
 
 function Spaces() {
     return (
-        <div className={style.spaces}>
+        <div style={{ display: "flex" }}>
             <CommunitySidebar />
-            <h1>공간 리스트입니다.</h1>
+            <SpacePage />
         </div>
     );
 }
