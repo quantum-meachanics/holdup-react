@@ -57,18 +57,6 @@ const MyPage = () => {
         setIsPopupOpen(false); // 팝업 닫기
     };
 
-
-    const handleAddressSelect = (selectedAddress) => {
-        if (selectedAddress) {
-            setUserInfo(prev => ({
-                ...prev,
-                address: selectedAddress.roadFullAddr,
-                addressDetail: '', // 상세주소는 사용자에게 입력받기
-            }));
-        }
-        setIsPopupOpen(false); // 팝업 닫기
-    };
-
     const handleUpdateUserInfo = async () => {
         try {
             const token = sessionStorage.getItem("token");
