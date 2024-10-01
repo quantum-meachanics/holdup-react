@@ -46,7 +46,6 @@ const MyPage = () => {
         }
     };
 
-
     const handleAddressSelect = (selectedAddress) => {
         if (selectedAddress) {
             setUserInfo(prev => ({
