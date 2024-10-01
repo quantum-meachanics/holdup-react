@@ -10,9 +10,12 @@ function ReviewDetailForm() {
     const dispatch = useDispatch();
     const { reviewDetail, error } = useSelector(state => state.reviewDetailReducer);
 
-    const [newImages, setNewImages] = useState([
-        // detailurl가지고오셈
-    ]); // 파일 리스트 저장할 state
+    const [newImages, setNewImages] = useState(() =>{
+        return reviewDetail && reviewDetail.imageUrl 
+            ? (Array.isArray(reviewDetail.imageUrl) ? reviewDetail.imageUrl : [reviewDetail.imageUrl])
+            : [];// detailurl가지고오셈
+
+}); // 파일 리스트 저장할 state
     const [showImages, setShowImages] = useState([]); // 화면에 보여줄 이미지 state
     const [existingImages, setExistingImages] = useState([]); // 기존 이미지를 저장할 state
     const [inputModify, setInputModify] = useState({
@@ -26,9 +29,9 @@ function ReviewDetailForm() {
     useEffect(() => {
         if (reviewDetail && reviewDetail.imageUrl) {
             if (Array.isArray(reviewDetail.imageUrl)) {
-                setExistingImages(reviewDetail.imageUrl);
+                setNewImages(reviewDetail.imageUrl);
             } else {
-                setExistingImages([reviewDetail.imageUrl]);
+                setNewImages([reviewDetail.imageUrl]);
             }
         }
     }, [reviewDetail]);
@@ -74,7 +77,7 @@ function ReviewDetailForm() {
 
     // 이미지 삭제 처리 메소드
     const deleteImage = (id) => {
-            setExistingImages(existingImages.filter((_, index) => index !== id));
+            // setExistingImages(existingImages.filter((_, index) => index !== id));
             URL.revokeObjectURL(showImages[id]);
             setShowImages(showImages.filter((_, index) => index !== id));
             setNewImages(newImages.filter((_, index) => index !== id));
@@ -103,9 +106,9 @@ function ReviewDetailForm() {
                             <span>이미지 : </span>
                             <input type="file" multiple accept="image/*" onChange={fileChangeHandler} />
                             <div>
-                                {existingImages.map((image, id) => (
-                                    <div key={`existing-${id}`}>
-                                        <img src={image} alt={`existing-${id}`} />
+                                {newImages.map((image, id) => (
+                                    <div key={{id}}>
+                                        <img src={image} alt={`${image}-${id}`} />
                                         <button type="button" onClick={() => deleteImage(id, true)}>X</button>
                                     </div>
                                 ))}
