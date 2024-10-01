@@ -57,6 +57,18 @@ const MyPage = () => {
         setIsPopupOpen(false); // 팝업 닫기
     };
 
+
+    const handleAddressSelect = (selectedAddress) => {
+        if (selectedAddress) {
+            setUserInfo(prev => ({
+                ...prev,
+                address: selectedAddress.roadFullAddr,
+                addressDetail: '', // 상세주소는 사용자에게 입력받기
+            }));
+        }
+        setIsPopupOpen(false); // 팝업 닫기
+    };
+
     const handleUpdateUserInfo = async () => {
         try {
             const token = sessionStorage.getItem("token");
@@ -80,8 +92,18 @@ const MyPage = () => {
                 email: userInfo.email,
                 currentPassword: password.current,
                 nickname: userInfo.nickname,
+
                 newPassword: password.new || undefined,
                 address: fullAddress,
+
+
+                newPassword: password.new || undefined,
+                address: fullAddress,
+
+                address: userInfo.address,
+                addressDetail: userInfo.addressDetail,
+
+
             });
 
             if (response.success) {
@@ -138,6 +160,7 @@ const MyPage = () => {
                             name="nickname"
                             value={userInfo.nickname}
                             onChange={handleInputChange}
+
                         />
                     </label>
                 </div>
@@ -160,6 +183,7 @@ const MyPage = () => {
                             name="confirm"
                             value={password.confirm}
                             onChange={handleInputChange}
+
                         />
                     </label>
                 </div>

@@ -1,4 +1,5 @@
 import { createSpaceFail, createSpaceSuccess } from "../modules/SpaceModule";
+import { getSpaceListSuccess, getSpaceListFail } from "../modules/SpacePageModule";
 import { tokenRequest } from "./Api";
 
 export function callCreateSpaceAPI(spaceInfo, imageFiles) {
@@ -25,4 +26,27 @@ export function callCreateSpaceAPI(spaceInfo, imageFiles) {
             dispatch(createSpaceFail(error.message || "공간 등록에 오류가 발생했습니다."))
         }
     };
+}
+
+export function callSpacePageAPI(page = 0, size = 0) {
+    return async (dispatch) => {
+        try {
+            const response = await tokenRequest(
+                sessionStorage.getItem("token"),
+                "GET",
+                `/spaces?page=${page}&size=${size}`
+            )
+
+            dispatch(getSpaceListSuccess(
+                response.result.content,
+                response.result.totalPages,
+                page,
+                size,
+                response.result.totalElements
+            ));
+
+        } catch (error) {
+            dispatch(getSpaceListFail(error.message || "공간 페이지 조회를 실패했습니다."))
+        }
+    }
 }
