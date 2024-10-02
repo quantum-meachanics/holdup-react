@@ -1,10 +1,14 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import MyPage from "./components/forms/MypageForm";
+import { loginSuccess, resetLoginUser } from "./modules/UserModule"; // 필요한 액션 임포트
+
+import EmailVerification from "./components/forms/EmailVerification";
+import FindEmailForm from "./components/forms/FindEmailForm";
+import MyPage from "./pages/Mypage";
 import SuccessScreen from "./components/forms/SuccessScreen";
 import Layout from "./layouts/Layout";
-import { loginSuccess, resetLoginUser } from "./modules/UserModule"; // 필요한 액션 임포트
+import CreateReview from "./pages/CreateReview";
 import CreateSpace from "./pages/CreateSpace";
 import CreateSpaceSuccessPage from "./pages/CreateSpaceSuccessPage";
 import Guideline from "./pages/Guideline";
@@ -19,7 +23,7 @@ import Spaces from "./pages/Spaces";
 import CreditPage from "./components/forms/CreditPage";
 import SpaceDetail from "./pages/SpaceDetail";
 import Signup from "./pages/Signup";
-import UpdateReview from "./pages/UpdateReveiw";
+import CreateReservation from "./pages/CreateReservation";
 
 function App() {
   const dispatch = useDispatch();
@@ -60,11 +64,8 @@ function App() {
           <Route path="holdup/reviews" element={<Review />} />
           <Route path="holdup/reviews/create" element={<CreateReview />} />
           <Route path="reviews/:id" element={<ReviewDetail />} />
-          <Route path="holdup/spaces" element={<CreateSpace />} />
-          <Route path="holdup/reviews/:id" element={<UpdateReview/>} />
-          <Route path="holdup/mypage" element={<MyPage />} />
-          <Route path="holdup/success" element={<SuccessScreen />} />
-          <Route path="holdup/spaces/success" element={<CreateSpaceSuccessPage />} />
+
+          <Route path="holdup/createReservation" element={<CreateReservation />} />
         </Route>
       </Routes>
     </BrowserRouter>

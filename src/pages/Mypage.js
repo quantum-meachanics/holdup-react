@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import MypageForm from "../components/forms/MypageForm";
+import MyPageSidebar from "../components/commons/MyPageSidebar"
 import CreditPage from "../components/forms/CreditPage";
+import style from "../css/MyPage.module.css"
 
 function Mypage() {
     const [activeComponent, setActiveComponent] = useState('mypageForm');
@@ -12,15 +14,40 @@ function Mypage() {
     return (
         <div>
             <h1>MY HOME</h1>
-            <div>
+            <div className={style.buttonContent}>
                 {/* 버튼을 통해 컴포넌트를 전환 */}
-                <button onClick={() => handleComponentChange('mypageForm')}>마이페이지 폼</button>
-                <button onClick={() => handleComponentChange('creditPage')}>크레딧 충전</button>
+                <button className={style.mypageButton} onClick={() => handleComponentChange('mypageForm')}>마이페이지 폼</button>
+                <button className={style.mypageButton} onClick={() => handleComponentChange('creditPage')}>크레딧 충전</button>
             </div>
             <div>
+            <br/>
                 {/* 현재 activeComponent에 따라 다른 컴포넌트를 렌더링 */}
-                {activeComponent === 'mypageForm' && <MypageForm />}
-                {activeComponent === 'creditPage' && <CreditPage />}
+                <div className={style.mypageContent}>
+                    {activeComponent === 'mypageForm' && (
+                        <>
+                            <div> {/* MyPageSidebar 영역 */}
+                                <MyPageSidebar />
+                            </div>
+                            <div className={style.mypageForm}> {/* MypageForm 영역 */}
+                                <MypageForm />
+                            </div>
+
+                        </>
+                    )}
+                </div>
+
+                <div className={style.mypageContent}>
+                    {activeComponent === 'creditPage' && (
+                        <>
+                            <div>
+                                <MyPageSidebar />
+                            </div>
+                            <div className={style.mypageForm}>
+                                <CreditPage />
+                            </div>
+                        </>
+                    )}
+                </div>
             </div>
         </div>
     );

@@ -1,4 +1,5 @@
 import { tokenRequest } from './Api'; // API 요청 함수
+import { tokenCreditRequest } from './Api'; // API 요청 함수
 
 // 회원 정보 수정 함수
 export const updateUserInfo = async (token, userData) => {
@@ -33,7 +34,7 @@ export const updateUserInfo = async (token, userData) => {
 // 비밀번호 확인 함수
 export const checkPassword = async (token, email, currentPassword) => {
     try {
-        const response = await tokenRequest(token, "POST", `/check-password`, {
+        const response = await tokenCreditRequest(token, "POST", `/check-password`, {
             email,
             currentPassword,
         });

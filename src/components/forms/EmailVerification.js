@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { request } from '../../apis/Api'; // API 요청을 위한 유틸리티
+import { sendVerificationCode, verifyCodeAndChangePassword } from '../../apis/EmailVerificationAPICall';
 import styles from '../../css/EmailVerification.module.css'; 
 
 const EmailVerification = () => {
@@ -27,9 +27,9 @@ const EmailVerification = () => {
             }, 1000); // 1초마다 타이머 감소
         } else if (timer === 0) {
             enableButton();
-            setMessage('인증 코드 전송 버튼을 다시 활성화합니다.'); // 타이머 종료 메시지
+            setMessage('인증 코드 전송 버튼을 다시 활성화합니다.');
         }
-        return () => clearInterval(interval); // 컴포넌트 언마운트 시 인터벌 클리어
+        return () => clearInterval(interval);
     }, [isButtonDisabled, timer]);
 
     const handleSendCode = async (e) => {
@@ -39,15 +39,12 @@ const EmailVerification = () => {
             return;
         }
 
-        try {
-            const response = await request('POST', '/send-verification-code', { email });
-            setMessage('인증 코드가 성공적으로 전송되었습니다.'); // 성공 메시지 설정
+        const result = await sendVerificationCode(email);
+        setMessage(result.message);
+        if (result.success) {
             setIsCodeSent(true);
             setIsButtonDisabled(true);
             setTimer(300); // 5분 타이머 시작
-            console.log(response); // 응답 로깅 (필요한 경우)
-        } catch (error) {
-            setMessage(error.response?.data?.message || "알 수 없는 오류가 발생했습니다.");
         }
     };
 
@@ -58,13 +55,8 @@ const EmailVerification = () => {
             return;
         }
 
-        try {
-            const response = await request('POST', '/verify-code', { email, verificationCode, newPassword });
-            setMessage('비밀번호가 성공적으로 변경되었습니다.'); // 성공 메시지 설정
-            console.log(response); // 응답 로깅 (필요한 경우)
-        } catch (error) {
-            setMessage(error.response?.data?.message || "알 수 없는 오류가 발생했습니다.");
-        }
+        const result = await verifyCodeAndChangePassword(email, verificationCode, newPassword);
+        setMessage(result.message);
     };
 
     // 비밀번호 강도 확인 함수
@@ -122,7 +114,7 @@ const EmailVerification = () => {
                             <input
                                 type={showPassword ? "text" : "password"} // 비밀번호 표시 여부에 따라 type 변경
                                 value={newPassword}
-                                onChange={handleNewPasswordChange} // 변경 사항 처리
+                                onChange={handleNewPasswordChange}
                                 required
                             />
                             <span onClick={() => setShowPassword(!showPassword)} style={{ cursor: 'pointer', marginLeft: '10px' }}>
@@ -137,7 +129,7 @@ const EmailVerification = () => {
                         <label>비밀번호 확인</label>
                         <div className={styles.passwordContainer}>
                             <input
-                                type={showPassword ? "text" : "password"} // 비밀번호 표시 여부에 따라 type 변경
+                                type={showPassword ? "text" : "password"} 
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                                 required
