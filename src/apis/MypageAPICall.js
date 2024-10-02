@@ -3,10 +3,14 @@ import { tokenRequest } from './Api'; // API 요청 함수
 // 회원 정보 수정 함수
 export const updateUserInfo = async (token, userData) => {
     const { address = '', addressDetail = '', ...rest } = userData; // 기본값 설정
-    const combinedAddress = `${address.trim()} ${addressDetail.trim()}`.trim(); // 주소와 상세 주소 합치기
 
     try {
-        const response = await tokenRequest(token, "PUT", `/update/${rest.email}`, { ...rest, address: combinedAddress });
+        // address와 addressDetail을 별도로 전송
+        const response = await tokenRequest(token, "PUT", `/update/${rest.email}`, { 
+            ...rest, 
+            address, // address 전송
+            addressDetail // addressDetail 전송
+        });
 
         if (response.success) {
             return { success: true, message: "회원 정보가 성공적으로 수정되었습니다." };
@@ -14,15 +18,27 @@ export const updateUserInfo = async (token, userData) => {
             return { success: false, message: response.message || "회원 정보 수정에 실패했습니다." };
         }
     } catch (error) {
-        return handleError(error); // 에러 처리 함수 호출
+        console.error("회원 정보 수정 요청 오류", error);
+        
+        if (error.response) {
+            return { success: false, message: `서버 오류: ${error.response.status} ${error.response.data?.message || ''}` };
+        } else if (error.request) {
+            return { success: false, message: "서버로부터 응답을 받지 못했습니다. 네트워크 연결을 확인해주세요." };
+        } else {
+            return { success: false, message: "요청 설정 중 오류가 발생했습니다." };
+        }
     }
 };
 
 // 비밀번호 확인 함수
 export const checkPassword = async (token, email, currentPassword) => {
     try {
-        const response = await tokenRequest(token, "POST", `/check-password`, { email, currentPassword });
+        const response = await tokenRequest(token, "POST", `/check-password`, {
+            email,
+            currentPassword,
+        });
 
+        // 서버의 응답에서 success 속성 확인
         if (response.success) {
             return response; // 성공적인 응답 반환
         } else {
@@ -34,15 +50,19 @@ export const checkPassword = async (token, email, currentPassword) => {
     }
 };
 
-// 에러 처리 함수
-const handleError = (error) => {
-    console.error("API 요청 오류", error);
-    
-    if (error.response) {
-        return { success: false, message: `서버 오류: ${error.response.status} ${error.response.data?.message || ''}` };
-    } else if (error.request) {
-        return { success: false, message: "서버로부터 응답을 받지 못했습니다. 네트워크 연결을 확인해주세요." };
-    } else {
-        return { success: false, message: "요청 설정 중 오류가 발생했습니다." };
+// 크레딧 충전
+export const rechargeCredits = async (email, amount) => {
+    try {
+        const token = sessionStorage.getItem("token");
+
+        // email과 amount를 포함하여 요청
+        const response = await tokenRequest(token, 'PUT', `/${email}/recharge-credits`, { amount });
+
+        console.log("충전 API 응답:", response); // 응답 로그 추가
+        return response; // 성공적인 응답 반환
+    } catch (error) {
+        console.error('Error recharging credits:', error);
+        throw error; // 오류를 호출자에게 전파
     }
 };
+

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { callSpacePageAPI } from "../../apis/SpaceAPICalls";
+import { callAllSpacesAPI } from "../../apis/SpaceAPICalls";
 import Pagination from "./Pagination";
 
 function SpacePage() {
@@ -12,7 +12,7 @@ function SpacePage() {
     const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
-        dispatch(callSpacePageAPI(currentPage));
+        dispatch(callAllSpacesAPI(currentPage));
     }, [dispatch, currentPage]);
 
     // 현재 페이지 변경 핸들러

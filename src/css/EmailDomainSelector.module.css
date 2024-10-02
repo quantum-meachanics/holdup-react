@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: column; /* 수직 정렬 */
     align-items: flex-start; /* 왼쪽 정렬 */
-    /* width: 100%; */
     margin: 10px;
     padding: 30px;
     background-color: white;
@@ -24,6 +23,12 @@
     border-color: #073929;
     outline: none;
     box-shadow: 0 0 5px rgba(7, 57, 41, 0.5);
+}
+
+/* 수정 불가능한 상태 */
+.disabled {
+    background-color: #f0f0f0; /* 회색 배경 */
+    pointer-events: none; /* 클릭 및 드래그 비활성화 */
 }
 
 .button {
@@ -48,7 +53,7 @@
     transform: translateY(-2px);
 }
 
-label {
+.label {
     font-weight: bold;
     margin-bottom: 5px;
     color: #073929;
