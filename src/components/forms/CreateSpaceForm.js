@@ -12,7 +12,7 @@ function CreateSpaceForm() {
     const detailAddressRef = useRef(null); // 상세주소 입력창에 ref 생성
 
     // 공간 입력값 상태 추가
-    const [inputSpaceInfo, setSpaceInfo] = useState({
+    const [inputSpaceInfo, setInputSpaceInfo] = useState({
         name: '',
         address: '',
         detailAddress: '',
@@ -34,7 +34,7 @@ function CreateSpaceForm() {
         new window.daum.Postcode({
             oncomplete: (data) => {
                 const address = data.userSelectedType === 'R' ? data.roadAddress : data.jibunAddress;
-                setSpaceInfo(prev => ({
+                setInputSpaceInfo(prev => ({
                     ...prev,
                     address,
                     gu: data.sigungu,
@@ -47,7 +47,7 @@ function CreateSpaceForm() {
 
     // 공간정보 입력창 감지하여 저장
     const onChangeHandler = e => {
-        setSpaceInfo({
+        setInputSpaceInfo({
             ...inputSpaceInfo,
             [e.target.name]: e.target.value
         })
@@ -99,7 +99,6 @@ function CreateSpaceForm() {
         } else if (spaceInfo) {
             alert("공간 등록을 성공하였습니다!");
             navigate("/holdup/spaces/suceess");
-
         }
     }, [spaceInfo, error, navigate]);
 

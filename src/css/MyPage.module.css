@@ -1,0 +1,55 @@
+.mypageContent {
+    display: flex; /* Flexbox를 사용하여 수평 정렬 */
+    /* gap: 20px; 컴포넌트 사이의 간격 조정 */
+}
+
+.mypageForm {
+    flex: 1; /* MypageForm의 비율 */
+}
+
+.button {
+    background-color: #073929;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+    margin: 0 20px;
+}
+
+.mypageButton {
+    width: 25%;
+    background-color: #073929;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+    margin: 0 20px;
+}
+
+.mypageButton:hover {
+    background-color: #055b4a;
+}
+
+
+.button:hover {
+    background-color: #055b4a;
+}
+
+.buttonContent {
+    /* display: flex; flexbox 사용 */
+    /* justify-content: center; 수평 중앙 정렬 */
+    /* align-items: center; 수직 중앙 정렬 (필요에 따라) */
+    margin: 20px auto;
+}
+
+/* .myPageSidebar {
+    MyPageSidebar의 비율 
+} */

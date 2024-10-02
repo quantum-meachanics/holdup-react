@@ -1,0 +1,136 @@
+/* MyPage.module.css */
+.mypageContainer {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 40px;
+    background-color: #f9f9f9; /* 부드러운 배경색 */
+    border-radius: 10px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    border: 2px solid #073929; /* 강조된 테두리 */
+}
+
+.heading {
+    font-size: 28px;
+    margin-bottom: 30px;
+    color: #073929;
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 2px solid #073929;
+    padding-bottom: 10px;
+}
+
+.subheading {
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #065b29;
+    text-align: center;
+}
+
+.sectionTitle {
+    font-size: 20px;
+    margin-top: 40px;
+    margin-bottom: 15px;
+    color: #065b29;
+    font-weight: 500;
+    padding-bottom: 5px;
+}
+
+.infoText {
+    background-color: #FFC600;
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: black;
+    padding: 10px;
+    border-radius: 8px;
+    width: 30%;
+    font-weight: bold; /* 글씨를 굵게 설정 */
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #073929;
+    font-weight: 500;
+}
+
+.input {
+    width: 90%; /* 입력칸 너비를 줄임 */
+    padding: 12px;
+    font-size: 15px;
+    border: 1px solid #073929;
+    border-radius: 8px;
+    color: #073929;
+    background-color: #f1f1f1; /* 밝은 배경 */
+    transition: border-color 0.3s;
+    margin: 0 auto; /* 입력칸 가운데 정렬 */
+}
+
+.input:focus {
+    border-color: #065b29; 
+    background-color: #ffffff;
+    outline: none;
+}
+
+.error {
+    color: #073929;
+    font-size: 25px;
+    margin-top: -10px;
+}
+
+.button {
+    width: 70%; /* 버튼 너비를 적당히 줄임 */
+    padding: 12px;
+    font-size: 16px;
+    background-color: #FFC600;
+    color: black;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    font-weight: bold;
+    margin: 20px auto 0; /* 버튼을 가운데 정렬하고 위쪽 간격 추가 */
+}
+
+.button:hover {
+    background-color: #d3aa15;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.logoutButton {
+    margin-top: 20px;
+    color: white;
+    background-color: #065b29;
+}
+
+.logoutButton:hover {
+    background-color: #073929;
+}
+
+.addressButton {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #065b29;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.addressButton:hover {
+    background-color: #073929;
+}
+
+.creditInfo {
+    font-size: 16px;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #073929;
+}

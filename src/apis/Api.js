@@ -31,3 +31,20 @@ export const tokenRequest = async (token, method, url, data) => {
         throw error;
     }
 };
+
+export const tokenCreditRequest = async (token, method, url, body) => {
+    const response = await fetch(url, {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`, // 토큰 추가
+        },
+        body: JSON.stringify(body),
+    });
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return await response.json(); // JSON 응답 반환
+};
