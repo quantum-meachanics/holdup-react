@@ -1,13 +1,21 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { callSpaceDetailAPI } from "../../apis/SpaceAPICalls";
 
 function SpaceDetailForm() {
 
     const { id } = useParams();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { spaceDetail, error } = useSelector(state => state.spaceDetailReducer);
+
+    const goToReservation = () => {
+        navigate(
+            "/holdup/createReservation",
+            { state: { spaceId: spaceDetail.id } }
+        )
+    };
 
     useEffect(() => {
         dispatch(callSpaceDetailAPI(id));
@@ -43,13 +51,7 @@ function SpaceDetailForm() {
                             <p>이미지가 없습니다.</p>
                         )}
                     </div>
-                    <Link to={{
-                        pathname: "/holdup/createReservation",
-                        state: {
-                            spaceId: spaceDetail.id,
-                            ownerNickname: spaceDetail.ownerNickname
-                        }
-                    }}>예약하기</Link>
+                    <span onClick={goToReservation}>예약하기</span>
                 </div>
             ) : (
                 <>
