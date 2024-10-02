@@ -6,11 +6,13 @@ import reviewDetailReducer from "./ReviewDetailModule";
 import reviewcreateReducer from "./ReviewCreateModule";
 import reviewUpdateReducer from "./ReviewUpdateModule";
 import spacePageReducer from "./SpacePageModule";
+import spaceDetailReducer from "./SpaceDetailModule";
 
 const rootReducer = combineReducers({
     userReducer,
     spaceReducer,
     spacePageReducer,
+    spaceDetailReducer,
     reviewReducer,
     reviewDetailReducer,
     reviewcreateReducer,
