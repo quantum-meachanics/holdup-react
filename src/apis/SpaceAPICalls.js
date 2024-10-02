@@ -24,7 +24,7 @@ export function callCreateSpaceAPI(spaceInfo, imageFiles) {
             dispatch(createSpaceSuccess(response.spaceInfo));
 
         } catch (error) {
-            dispatch(createSpaceFail(error.message || "공간 등록에 오류가 발생했습니다."))
+            dispatch(createSpaceFail(error.message || "공간 등록 API 호출 에러 발생"))
         }
     };
 }

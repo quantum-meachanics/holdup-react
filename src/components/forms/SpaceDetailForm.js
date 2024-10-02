@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { callSpaceDetailAPI } from "../../apis/SpaceAPICalls";
 
 function SpaceDetailForm() {
@@ -11,7 +11,7 @@ function SpaceDetailForm() {
 
     useEffect(() => {
         dispatch(callSpaceDetailAPI(id));
-        console.log("불러온 공간글 객체", {spaceDetail});
+        console.log("불러온 공간글 객체", { spaceDetail });
     }, [id, dispatch]);
 
     if (error) return (<div>에러 발생 : {error}</div>);
@@ -43,6 +43,13 @@ function SpaceDetailForm() {
                             <p>이미지가 없습니다.</p>
                         )}
                     </div>
+                    <Link to={{
+                        pathname: "/holdup/createReservation",
+                        state: {
+                            spaceId: spaceDetail.id,
+                            ownerNickname: spaceDetail.ownerNickname
+                        }
+                    }}>예약하기</Link>
                 </div>
             ) : (
                 <>
