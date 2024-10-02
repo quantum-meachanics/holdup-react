@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import EmailVerification from "./components/forms/EmailVerification";
 import FindEmailForm from "./components/forms/FindEmailForm";
-import MyPage from "./components/forms/MypageForm";
+import MyPage from "./pages/Mypage";
 import SuccessScreen from "./components/forms/SuccessScreen";
 import Layout from "./layouts/Layout";
 import { loginSuccess, resetLoginUser } from "./modules/UserModule"; // 필요한 액션 임포트
