@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { request } from '../../apis/Api';
 import AddressPopup from './AddressPopup';
 import TermsPopup from './TermsPopup';
 import SuccessScreen from './SuccessScreen';
@@ -7,6 +6,13 @@ import SignupFormUI from './SignupFormUI';
 import EmailDomainSelector from './EmailDomainSelector';
 import styles from '../../css/SignupForm.module.css';
 import { useNavigate } from 'react-router-dom';
+import {
+    handleEmailCheck,
+    handleNicknameCheck,
+    handleSendCode,
+    handleVerifyCode,
+    handleSubmit,
+} from '../../apis/SignupFormAPICall';
 
 const initialFormData = {
     email: '',
@@ -35,8 +41,7 @@ const SignupForm = () => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isTermsPopupOpen, setIsTermsPopupOpen] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
-    const [isEmailEditable, setIsEmailEditable] = useState(true); // 이메일 수정 가능 여부 상태
-
+    const [isEmailEditable, setIsEmailEditable] = useState(true);
 
     const navigate = useNavigate();
 
@@ -62,123 +67,46 @@ const SignupForm = () => {
         setFormData(prev => ({ ...prev, phone: formatted }));
     };
 
-    const handleEmailCheck = async () => {
-        if (!formData.email) return showAlert('이메일을 입력해주세요.');
+    const showAlert = (msg) => {
+        alert(msg);
+    };
 
-        const fullEmail = `${formData.email}${selectedDomain}`;
-        try {
-            const { available } = await request('GET', `/check-email?email=${fullEmail}`);
-            setEmailAvailable(available);
-            showAlert(available ? '사용 가능한 이메일입니다.' : '이미 사용 중인 이메일입니다.');
-        } catch (error) {
-            console.error('이메일 중복 확인 오류:', error);
+    const handleEmailCheckClick = async () => {
+        await handleEmailCheck(formData, selectedDomain, setEmailAvailable, showAlert);
+    };
+
+    const handleNicknameCheckClick = async () => {
+        await handleNicknameCheck(formData, setNicknameAvailable, showAlert);
+    };
+
+    const handleSendCodeClick = async () => {
+        await handleSendCode(
+            formData,
+            selectedDomain,
+            setMessage,
+            setIsCodeSent,
+            setIsButtonDisabled,
+            setTimer,
+            emailAvailable,
+            showAlert
+        );
+    };
+
+    const handleVerifyCodeClick = async () => {
+        const response = await handleVerifyCode(
+            formData,
+            selectedDomain,
+            verificationCode,
+            setMessage,
+            setIsEmailEditable
+        );
+        if (response.success) {
+            setIsEmailEditable(false); // 인증 성공 시 이메일 수정 불가
         }
     };
 
-    const handleNicknameCheck = async () => {
-        if (!formData.nickname) return showAlert('닉네임을 입력해주세요.');
-        try {
-            const { available } = await request('GET', `/check-nickname?nickname=${formData.nickname}`);
-            setNicknameAvailable(available);
-            showAlert(available ? '사용 가능한 닉네임입니다.' : '이미 사용 중인 닉네임입니다.');
-        } catch (error) {
-            console.error('닉네임 중복 확인 오류:', error);
-        }
-    };
-
-    const handleAddressSelect = (selectedAddress) => {
-        if (selectedAddress) {
-            setFormData(prev => ({
-                ...prev,
-                address: selectedAddress.roadFullAddr,
-                addressDetail: selectedAddress.addressDetail,
-            }));
-        }
-        setIsPopupOpen(false); // 팝업을 닫음
-    };
-    
-    // // 팝업 강제로 닫기
-    // const closeAddressPopup = () => {
-    //     setIsPopupOpen(false);
-    // };
-
-    useEffect(() => {
-        if (timer === 0) {
-            setIsButtonDisabled(false);
-        }
-        if (isPopupOpen) {
-        }
-    }, [timer, isPopupOpen]); // 의존성 배열을 올바르게 수정
-    
-
-    const handleDomainChange = (e) => {
-        setSelectedDomain(e.target.value);
-    };
-
-    const handleEmailChange = (e) => {
-        setFormData(prev => ({ ...prev, email: e.target.value }));
-    };
-
-    const handleSendCode = async () => {
-        if (isButtonDisabled) return setMessage('5분 후에 다시 시도할 수 있습니다.');
-        
-        // 이메일 중복 확인 후 사용 불가능하면 요청을 막음
-        if (emailAvailable === false) return showAlert('이미 사용 중인 이메일입니다.');
-    
-        const fullEmail = `${formData.email}${selectedDomain}`;
-        try {
-            const response = await request('POST', '/signup-send-verification-code', { email: fullEmail });
-            setMessage(response.message);
-            setIsCodeSent(true);
-            setIsButtonDisabled(true);
-            setTimer(300); // 타이머 초기화
-        } catch (error) {
-            setMessage(error.response?.data?.message || '알 수 없는 오류가 발생했습니다.');
-        }
-    };
-
-    const handleVerifyCode = async () => {
-        const fullEmail = `${formData.email}${selectedDomain}`;
-        try {
-            const response = await request('POST', '/signup-verify-code', {
-                email: fullEmail,
-                verificationCode
-            });
-    
-            if (response.success) {
-                setMessage('인증 완료되었습니다!');
-                setIsEmailEditable(false); // 인증 성공 시 이메일 수정 불가 처리
-            } else {
-                setMessage('인증 실패하였습니다.');
-            }
-        } catch (error) {
-            console.error('인증 코드 확인 오류:', error);
-            setMessage(error.response?.data?.message || '알 수 없는 오류가 발생했습니다.');
-        }
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        
-        if (isFormIncomplete(formData)) return alert('모든 필드를 채워야 합니다.');
-        if (!isEmailAndNicknameValid(emailAvailable, nicknameAvailable)) return alert('이메일과 닉네임 중복 확인을 완료해주세요.');
-        if (!isAgreed) return alert('이용약관에 동의해야 합니다.');
-    
-        if (!isCodeSent || !verificationCode) {
-            return alert('인증 코드를 입력해야 합니다.');
-        }
-    
-        setLoading(true);
-        try {
-            const finalEmail = `${formData.email}${selectedDomain}`; // 이메일 도메인과 결합
-    
-            await request('POST', '/signup', { ...formData, email: finalEmail }); // 최종 이메일과 주소 포함
-            setIsSuccess(true);
-        } catch (error) {
-            alert('회원가입에 실패했습니다.');
-        } finally {
-            setLoading(false);
-        }
+    const handleSubmitClick = async (e) => {
+        await handleSubmit(e, formData, selectedDomain, setLoading, setIsSuccess, emailAvailable, nicknameAvailable, isAgreed, isCodeSent, verificationCode);
     };
 
     return (
@@ -190,52 +118,38 @@ const SignupForm = () => {
                 <>
                     <EmailDomainSelector
                         selectedDomain={selectedDomain}
-                        onDomainChange={handleDomainChange}
-                        onEmailChange={handleEmailChange}
-                        handleEmailCheck={handleEmailCheck}
+                        onDomainChange={(e) => setSelectedDomain(e.target.value)}
+                        onEmailChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                        handleEmailCheck={handleEmailCheckClick}
                         emailAvailable={emailAvailable}
-                        handleSendCode={handleSendCode}
-                        handleVerifyCode={handleVerifyCode} // 인증 코드 확인 함수 전달
-                        verificationCode={verificationCode} // verificationCode를 prop으로 전달
-                        setVerificationCode={setVerificationCode} // setVerificationCode를 prop으로 전달
-                        isEmailEditable={isEmailEditable} // 이메일 수정 가능 여부 전달
+                        handleSendCode={handleSendCodeClick}
+                        handleVerifyCode={handleVerifyCodeClick}
+                        verificationCode={verificationCode}
+                        setVerificationCode={setVerificationCode}
+                        isEmailEditable={isEmailEditable}
+                        formData={formData}
                     />
+                    {message && <p className={styles.message}>{message}</p>} {/* 메시지 표시 */}
                     <SignupFormUI
                         formData={formData}
                         setFormData={setFormData}
-                        emailAvailable={emailAvailable}
-                        nicknameAvailable={nicknameAvailable}
-                        handleEmailCheck={handleEmailCheck}
-                        handleNicknameCheck={handleNicknameCheck}
-                        handleSendCode={handleSendCode}
-                        verificationCode={verificationCode}
-                        setVerificationCode={setVerificationCode}
-                        handleSubmit={handleSubmit}
+                        handleNicknameCheck={handleNicknameCheckClick}
+                        handleSubmit={handleSubmitClick}
                         loading={loading}
-                        message={message}
-                        isCodeSent={isCodeSent}
-                        isButtonDisabled={isButtonDisabled}
-                        timer={timer}
                         isAgreed={isAgreed}
                         setIsAgreed={setIsAgreed}
-                        handleAddressSelect={handleAddressSelect}
-                        setIsPopupOpen={setIsPopupOpen}
                         handlePhoneChange={handlePhoneChange}
                         handleBirthdayChange={handleBirthdayChange}
+                        handleAddressSelect={(address) => setFormData(prev => ({ ...prev, address }))}
+                        setIsPopupOpen={setIsPopupOpen}
+                        isButtonDisabled={isButtonDisabled} // 비활성화 상태 전달
                     />
                 </>
             )}
-            {/* {isPopupOpen && <AddressPopup onAddressSelect={handleAddressSelect} onClose={closeAddressPopup} />} */}
-            {isPopupOpen && <AddressPopup onAddressSelect={handleAddressSelect} />}
-
+            {isPopupOpen && <AddressPopup onAddressSelect={(selectedAddress) => setFormData(prev => ({ ...prev, address: selectedAddress.roadFullAddr }))} />}
             {isTermsPopupOpen && <TermsPopup onClose={() => setIsTermsPopupOpen(false)} />}
         </div>
     );
 };
-
-// 공통 함수 정의
-const showAlert = (message) => alert(message);
-const isFormIncomplete = (formData) => Object.values(formData).some((value) => !value);
-const isEmailAndNicknameValid = (emailAvailable, nicknameAvailable) => emailAvailable !== null && nicknameAvailable !== null;
 
 export default SignupForm;
