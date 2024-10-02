@@ -6,22 +6,22 @@ const initialState = {
     error: null
 };
 
-export const GET_SPACE_LIST_SUCCESS = "spaceList/GET_SPACE_LIST_SUCCESS";
-export const GET_SPACE_LIST_FAIL = "spaceList/GET_SPACE_LIST_FAIL";
+export const GET_ALL_SPACES_SUCCESS = "spaceList/GET_ALL_SPACES_SUCCESS";
+export const GET_ALL_SPACES_FAIL = "spaceList/GET_ALL_SPACES_FAIL";
 
-export const { spaceList: { getSpaceListSuccess, getSpaceListFail } } = createActions({
-    [GET_SPACE_LIST_SUCCESS]: (spaceList, totalPages) => ({ spaceList, totalPages }),
-    [GET_SPACE_LIST_FAIL]: (error) => ({ error })
+export const { spaceList: { getAllSpacesSuccess, getAllSpacesFail } } = createActions({
+    [GET_ALL_SPACES_SUCCESS]: (spaceList, totalPages) => ({ spaceList, totalPages }),
+    [GET_ALL_SPACES_FAIL]: (error) => ({ error })
 });
 
 const spacePageReducer = handleActions({
-    [GET_SPACE_LIST_SUCCESS]: (state, { payload }) => ({
+    [GET_ALL_SPACES_SUCCESS]: (state, { payload }) => ({
         ...state,
         spaceList: payload.spaceList,
         totalPages: payload.totalPages,
         error: null
     }),
-    [GET_SPACE_LIST_FAIL]: (state, { payload: error }) => ({
+    [GET_ALL_SPACES_FAIL]: (state, { payload: error }) => ({
         ...state,
         spaceList: [],
         totalPages: 0,

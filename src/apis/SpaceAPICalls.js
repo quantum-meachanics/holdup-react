@@ -1,5 +1,6 @@
+import { getSpaceDetailSuccess } from "../modules/SpaceDetailModule";
 import { createSpaceFail, createSpaceSuccess } from "../modules/SpaceModule";
-import { getSpaceListSuccess, getSpaceListFail } from "../modules/SpacePageModule";
+import { getAllSpacesFail, getAllSpacesSuccess } from "../modules/SpacePageModule";
 import { tokenRequest } from "./Api";
 
 export function callCreateSpaceAPI(spaceInfo, imageFiles) {
@@ -28,7 +29,7 @@ export function callCreateSpaceAPI(spaceInfo, imageFiles) {
     };
 }
 
-export function callSpacePageAPI(page = 0, size = 0) {
+export function callAllSpacesAPI(page = 0, size = 0) {
     return async (dispatch) => {
         try {
             const response = await tokenRequest(
@@ -37,7 +38,7 @@ export function callSpacePageAPI(page = 0, size = 0) {
                 `/spaces?page=${page}&size=${size}`
             )
 
-            dispatch(getSpaceListSuccess(
+            dispatch(getAllSpacesSuccess(
                 response.result.content,
                 response.result.totalPages,
                 page,
@@ -46,7 +47,23 @@ export function callSpacePageAPI(page = 0, size = 0) {
             ));
 
         } catch (error) {
-            dispatch(getSpaceListFail(error.message || "공간 페이지 조회를 실패했습니다."))
+            dispatch(getAllSpacesFail(error.message || "공간 페이지 조회를 실패했습니다."))
         }
     }
+}
+
+export function callSpaceDetailAPI(id) {
+    return async (dispatch) => {
+        try {
+            const response = await tokenRequest(
+                sessionStorage.getItem("token"),
+                "GET",
+                `/spaces/${id}`
+            );
+            dispatch(getSpaceDetailSuccess(response.result));
+
+        } catch (error) {
+            dispatch(getAllSpacesFail(error.message || "API 요청을 실패했습니다."))
+        }
+    };
 }
