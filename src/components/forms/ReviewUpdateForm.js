@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
-import { callGetReviewDetailAPI } from '../../apis/ReviewDetailAPICall';
-import { callUpdateReviewAPI } from '../../apis/ReviewUpdateAPICall';
+import { callGetReviewDetailAPI, callUpdateReviewAPI } from '../../apis/ReviewAPICall';
 
 function ReviewDetailForm() {
     const { id } = useParams();
@@ -10,29 +9,52 @@ function ReviewDetailForm() {
     const dispatch = useDispatch();
     const { reviewDetail, error } = useSelector(state => state.reviewDetailReducer);
 
-    const [newImages, setNewImages] = useState(() =>{
-        return reviewDetail && reviewDetail.imageUrl 
-            ? (Array.isArray(reviewDetail.imageUrl) ? reviewDetail.imageUrl : [reviewDetail.imageUrl])
-            : [];// detailurl가지고오셈
+    // 기존 이미지를 저장할 state
+    const [images, setImages] = useState([{
+        imageUrl: '',
+        imageId: ''
+    }]);
 
-}); // 파일 리스트 저장할 state
-    const [showImages, setShowImages] = useState([]); // 화면에 보여줄 이미지 state
-    const [existingImages, setExistingImages] = useState([]); // 기존 이미지를 저장할 state
+    // 삭제할 이미지 ID들을 관리할 새로운 state
+    const [deletedImageIds, setDeletedImageIds] = useState([]);
+
+    // 파일 리스트 저장할 state
+    const [imageFiles, setImageFiles] = useState([]);
+
+    const [showImages, setShowImages] = useState([]);
     const [inputModify, setInputModify] = useState({
-        title: reviewDetail.title,
-        content: reviewDetail.content, // 여기도 detail 가져오셈
-        rating: reviewDetail.rating,
-        reservationId: reviewDetail.reservation.id
-    })
+        title: '',
+        content: '',
+        rating: '',
+        reservationId: ''
+    });
 
 
     useEffect(() => {
-        if (reviewDetail && reviewDetail.imageUrl) {
-            if (Array.isArray(reviewDetail.imageUrl)) {
-                setNewImages(reviewDetail.imageUrl);
-            } else {
-                setNewImages([reviewDetail.imageUrl]);
-            }
+        dispatch(callGetReviewDetailAPI(id));
+    }, [dispatch, id]);
+
+    useEffect(() => {
+        if (reviewDetail) {
+            setImages(
+                Array.isArray(reviewDetail.imageId)
+                    ? reviewDetail.imageId.map((id, index) => ({
+                        imageUrl: Array.isArray(reviewDetail.imageUrl) ? reviewDetail.imageUrl[index] : reviewDetail.imageUrl,
+                        imageId: id
+                    }))
+                    : [{
+                        imageUrl: reviewDetail.imageUrl || '',
+                        imageId: reviewDetail.imageId || ''
+                    }]
+            );
+
+            setInputModify({
+                title: reviewDetail.title || '',
+                content: reviewDetail.content || '',
+                rating: reviewDetail.rating || '',
+                reservationId: reviewDetail.reservation?.id || ''
+            });
+
         }
     }, [reviewDetail]);
 
@@ -41,8 +63,8 @@ function ReviewDetailForm() {
     };
 
     const handleUpdate = (e) => {
-        dispatch(callUpdateReviewAPI(id, inputModify, newImages, id));
-        navigate(`/holdup/reviews/${id}`)
+        dispatch(callUpdateReviewAPI(id, inputModify, imageFiles, deletedImageIds));
+        navigate(`/reviews/${id}`)
     };
 
     const onChangeHandler = e => {
@@ -53,12 +75,11 @@ function ReviewDetailForm() {
     };
 
 
-
     // 이미지 업로드 처리 메소드
     const fileChangeHandler = (e) => {
         const imageLists = e.target.files;
         let imageUrlLists = [...showImages];
-        let fileLists = [...newImages];
+        let fileLists = [...imageFiles];
 
         for (let i = 0; i < imageLists.length; i++) {
             const currentImageUrl = URL.createObjectURL(imageLists[i]);
@@ -72,17 +93,35 @@ function ReviewDetailForm() {
         }
 
         setShowImages(imageUrlLists);
-        setNewImages(fileLists);
+        setImageFiles(fileLists);
     };
 
-    // 이미지 삭제 처리 메소드
-    const deleteImage = (id) => {
-            // setExistingImages(existingImages.filter((_, index) => index !== id));
-            URL.revokeObjectURL(showImages[id]);
-            setShowImages(showImages.filter((_, index) => index !== id));
-            setNewImages(newImages.filter((_, index) => index !== id));
-        
+    // 추가한 이미지 삭제 처리 메소드
+    const deleteimageFiles = (id) => {
+        URL.revokeObjectURL(showImages[id]);
+        setShowImages(showImages.filter((_, index) => index !== id));
+        setImageFiles(imageFiles.filter((_, index) => index !== id));
     };
+
+    const deleteImages = (imageId) => {
+        // 삭제할 이미지 찾기
+        const imageToDelete = images.find(img => img.imageId === imageId);
+
+        if (imageToDelete) {
+            // URL 객체 해제
+            URL.revokeObjectURL(imageToDelete.imageUrl);
+
+            // 이미지 ID로 필터링하여 새 배열 생성
+            setImages(images.filter(img => img.imageId !== imageId));
+            // 삭제할 이미지 ID 목록에 추가
+            setDeletedImageIds(prev => [...prev, imageId]);
+            console.log("Deleted image ID:", imageId);
+        } else {
+            console.log("Image not found:", imageId);
+        }
+    }
+
+
 
     if (error) return <div>에러 발생: {error}</div>;
 
@@ -95,27 +134,28 @@ function ReviewDetailForm() {
                         <input type='text' name='title' placeholder={inputModify.title} onChange={onChangeHandler} />
 
                         <span>내용:</span>
-                        <input type='textarea' name='content' placeholder={inputModify.content}  onChange={onChangeHandler} />
+                        <input type='textarea' name='content' placeholder={inputModify.content} onChange={onChangeHandler} />
 
                         <span>평점: </span>
-                        <input type='text' name='rating' placeholder={inputModify.rating}  onChange={onChangeHandler} />
+                        <input type='text' name='rating' placeholder={inputModify.rating} onChange={onChangeHandler} />
 
                         <span>예약ID: </span>
-                        <input type='text' name='reservationId' placeholder={inputModify.reservationId}  onChange={onChangeHandler} />
+                        <input type='text' name='reservationId' placeholder={inputModify.reservationId} onChange={onChangeHandler} />
                         <div>
                             <span>이미지 : </span>
                             <input type="file" multiple accept="image/*" onChange={fileChangeHandler} />
                             <div>
-                                {newImages.map((image, id) => (
-                                    <div key={{id}}>
-                                        <img src={image} alt={`${image}-${id}`} />
-                                        <button type="button" onClick={() => deleteImage(id, true)}>X</button>
+                                {images.map((image) => (
+                                    <div key={image.imageId}>
+                                        <img src={image.imageUrl} alt={`업로드된 이미지 ${image.imageId}`} />
+                                        <button type="button" onClick={() => deleteImages(image.imageId)}>X</button>
                                     </div>
                                 ))}
+
                                 {showImages.map((image, id) => (
                                     <div key={id}>
                                         <img src={image} alt={`${image}-${id}`} />
-                                        <button type="button" onClick={() => deleteImage(id)}>X</button>
+                                        <button type="button" onClick={() => deleteimageFiles(id)}>X</button>
                                     </div>
                                 ))}
                             </div>

@@ -4,7 +4,6 @@ import spaceReducer from "./SpaceModule";
 import reviewReducer from "./ReviewModule";
 import reviewDetailReducer from "./ReviewDetailModule";
 import reviewcreateReducer from "./ReviewCreateModule";
-import reviewUpdateReducer from "./ReviewUpdateModule";
 import spacePageReducer from "./SpacePageModule";
 import spaceDetailReducer from "./SpaceDetailModule";
 
@@ -15,8 +14,6 @@ const rootReducer = combineReducers({
     spaceDetailReducer,
     reviewReducer,
     reviewDetailReducer,
-    reviewcreateReducer,
-    reviewUpdateReducer
-});
+    reviewcreateReducer});
 
 export default rootReducer;

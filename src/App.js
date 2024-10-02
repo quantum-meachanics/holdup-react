@@ -1,13 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import EmailVerification from "./components/forms/EmailVerification";
-import FindEmailForm from "./components/forms/FindEmailForm";
 import MyPage from "./components/forms/MypageForm";
 import SuccessScreen from "./components/forms/SuccessScreen";
 import Layout from "./layouts/Layout";
 import { loginSuccess, resetLoginUser } from "./modules/UserModule"; // 필요한 액션 임포트
-import CreateReview from "./pages/CreateReview";
 import CreateSpace from "./pages/CreateSpace";
 import CreateSpaceSuccessPage from "./pages/CreateSpaceSuccessPage";
 import Guideline from "./pages/Guideline";
@@ -18,12 +15,11 @@ import ReviewDetail from "./pages/ReviewDetail";
 import FindEmailForm from "./components/forms/FindEmailForm";
 import EmailVerification from "./components/forms/EmailVerification";
 import CreateReview from "./pages/CreateReview";
-import SuccessScreen from "./components/forms/SuccessScreen";
-import MyPage from "./components/forms/MypageForm";
 import Spaces from "./pages/Spaces";
 import CreditPage from "./components/forms/CreditPage";
 import SpaceDetail from "./pages/SpaceDetail";
 import Signup from "./pages/Signup";
+import UpdateReview from "./pages/UpdateReveiw";
 
 function App() {
   const dispatch = useDispatch();
