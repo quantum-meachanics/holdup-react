@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { callGetReviewDetailAPI } from '../../apis/ReviewDetailAPICall';
+import { callGetReviewDetailAPI } from '../../apis/ReviewAPICall';
 
 function ReviewDetailForm() {
     const { id } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { reviewDetail, error } = useSelector(state => state.reviewDetailReducer);
-    const [loadedImages, setLoadedImages] = useState(0);
 
     useEffect(() => {
         dispatch(callGetReviewDetailAPI(id));
         console.log('Fetching review for id:', id);
-    }, [dispatch, id]);
+    }, []);
 
     const handleGoBack = () => {
         navigate('/holdup/reviews');
+    };
+
+    const handleUpdate = () => {
+        navigate(`/holdup/reviews/${id}`);
     };
 
     if (error) return <div>에러 발생: {error}</div>;
@@ -33,13 +36,15 @@ function ReviewDetailForm() {
                         <p>작성자: {reviewDetail.nickname}</p>
                         <p>등록날짜: {reviewDetail.createDate}</p>
                         <p>평점: {reviewDetail.rating}</p>
-                        <p>예약 ID: {reviewDetail.reservation.id}</p>
+                        <p>예약 ID: {reviewDetail.reservationId}</p>
                         <p>내용: {reviewDetail.content}</p>
                         <div>
                             <h3>이미지</h3>
                             <div>
                                 {reviewDetail.imageUrl && reviewDetail.imageUrl.length > 0 ? (
-                                    <img src={reviewDetail.imageUrl} />
+                                    reviewDetail.imageUrl.map((url, index) => (
+                                        <img key={index} src={url} alt={`리뷰 이미지 ${index + 1}`} />
+                                    ))
                                 ) : (
                                     <p>이미지가 없습니다.</p>
                                 )}
@@ -53,6 +58,7 @@ function ReviewDetailForm() {
 
             </div>
             <button onClick={handleGoBack}>목록으로 돌아가기</button>
+            <button onClick={handleUpdate}>수정</button>
         </div>
     );
 }

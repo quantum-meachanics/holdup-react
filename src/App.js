@@ -16,6 +16,9 @@ import Login from "./pages/Login";
 import Main from "./pages/Main";
 import Review from "./pages/Review";
 import ReviewDetail from "./pages/ReviewDetail";
+import FindEmailForm from "./components/forms/FindEmailForm";
+import EmailVerification from "./components/forms/EmailVerification";
+import CreateReview from "./pages/CreateReview";
 import Spaces from "./pages/Spaces";
 import CreditPage from "./components/forms/CreditPage";
 import SpaceDetail from "./pages/SpaceDetail";
@@ -54,11 +57,9 @@ function App() {
 
           <Route path="holdup/signup" element={<Signup />} />
           <Route path="holdup/login" element={<Login />} />
-          <Route path="holdup/mypage" element={<MyPage />} />
           <Route path="holdup/find-email" element={<FindEmailForm />} />
           <Route path="holdup/email-verification" element={<EmailVerification />} />
           <Route path="holdup/success" element={<SuccessScreen />} />
-          <Route path="holdup/mypage/credit" element={<CreditPage />} />
 
           <Route path="holdup/reviews" element={<Review />} />
           <Route path="holdup/reviews/create" element={<CreateReview />} />
