@@ -23,6 +23,7 @@ import Signup from "./pages/Signup";
 import CreateReservation from "./pages/CreateReservation";
 import UpdateReview from "./pages/UpdateReview";
 import Inquiry from "./pages/Inquiry";
+import CreateInquiry from "./pages/CreateInquiry";
 
 function App() {
   const dispatch = useDispatch();
@@ -68,6 +69,7 @@ function App() {
           <Route path="holdup/createReservation" element={<CreateReservation />} />
 
           <Route path="holdup/inquiries" element={<Inquiry/>}/>
+          <Route path="holdup/inquiries/create" element={<CreateInquiry/>}/>
 
           <Route path="holdup/mypage" element={<MyPage />} />
           <Route path="holdup/mypage/credit" element={<CreditPage/>}/>

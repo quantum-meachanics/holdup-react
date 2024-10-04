@@ -10,6 +10,7 @@ import reservationReducer from "./ReservationModule";
 import reviewCommentReducer from "./ReviewCommentModule";
 import reviewCreateCommentReducer from "./ReviewCommentCreateModule";
 import inqueiryReducer from "./InquiryModule";
+import inquiryCreateReducer from "./InquiryCreateModule";
 
 const rootReducer = combineReducers({
     userReducer,
@@ -26,7 +27,8 @@ const rootReducer = combineReducers({
 
     reservationReducer,
 
-    inqueiryReducer
+    inqueiryReducer,
+    inquiryCreateReducer
 });
 
 export default rootReducer;
