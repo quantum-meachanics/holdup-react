@@ -1,5 +1,6 @@
 import { tokenRequest } from "./Api";
 import { getInquiryListSuccess, getInquiryListFail } from "../modules/InquiryModule"
+import { createInquirySuccess, createInquiryFail } from "../modules/InquiryCreateModule";
 
 export function callGetInquiryListAPI(page = 0, size = 10) {
     return async (dispatch) => {
@@ -28,36 +29,38 @@ export function callGetInquiryListAPI(page = 0, size = 10) {
     };
 }
 
-// export function callCreateReviewAPI(reviewInfo, imageFiles) {
-//     return async (dispatch) => {
-//         try {
-//             const token = sessionStorage.getItem('token');
+export function callCreateInquiryAPI(inquiryInfo, imageFiles) {
+    return async (dispatch) => {
+        try {
+            const token = sessionStorage.getItem('token');
 
-//             // FormData 생성
-//             const formData = new FormData();
+            // FormData 생성
+            const formData = new FormData();
 
-//             // 입력한 정보를 formData에 넣을때 Blob으로 감싸서 json으로잘 전송될수있게함
-//             formData.append("reviewInfo", new Blob([JSON.stringify(reviewInfo)], { type: "application/json" }));
+            // 입력한 정보를 formData에 넣을때 Blob으로 감싸서 json으로잘 전송될수있게함
+            formData.append("inquiryInfo", new Blob([JSON.stringify(inquiryInfo)], { type: "application/json" }));
 
-//             // formData에 첨부한 이미지들 저장
-//             imageFiles.forEach(image => formData.append("images", image));
+            // formData에 첨부한 이미지들 저장
+            imageFiles.forEach(image => formData.append("images", image));
 
-//             const response = await tokenRequest(
-//                 token,
-//                 "POST",
-//                 "/reviews",
-//                 formData
-//             )
+            const response = await tokenRequest(
+                token,
+                "POST",
+                "/inquiries",
+                formData
+            )
 
-//             console.log('API Response:', response);
+            console.log('API Response:', response);
 
-//             dispatch(createReviewSuccess(response.reviewInfo));
+            dispatch(createInquirySuccess(response.inquiryInfo));
 
-//         } catch (error) {
-//             dispatch(createReviewFail(error.message || "리뷰 등록에 오류가 발생했습니다."))
-//         }
-//     };
-// }
+            dispatch(callGetInquiryListAPI);
+
+        } catch (error) {
+            dispatch(createInquiryFail(error.message || "리뷰 등록에 오류가 발생했습니다."))
+        }
+    };
+}
 
 
 
