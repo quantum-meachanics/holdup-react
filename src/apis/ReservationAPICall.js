@@ -30,7 +30,7 @@ export function callMyReservationsAPI(page, size) {
             const response = await tokenRequest(
                 sessionStorage.getItem("token"),
                 "GET",
-                `/mypage/reservations?page=${page}&size=${size}`
+                `/reservations?page=${page}&size=${size}`
             );
 
             dispatch(getMyReservationsSuccess(
