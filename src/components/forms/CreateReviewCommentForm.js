@@ -6,7 +6,7 @@ import { callCreateReviewCommentAPI } from '../../apis/CommentAPICall';
 function CreateReviewCommentForm() {
     const { id } = useParams();
     const dispatch = useDispatch();
-    const navigate = useNavigate;
+    const navigate = useNavigate();
     const { commentInfo, error } = useSelector(state => state.reviewCreateCommentReducer);
     const [inputCommentInfo, setInputCommentInfo] = useState({
         content: ''
@@ -16,9 +16,10 @@ function CreateReviewCommentForm() {
         if (error) {
             alert(error);
         } else if (commentInfo) {
-            navigate(`/reviews/${id}`);
+            // 댓글 생성 성공 시 입력 필드 초기화
+            setInputCommentInfo({ content: '' });
         }
-    }, [commentInfo, error, navigate, dispatch]);
+    }, [commentInfo, error, id]);
 
     const onChangeHandler = e => {
         setInputCommentInfo({

@@ -38,10 +38,12 @@ export function callCreateReviewCommentAPI(id,commentInfo) {
 
             dispatch(createReviewCommentsSuccess(response.result));
             
+            dispatch(callGetReviewCommentAPI(id));
+
         } catch (error) {
-            console.error('API Error:', error);
-            console.log(createReviewCommentsFail);
             
+            console.error('API Error:', error);
+
             dispatch(createReviewCommentsFail(error.message || "리뷰 댓글 추가를 실패했습니다."));
         }
     };

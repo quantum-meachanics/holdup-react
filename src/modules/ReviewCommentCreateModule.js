@@ -8,7 +8,7 @@ const initialState = {
 export const CREATE_REVIEW_COMMENTS_SUCCESS = "createReviewComments/CREATE_REVIEW_COMMENTS_SUCCESS";
 export const CREATE_REVIEW_COMMENTS_FAIL = "createReviewComments/CREATE_REVIEW_COMMENTS_FAIL";
 
-export const { createReviewCommentsSuccess, createReviewCommentsFail } = createActions({
+export const { createReviewComments : { createReviewCommentsSuccess, createReviewCommentsFail }} = createActions({
     [CREATE_REVIEW_COMMENTS_SUCCESS]: (commentInfo) => ({ commentInfo }),
     [CREATE_REVIEW_COMMENTS_FAIL]: (error) => ({ error })
 });
