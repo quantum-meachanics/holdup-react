@@ -1,6 +1,6 @@
 import { tokenRequest } from "./Api";
 import { getReviewCommentsSuccess, getReviewCommentsFail } from "../modules/ReviewCommentModule";
-import { createReviewCommentsSuccess, createReviewCommentsFail } from "../modules/ReviewCommentCreateModule"
+import { createReviewCommentsSuccess, createReviewCommentsFail } from "../modules/ReviewCommentCreateModule";
 
 export function callGetReviewCommentAPI(id) {
     return async (dispatch) => {
@@ -23,23 +23,26 @@ export function callGetReviewCommentAPI(id) {
     };
 }
 
-// export function callCreateReviewCommentAPI(id) {
-//     return async (dispatch) => {
-//         try {
-//             const token = sessionStorage.getItem('token');
-//             const response = await tokenRequest(
-//                 token,
-//                 "POST",
-//                 `/reviews/${id}/comments`
-//             );
+export function callCreateReviewCommentAPI(id,commentInfo) {
+    return async (dispatch) => {
+        try {
+            const token = sessionStorage.getItem('token');
+            const response = await tokenRequest(
+                token,
+                "POST",
+                `/reviews/${id}/comments`,
+                commentInfo
+            );
 
-//             console.log('API Response:', response);
+            console.log('API Response:', response);
 
-//             dispatch(createReviewCommentsSuccess(response.result));
+            dispatch(createReviewCommentsSuccess(response.result));
             
-//         } catch (error) {
-//             console.error('API Error:', error);
-//             dispatch(createReviewCommentsFail(error.message || "리뷰 댓글를 불러오는데 실패했습니다."));
-//         }
-//     };
-// }
+        } catch (error) {
+            console.error('API Error:', error);
+            console.log(createReviewCommentsFail);
+            
+            dispatch(createReviewCommentsFail(error.message || "리뷰 댓글 추가를 실패했습니다."));
+        }
+    };
+}

@@ -6,9 +6,8 @@ function ReviewDetail() {
     return(
         <>
             <ReviewDetailForm/>
+            <CreateReviewCommentForm/>
             <ReviewCommentForm/>
-            {/* <CreateReviewCommentForm/> */}
-
         </>
     )
 }
