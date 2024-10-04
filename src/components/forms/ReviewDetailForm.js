@@ -54,12 +54,14 @@ function ReviewDetailForm() {
                 ) : (
                     <h2>게시글이 존재 하지 않습니다.</h2>
                 )}
+                
 
 
             </div>
             <button onClick={handleGoBack}>목록으로 돌아가기</button>
             <button onClick={handleUpdate}>수정</button>
         </div>
+    
     );
 }
 
