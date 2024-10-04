@@ -7,6 +7,7 @@ import reviewcreateReducer from "./ReviewCreateModule";
 import spacePageReducer from "./SpacePageModule";
 import spaceDetailReducer from "./SpaceDetailModule";
 import reservationReducer from "./ReservationModule";
+import reservationListReducer from "./MyReservationModule";
 
 const rootReducer = combineReducers({
     userReducer,
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
     reviewDetailReducer,
     reviewcreateReducer,
 
-    reservationReducer
+    reservationReducer,
+    reservationListReducer
 });
 
 export default rootReducer;
