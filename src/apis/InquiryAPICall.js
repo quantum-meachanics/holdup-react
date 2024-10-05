@@ -1,6 +1,7 @@
 import { tokenRequest } from "./Api";
 import { getInquiryListSuccess, getInquiryListFail } from "../modules/InquiryModule"
 import { createInquirySuccess, createInquiryFail } from "../modules/InquiryCreateModule";
+import {getInquiryDetailSuccess, getInquiryDetailFail} from "../modules/InquiryDetailModule";
 
 export function callGetInquiryListAPI(page = 0, size = 10) {
     return async (dispatch) => {
@@ -24,7 +25,7 @@ export function callGetInquiryListAPI(page = 0, size = 10) {
             ));
         } catch (error) {
             console.error('API Error:', error);
-            dispatch(getInquiryListFail(error.message || "리뷰 목록을 불러오는데 실패했습니다."));
+            dispatch(getInquiryListFail(error.message || "문의 목록을 불러오는데 실패했습니다."));
         }
     };
 }
@@ -54,35 +55,35 @@ export function callCreateInquiryAPI(inquiryInfo, imageFiles) {
 
             dispatch(createInquirySuccess(response.inquiryInfo));
 
-            dispatch(callGetInquiryListAPI);
+            dispatch(callGetInquiryListAPI(0, 10));
 
         } catch (error) {
-            dispatch(createInquiryFail(error.message || "리뷰 등록에 오류가 발생했습니다."))
+            dispatch(createInquiryFail(error.message || "문의 등록에 오류가 발생했습니다."))
         }
     };
 }
 
 
 
-// export function callGetReviewDetailAPI(id) {
-//     return async (dispatch) => {
-//         try {
-//             const token = sessionStorage.getItem('token');
-//             const response = await tokenRequest(
-//                 token,
-//                 "GET",
-//                 `/reviews/${id}`
-//             );
+export function callGetInquiryDetailAPI(id) {
+    return async (dispatch) => {
+        try {
+            const token = sessionStorage.getItem('token');
+            const response = await tokenRequest(
+                token,
+                "GET",
+                `/inquiries/${id}`
+            );
 
-//             console.log('API Response:', response);
+            console.log('API Response:', response);
 
-//             dispatch(getReviewDetailSuccess(response.result));
-//         } catch (error) {
-//             console.error('API Error:', error);
-//             dispatch(getReviewDetailFail(error.message || "리뷰 상세 정보를 불러오는데 실패했습니다."));
-//         }
-//     };
-// }
+            dispatch(getInquiryDetailSuccess(response.result));
+        } catch (error) {
+            console.error('API Error:', error);
+            dispatch(getInquiryDetailFail(error.message || "문의 상세 정보를 불러오는데 실패했습니다."));
+        }
+    };
+}
 
 
 
