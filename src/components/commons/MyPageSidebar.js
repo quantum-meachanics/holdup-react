@@ -27,6 +27,17 @@ function CommunitySidebar() {
                 <NavLink to="/holdup/mypage" className={style.link}>내 문의</NavLink>
                 <NavLink to="/holdup/mypage" className={style.link}>접수한 신고</NavLink>
             </div>
+
+
+            <div className={style.menuSection}>
+                <NavLink to="/holdup/guideline" className={style.menuLink}>가이드라인</NavLink>
+                <NavLink to="/" className={style.menuLink}>공지사항</NavLink>
+                <NavLink to="/holdup/spaces" className={style.menuLink}>공간 게시판</NavLink>
+                <NavLink to="/holdup/reviews" className={style.menuLink}>리뷰 게시판</NavLink>
+                <NavLink to="/holdup/inquiries" className={style.menuLink}>문의 게시판</NavLink>
+            </div>
+        </div>
+
     );
 }
 
