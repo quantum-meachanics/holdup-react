@@ -23,7 +23,7 @@ function InquiryForm() {
     };
 
     const handleClick = (id) => {
-        navigate(`/inqueiries/${id}`);
+        navigate(`/holdup/inquiries/${id}`);
     };
 
     const handleWriteReview = () => {

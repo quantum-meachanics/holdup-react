@@ -1,4 +1,4 @@
-
+import InquiryDetailForm from "../components/forms/InquiryDetailForm";
 
 function InquiryDetail() {
     return(
