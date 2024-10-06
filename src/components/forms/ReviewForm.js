@@ -23,7 +23,7 @@ function ReviewForm() {
     };
 
     const handleClick = (id) => {
-        navigate(`/reviews/${id}`);
+        navigate(`/holdup/reviews/${id}`);
     };
 
     const handleWriteReview = () => {

@@ -55,6 +55,8 @@ export function callCreateReviewAPI(reviewInfo, imageFiles) {
 
             dispatch(createReviewSuccess(response.reviewInfo));
 
+            dispatch(callGetReviewListAPI(0, 10));
+
         } catch (error) {
             dispatch(createReviewFail(error.message || "리뷰 등록에 오류가 발생했습니다."))
         }
