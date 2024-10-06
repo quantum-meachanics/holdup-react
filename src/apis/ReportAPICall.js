@@ -1,6 +1,7 @@
 import { tokenRequest } from "./Api";
 import { getReportListSuccess, getReportListFail } from "../modules/ReportModule";
 import { createReportSuccess, createReportFail } from "../modules/ReportCreateModule";
+import { getReportDetailSuccess, getReportDetailFail } from "../modules/ReportDetailModule";
 
 export function callGetReportListAPI(page = 0, size = 10) {
     return async (dispatch) => {
@@ -62,25 +63,25 @@ export function callCreateReportAPI(reportInfo, imageFiles) {
 
 
 
-// export function callGetReviewDetailAPI(id) {
-//     return async (dispatch) => {
-//         try {
-//             const token = sessionStorage.getItem('token');
-//             const response = await tokenRequest(
-//                 token,
-//                 "GET",
-//                 `/reviews/${id}`
-//             );
+export function callGetReportDetailAPI(id) {
+    return async (dispatch) => {
+        try {
+            const token = sessionStorage.getItem('token');
+            const response = await tokenRequest(
+                token,
+                "GET",
+                `/reports/${id}`
+            );
 
-//             console.log('API Response:', response);
+            console.log('API Response:', response);
 
-//             dispatch(getReviewDetailSuccess(response.result));
-//         } catch (error) {
-//             console.error('API Error:', error);
-//             dispatch(getReviewDetailFail(error.message || "리뷰 상세 정보를 불러오는데 실패했습니다."));
-//         }
-//     };
-// }
+            dispatch(getReportDetailSuccess(response.result));
+        } catch (error) {
+            console.error('API Error:', error);
+            dispatch(getReportDetailFail(error.message || "리뷰 상세 정보를 불러오는데 실패했습니다."));
+        }
+    };
+}
 
 
 

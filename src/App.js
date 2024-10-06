@@ -28,6 +28,7 @@ import InquiryDetail from "./pages/InquiryDetail";
 import UpdateInquiry from "./pages/UpdateInquiry";
 import Report from "./pages/Report";
 import CreateReport from "./pages/CreateReport";
+import ReportDetail from "./pages/ReportDetail";
 
 function App() {
   const dispatch = useDispatch();
@@ -79,6 +80,7 @@ function App() {
 
           <Route path="holdup/reports" element={<Report/>}/>
           <Route path="holdup/reports/create" element={<CreateReport/>}/>
+          <Route path="holdup/reports/:id" element={<ReportDetail/>}/>
 
           <Route path="holdup/mypage" element={<MyPage />} />
           <Route path="holdup/mypage/credit" element={<CreditPage/>}/>
