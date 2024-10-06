@@ -25,7 +25,7 @@ export function callGetReportListAPI(page = 0, size = 10) {
             ));
         } catch (error) {
             console.error('API Error:', error);
-            dispatch(getReportListFail(error.message || "리뷰 목록을 불러오는데 실패했습니다."));
+            dispatch(getReportListFail(error.message || "신고 목록을 불러오는데 실패했습니다."));
         }
     };
 }
@@ -56,7 +56,7 @@ export function callCreateReportAPI(reportInfo, imageFiles) {
             dispatch(createReportSuccess(response.reportInfo));
 
         } catch (error) {
-            dispatch(createReportFail(error.message || "리뷰 등록에 오류가 발생했습니다."))
+            dispatch(createReportFail(error.message || "신고 등록에 오류가 발생했습니다."))
         }
     };
 }
@@ -78,7 +78,7 @@ export function callGetReportDetailAPI(id) {
             dispatch(getReportDetailSuccess(response.result));
         } catch (error) {
             console.error('API Error:', error);
-            dispatch(getReportDetailFail(error.message || "리뷰 상세 정보를 불러오는데 실패했습니다."));
+            dispatch(getReportDetailFail(error.message || "신고 상세 정보를 불러오는데 실패했습니다."));
         }
     };
 }
