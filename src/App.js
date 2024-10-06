@@ -73,7 +73,7 @@ function App() {
           <Route path="holdup/inquiries" element={<Inquiry/>}/>
           <Route path="holdup/inquiries/create" element={<CreateInquiry/>}/>
           <Route path="holdup/inquiries/:id" element={<InquiryDetail/>}/>
-          {/* <Route path="holdup/inquiries/update/:id" element={<UpdateInquiry/>}/> */}
+          <Route path="holdup/inquiries/update/:id" element={<UpdateInquiry/>}/>
 
           <Route path="holdup/mypage" element={<MyPage />} />
           <Route path="holdup/mypage/credit" element={<CreditPage/>}/>
