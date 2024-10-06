@@ -12,6 +12,7 @@ import reviewCreateCommentReducer from "./ReviewCommentCreateModule";
 import inqueiryReducer from "./InquiryModule";
 import inquiryCreateReducer from "./InquiryCreateModule";
 import inquiryDetailReducer from "./InquiryDetailModule";
+import reportReducer from "./ReportModule";
 
 const rootReducer = combineReducers({
     userReducer,
@@ -30,7 +31,9 @@ const rootReducer = combineReducers({
 
     inqueiryReducer,
     inquiryCreateReducer,
-    inquiryDetailReducer
+    inquiryDetailReducer,
+
+    reportReducer
 });
 
 export default rootReducer;
