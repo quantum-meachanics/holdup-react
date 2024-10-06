@@ -22,10 +22,12 @@ function ReportForm() {
         setCurrentPage(newPage);
     };
 
+    // 상세페이지로 이동
     const handleClick = (id) => {
-        navigate(`/reports/${id}`);
+        navigate(`/holdup/reports/${id}`);
     };
 
+    // 글쓰기 페이지로 이동
     const handleWriteReview = () => {
         navigate('/holdup/reports/create');
     };

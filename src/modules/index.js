@@ -14,6 +14,7 @@ import inquiryCreateReducer from "./InquiryCreateModule";
 import inquiryDetailReducer from "./InquiryDetailModule";
 import reportReducer from "./ReportModule";
 import reportCreateReducer from "./ReportCreateModule";
+import reportDetailReducer from "./ReportDetailModule";
 
 const rootReducer = combineReducers({
     userReducer,
@@ -35,7 +36,8 @@ const rootReducer = combineReducers({
     inquiryDetailReducer,
 
     reportReducer,
-    reportCreateReducer
+    reportCreateReducer,
+    reportDetailReducer
 });
 
 export default rootReducer;
