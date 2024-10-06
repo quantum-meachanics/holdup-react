@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { callGetReviewListAPI } from '../../apis/ReviewAPICall';
+import { callGetReportListAPI } from '../../apis/ReportAPICall';
 import Pagination from './Pagination';
 
 function ReportForm() {
@@ -13,7 +13,7 @@ function ReportForm() {
     // 컴포넌트가 마운트되거나 currentPage가 변경될 때 리뷰 목록 가져오기
     useEffect(() => {
         console.log('Fetching reviews for page:', currentPage);
-        dispatch(callGetReviewListAPI(currentPage));
+        dispatch(callGetReportListAPI(currentPage));
     }, [dispatch, currentPage]);
 
     // 페이지 변경 핸들러
