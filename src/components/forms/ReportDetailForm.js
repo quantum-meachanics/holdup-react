@@ -28,7 +28,7 @@ function ReportDetailForm() {
 
     return (
         <div>
-            <h1>리뷰 상세</h1>
+            <h1>신고 상세</h1>
             <div>
                 {reportDetail ? (
                     <>

@@ -19,7 +19,7 @@ function ReviewDetailForm() {
     };
 
     const handleUpdate = () => {
-        navigate(`/holdup/reviews/${id}`);
+        navigate(`/holdup/reviews/update/${id}`);
     };
 
     if (error) return <div>에러 발생: {error}</div>;
