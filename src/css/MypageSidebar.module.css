@@ -1,0 +1,27 @@
+.mypageSidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-right: 20px;
+
+    min-width: 160px;
+    max-width: 160px;
+
+    border-radius: 20px;
+
+    background-color: #073929;
+}
+
+.link {
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: 600;
+}

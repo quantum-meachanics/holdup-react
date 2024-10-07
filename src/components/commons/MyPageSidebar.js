@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import style from "../../css/CommunitySidebar.module.css"
+import style from "../../css/MypageSidebar.module.css"
 import { useDispatch, useSelector } from "react-redux";
 import { resetLoginUser } from "../../modules/UserModule";
 
@@ -19,27 +19,15 @@ function CommunitySidebar() {
     };
 
     return (
-        <div className={style.communitySidebar}>
-            <div className={style.userSection}>
-                {isLogin ? (
-                    <>
-                        <div className={style.userInfo}>
-                            {/* <span className={style.nickname}>열두글자까지가능한닉네임</span> */}
-                            <span className={style.nickname}>{userInfo.nickname}</span>
-                            <div className={style.creditSection}>
-                                <span className={style.creditLabel}>크레딧 : </span>
-                                <span className={style.credit}>{userInfo.credit}</span>
-                                <NavLink to="/holdup/mypage/credit" className={style.creditButton}>+</NavLink>
-                            </div>
-                        </div>
-                        <NavLink to="/holdup/mypage" className={style.userButton}>마이페이지</NavLink>
-                        <NavLink to="/" className={style.userButton}>내 채팅</NavLink>
-                        <span onClick={logoutHandler} className={style.userButton}>로그아웃</span>
-                    </>
-                ) : (
-                    <NavLink to="/holdup/login" className={style.loginButton}>로그인하기</NavLink>
-                )}
+            <div className={style.mypageSidebar}>
+                <NavLink to="/holdup/mypage" className={style.link}>내 정보</NavLink>
+                <NavLink to="/holdup/mypage" className={style.link}>내 공간</NavLink>
+                <NavLink to="/holdup/mypage/reservations" className={style.link}>내 예약</NavLink>
+                <NavLink to="/holdup/mypage" className={style.link}>내 리뷰</NavLink>
+                <NavLink to="/holdup/mypage" className={style.link}>내 문의</NavLink>
+                <NavLink to="/holdup/mypage" className={style.link}>접수한 신고</NavLink>
             </div>
+
 
             <div className={style.menuSection}>
                 <NavLink to="/holdup/guideline" className={style.menuLink}>가이드라인</NavLink>
@@ -49,6 +37,7 @@ function CommunitySidebar() {
                 <NavLink to="/holdup/inquiries" className={style.menuLink}>문의 게시판</NavLink>
             </div>
         </div>
+
     );
 }
 
