@@ -25,6 +25,7 @@ import UpdateReview from "./pages/UpdateReview";
 import Inquiry from "./pages/Inquiry";
 import CreateInquiry from "./pages/CreateInquiry";
 import InquiryDetail from "./pages/InquiryDetail";
+import Administrator from "./pages/Administrator";
 
 function App() {
   const dispatch = useDispatch();
@@ -75,6 +76,8 @@ function App() {
 
           <Route path="holdup/mypage" element={<MyPage />} />
           <Route path="holdup/mypage/credit" element={<CreditPage/>}/>
+
+          <Route path="holdup/admin" element={<Administrator/>}/>
         </Route>
       </Routes>
     </BrowserRouter>

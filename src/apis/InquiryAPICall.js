@@ -85,8 +85,6 @@ export function callGetInquiryDetailAPI(id) {
     };
 }
 
-
-
 // export function callUpdateReviewAPI(id, modifyInfo, newImages, deleteImage) {
 //     return async (dispatch) => {
 //         try {
