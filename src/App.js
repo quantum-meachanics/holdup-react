@@ -31,6 +31,7 @@ import CreateReport from "./pages/CreateReport";
 import ReportDetail from "./pages/ReportDetail";
 import UpdateReport from "./pages/UpdateReport";
 import Administrator from "./pages/Administrator";
+import MyReservations from "./pages/MyReservations";
 
 function App() {
   const dispatch = useDispatch();
@@ -87,6 +88,7 @@ function App() {
 
           <Route path="holdup/mypage" element={<MyPage />} />
           <Route path="holdup/mypage/credit" element={<CreditPage/>}/>
+          <Route path="holdup/mypage/reservations" element={<MyReservations />}/>
 
           <Route path="holdup/admin" element={<Administrator/>}/>
         </Route>

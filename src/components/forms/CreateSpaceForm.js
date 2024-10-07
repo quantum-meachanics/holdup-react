@@ -87,7 +87,7 @@ function CreateSpaceForm() {
             alert('서울시에 해당하는 공간만 등록할 수 있습니다.');
             return;
         }
-
+        
         dispatch(callCreateSpaceAPI(inputSpaceInfo, imageFiles));
     };
 
@@ -98,7 +98,6 @@ function CreateSpaceForm() {
 
         } else if (spaceInfo) {
             alert("공간 등록을 성공하였습니다!");
-            navigate("/holdup/spaces/suceess");
         }
     }, [spaceInfo, error, navigate]);
 
