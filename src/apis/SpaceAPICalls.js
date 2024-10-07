@@ -38,6 +38,8 @@ export function callAllSpacesAPI(page = 0, size = 0) {
                 `/spaces?page=${page}&size=${size}`
             )
 
+            console.log("가져온 공간 정보", response.result.content);
+
             dispatch(getAllSpacesSuccess(
                 response.result.content,
                 response.result.totalPages,

@@ -13,7 +13,6 @@ function SpacePage() {
 
     useEffect(() => {
         dispatch(callAllSpacesAPI(currentPage));
-        console.log("가져온 공간 리스트", { spaceList });
     }, [dispatch, currentPage]);
 
     // 현재 페이지 변경 핸들러
@@ -38,8 +37,8 @@ function SpacePage() {
                 <table>
                     <thead>
                         <tr>
-                            <th>공간 제목</th>
-                            <th>등록일시</th>
+                            <th>등록일</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -56,9 +55,9 @@ function SpacePage() {
             )}
 
             <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={pageChangeHandler}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={pageChangeHandler}
             />
         </div>
     );
