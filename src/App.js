@@ -71,19 +71,19 @@ function App() {
           <Route path="holdup/reviews" element={<Review />} />
           <Route path="holdup/reviews/create" element={<CreateReview />} />
           <Route path="holdup/reviews/:id" element={<ReviewDetail />} />
-          <Route path="holdup/reviews/update/:id" element={<UpdateReview/>} />
+          <Route path="holdup/reviews/update/:id" element={<UpdateReview />} />
 
           <Route path="holdup/createReservation" element={<CreateReservation />} />
 
-          <Route path="holdup/inquiries" element={<Inquiry/>}/>
-          <Route path="holdup/inquiries/create" element={<CreateInquiry/>}/>
-          <Route path="holdup/inquiries/:id" element={<InquiryDetail/>}/>
-          <Route path="holdup/inquiries/update/:id" element={<UpdateInquiry/>}/>
+          <Route path="holdup/inquiries" element={<Inquiry />} />
+          <Route path="holdup/inquiries/create" element={<CreateInquiry />} />
+          <Route path="holdup/inquiries/:id" element={<InquiryDetail />} />
+          <Route path="holdup/inquiries/update/:id" element={<UpdateInquiry />} />
 
-          <Route path="holdup/reports" element={<Report/>}/>
-          <Route path="holdup/reports/create" element={<CreateReport/>}/>
-          <Route path="holdup/reports/:id" element={<ReportDetail/>}/>
-          <Route path="holdup/reports/update/:id" element={<UpdateReport/>}/>
+          <Route path="holdup/reports" element={<Report />} />
+          <Route path="holdup/reports/create" element={<CreateReport />} />
+          <Route path="holdup/reports/:id" element={<ReportDetail />} />
+          <Route path="holdup/reports/update/:id" element={<UpdateReport />} />
 
           <Route path="holdup/mypage" element={<MyPage />} />
           <Route path="holdup/mypage/credit" element={<CreditPage/>}/>
