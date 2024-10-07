@@ -26,7 +26,7 @@ export const tokenRequest = async (token, method, url, data) => {
             data
         });
 
-        console.log("최종 response 확인", { response });
+        console.log("최종 response data 확인", response.data);
 
         return response.data;
 
