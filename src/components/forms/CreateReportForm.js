@@ -1,19 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { callCreateReviewAPI } from "../../apis/ReviewAPICall";
+import { callCreateReportAPI } from "../../apis/ReportAPICall";
 
-function CreateReviewForm() {
+function CreateReportForm() {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { reviewInfo, error } = useSelector(state => state.reviewcreateReducer);
+    const { reportInfo, error } = useSelector(state => state.reportCreateReducer);
 
-    const [inputReviewInfo, setReviewInfo] = useState({
+    const [inputReportInfo, setInputReportInfo] = useState({
         title: '',
         content: '',
-        rating: '',
-        reservationId: '',
     });
 
     const [imageFiles, setImageFiles] = useState([]); // 파일 리스트 저장할 state
@@ -21,8 +19,8 @@ function CreateReviewForm() {
 
 
     const onChangeHandler = e => {
-        setReviewInfo({
-            ...inputReviewInfo,
+        setInputReportInfo({
+            ...inputReportInfo,
             [e.target.name]: e.target.value
         })
     };
@@ -56,32 +54,26 @@ function CreateReviewForm() {
     };
 
     const onClickHandler = () => {
-        dispatch(callCreateReviewAPI(inputReviewInfo, imageFiles));
-        navigate('/holdup/reviews');
+        dispatch(callCreateReportAPI(inputReportInfo, imageFiles));
+        navigate('/holdup/reports');
     };
 
 
     useEffect(() => {
         if (error) {
             alert(error);
-        } else if (reviewInfo) {
-            navigate("/holdiup/reviews");
+        } else if (reportInfo) {
+            navigate("/holdiup/reports");
         }
-    }, [reviewInfo, error, navigate, dispatch]);
+    }, [reportInfo, error, navigate, dispatch]);
 
     return (
         <>
             <span>제목 : </span>
-            <input type="text" name="title" value={inputReviewInfo.title} onChange={onChangeHandler} />
+            <input type="text" name="title" value={inputReportInfo.title} onChange={onChangeHandler} />
 
             <span>내용 : </span>
-            <textarea type="text" name="content" value={inputReviewInfo.content} onChange={onChangeHandler} />
-
-            <span>별점 : </span>
-            <input type="text" name="rating" value={inputReviewInfo.rating} onChange={onChangeHandler} />
-
-            <span>예약ID: </span>
-            <input type="text" name="reservationId" value={inputReviewInfo.reservationId} onChange={onChangeHandler} />
+            <textarea type="text" name="content" value={inputReportInfo.content} onChange={onChangeHandler} />
 
             <span>이미지 : </span>
             <input type="file" multiple accept="image/*" onChange={fileChangeHandler} />
@@ -99,4 +91,4 @@ function CreateReviewForm() {
     );
 }
 
-export default CreateReviewForm;
+export default CreateReportForm;

@@ -1,36 +1,36 @@
-import { getReviewListSuccess, getReviewListFail } from "../modules/ReviewModule";
-import { createReviewSuccess, createReviewFail } from "../modules/ReviewCreateModule";
-import { getReviewDetailSuccess, getReviewDetailFail } from '../modules/ReviewDetailModule';
-    import { tokenRequest } from "./Api";
+import { tokenRequest } from "./Api";
+import { getReportListSuccess, getReportListFail } from "../modules/ReportModule";
+import { createReportSuccess, createReportFail } from "../modules/ReportCreateModule";
+import { getReportDetailSuccess, getReportDetailFail } from "../modules/ReportDetailModule";
 
-export function callGetReviewListAPI(page = 0, size = 10) {
+export function callGetReportListAPI(page = 0, size = 10) {
     return async (dispatch) => {
         try {
             const token = sessionStorage.getItem('token');
             const response = await tokenRequest(
                 token,
                 "GET",
-                `/reviews?page=${page}&size=${size}`
+                `/reports?page=${page}&size=${size}`
             );
 
             console.log('API Response:', response);
 
-            dispatch(getReviewListSuccess(
+            dispatch(getReportListSuccess(
                 response.result.content,
                 response.result.totalPages,
                 page,
                 size,
-                response.result.totalElements
+                response.result.totalElements   
 
             ));
         } catch (error) {
             console.error('API Error:', error);
-            dispatch(getReviewListFail(error.message || "리뷰 목록을 불러오는데 실패했습니다."));
+            dispatch(getReportListFail(error.message || "신고 목록을 불러오는데 실패했습니다."));
         }
     };
 }
 
-export function callCreateReviewAPI(reviewInfo, imageFiles) {
+export function callCreateReportAPI(reportInfo, imageFiles) {
     return async (dispatch) => {
         try {
             const token = sessionStorage.getItem('token');
@@ -39,7 +39,7 @@ export function callCreateReviewAPI(reviewInfo, imageFiles) {
             const formData = new FormData();
 
             // 입력한 정보를 formData에 넣을때 Blob으로 감싸서 json으로잘 전송될수있게함
-            formData.append("reviewInfo", new Blob([JSON.stringify(reviewInfo)], { type: "application/json" }));
+            formData.append("reportInfo", new Blob([JSON.stringify(reportInfo)], { type: "application/json" }));
 
             // formData에 첨부한 이미지들 저장
             imageFiles.forEach(image => formData.append("images", image));
@@ -47,47 +47,47 @@ export function callCreateReviewAPI(reviewInfo, imageFiles) {
             const response = await tokenRequest(
                 token,
                 "POST",
-                "/reviews",
+                "/reports",
                 formData
             )
 
             console.log('API Response:', response);
 
-            dispatch(createReviewSuccess(response.reviewInfo));
+            dispatch(createReportSuccess(response.reportInfo));
 
-            dispatch(callGetReviewListAPI(0, 10));
+            dispatch(callGetReportListAPI(0, 10));
 
         } catch (error) {
-            dispatch(createReviewFail(error.message || "리뷰 등록에 오류가 발생했습니다."))
+            dispatch(createReportFail(error.message || "신고 등록에 오류가 발생했습니다."))
         }
     };
 }
 
 
 
-export function callGetReviewDetailAPI(id) {
+export function callGetReportDetailAPI(id) {
     return async (dispatch) => {
         try {
             const token = sessionStorage.getItem('token');
             const response = await tokenRequest(
                 token,
                 "GET",
-                `/reviews/${id}`
+                `/reports/${id}`
             );
 
             console.log('API Response:', response);
 
-            dispatch(getReviewDetailSuccess(response.result));
+            dispatch(getReportDetailSuccess(response.result));
         } catch (error) {
             console.error('API Error:', error);
-            dispatch(getReviewDetailFail(error.message || "리뷰 상세 정보를 불러오는데 실패했습니다."));
+            dispatch(getReportDetailFail(error.message || "신고 상세 정보를 불러오는데 실패했습니다."));
         }
     };
 }
 
 
 
-export function callUpdateReviewAPI(id, modifyInfo, newImages, deleteImage) {
+export function callUpdateReportAPI(id, modifyInfo, newImages, deleteImage) {
     return async (dispatch) => {
         try {
             const token = sessionStorage.getItem('token');
@@ -124,7 +124,7 @@ export function callUpdateReviewAPI(id, modifyInfo, newImages, deleteImage) {
             const response = await tokenRequest(
                 token,
                 "PUT",
-                `/reviews/${id}`,
+                `/reports/${id}`,
                 formData
 
             )
@@ -132,12 +132,12 @@ export function callUpdateReviewAPI(id, modifyInfo, newImages, deleteImage) {
             console.log('API Response:', response);
 
             // 수정 완료후  다시 reviewDetail 불러오기
-            dispatch(callGetReviewDetailAPI(id));
+            dispatch(callGetReportDetailAPI(id));
 
             
 
         } catch (error) {
-            dispatch(getReviewDetailFail(error.message || "리뷰 수정에 오류가 발생했습니다."))
+            dispatch(getReportDetailFail(error.message || "리뷰 수정에 오류가 발생했습니다."))
         }
     };
 }

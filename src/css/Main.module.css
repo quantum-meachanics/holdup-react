@@ -1,0 +1,79 @@
+.mainPage {
+    /* 구역 확인용 내부 외곽선 */
+    /* box-shadow: 0 0 0 1px red inset; */
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 860px;
+}
+
+.createSpaceButton {
+    user-select: none;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    margin-right: 100px;
+    height: 500px;
+    width: 350px;
+    border-radius: 30px;
+
+    background-color: #073929;
+}
+
+.useSpaceButton {
+    user-select: none;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    margin-left: 100px;
+    height: 500px;
+    width: 350px;
+    border-radius: 30px;
+
+    background-color: #FFC600;
+}
+
+.title {
+    width: 75%;
+
+    text-align: left;
+
+    color: white;
+    font-size: 30px;
+    font-weight: 900;
+}
+
+.description {
+    width: 75%;
+
+    margin-top: 10px;
+
+    text-align: left;
+
+    color: #18726D;
+
+    font-weight: 600;
+}
+
+.content {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+
+    height: 30%;
+    width: 75%;
+    margin-top: 20px;
+
+    text-align: left;
+
+    color: white;
+}

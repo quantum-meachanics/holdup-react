@@ -46,7 +46,8 @@ function CommunitySidebar() {
                 <NavLink to="/" className={style.menuLink}>공지사항</NavLink>
                 <NavLink to="/holdup/spaces" className={style.menuLink}>공간 게시판</NavLink>
                 <NavLink to="/holdup/reviews" className={style.menuLink}>리뷰 게시판</NavLink>
-                <NavLink to="/" className={style.menuLink}>문의 게시판</NavLink>
+                <NavLink to="/holdup/inquiries" className={style.menuLink}>문의 게시판</NavLink>
+                <NavLink to="/holdup/reports" className={style.menuLink}>신고 게시판</NavLink>
             </div>
         </div>
     );
