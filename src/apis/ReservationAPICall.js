@@ -1,5 +1,5 @@
 import { createReservationFail, createReservationSuccess } from "../modules/ReservationModule";
-import { getMyReservationsSuccess } from "../modules/MyReservationModule";
+import { getMyReservationsFail, getMyReservationsSuccess } from "../modules/MyReservationModule";
 import { tokenRequest } from "./Api";
 
 export function callCreateReservationAPI(reservationInfo) {
@@ -24,7 +24,7 @@ export function callCreateReservationAPI(reservationInfo) {
     };
 }
 
-export function callMyReservationsAPI(page, size) {
+export function callMyReservationsAPI(page = 0, size = 0) {
     return async (dispatch) => {
         try {
             const response = await tokenRequest(
@@ -42,7 +42,7 @@ export function callMyReservationsAPI(page, size) {
             ));
 
         } catch (error) {
-            dispatch(error.message || "");
+            dispatch(getMyReservationsFail(error.message || "예약 조회 API 요청을 실패했습니다."));
         }
     };
 }

@@ -17,6 +17,7 @@ import reportCreateReducer from "./ReportCreateModule";
 import reportDetailReducer from "./ReportDetailModule";
 import reportCommentReducer from "./ReportCommentModule";
 import reportCreateCommentReducer from "./ReportCommentCreateModule";
+import myReservationReducer from "./MyReservationModule";
 
 const rootReducer = combineReducers({
     userReducer,
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
     reviewCreateCommentReducer,
 
     reservationReducer,
+    myReservationReducer,
 
     inqueiryReducer,
     inquiryCreateReducer,

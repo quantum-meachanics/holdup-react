@@ -1,32 +1,32 @@
 import { createActions, handleActions } from "redux-actions";
 
 const initialState = {
-    reservationList: [],
+    myReservationList: [],
     totalPages: 0,
     error: null
 };
 
-export const GET_MY_RESERVATIONS_SUCCESS = "reservationList/getMyReservationsSuccess";
-export const GET_MY_RESERVATIONS_FAIL = "reservationList/getMyReservationsFAIL";
+export const GET_MY_RESERVATIONS_SUCCESS = "myReservationList/getMyReservationsSuccess";
+export const GET_MY_RESERVATIONS_FAIL = "myReservationList/getMyReservationsFail";
 
-export const { reservationList: { getMyReservationsSuccess, getMyReservationsFail } } = createActions({
-    [GET_MY_RESERVATIONS_SUCCESS]: (reservationList, totalPages) => ({ reservationList, totalPages }),
+export const { myReservationList: { getMyReservationsSuccess, getMyReservationsFail } } = createActions({
+    [GET_MY_RESERVATIONS_SUCCESS]: (myReservationList, totalPages) => ({ myReservationList, totalPages }),
     [GET_MY_RESERVATIONS_FAIL]: (error) => ({ error })
 });
 
-const reservationListReducer = handleActions({
+const myReservationReducer = handleActions({
     [GET_MY_RESERVATIONS_SUCCESS]: (state, { payload }) => ({
         ...state,
-        reservationList: payload.reservationList,
+        myReservationList: payload.myReservationList,
         totalPages: payload.totalPages,
         error: null
     }),
     [GET_MY_RESERVATIONS_FAIL]: (state, { payload: error }) => ({
         ...state,
-        reservationList: null,
+        myReservationList: null,
         totalPages: 0,
         error
     })
 }, initialState);
 
-export default reservationListReducer;
+export default myReservationReducer;
