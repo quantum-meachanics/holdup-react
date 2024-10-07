@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
-import { callGetReviewDetailAPI, callUpdateReviewAPI } from '../../apis/ReviewAPICall';
+import { callGetInquiryDetailAPI, callUpdateInquiryAPI } from '../../apis/InquiryAPICall';
 
-function ReviewUpdateForm() {
+function InquiryUpdateForm() {
     const { id } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { reviewDetail, error } = useSelector(state => state.reviewDetailReducer);
+    const { inquiryDetail, error } = useSelector(state => state.inquiryDetailReducer);
 
     // 기존 이미지를 저장할 state
     const [images, setImages] = useState([{
@@ -25,46 +25,42 @@ function ReviewUpdateForm() {
     const [inputModify, setInputModify] = useState({
         title: '',
         content: '',
-        rating: '',
-        reservationId: ''
     });
 
 
     useEffect(() => {
-        dispatch(callGetReviewDetailAPI(id));
+        dispatch(callGetInquiryDetailAPI(id));
     }, [dispatch, id]);
 
     useEffect(() => {
-        if (reviewDetail) {
+        if (inquiryDetail) {
             setImages(
-                Array.isArray(reviewDetail.imageId)
-                    ? reviewDetail.imageId.map((id, index) => ({
-                        imageUrl: Array.isArray(reviewDetail.imageUrl) ? reviewDetail.imageUrl[index] : reviewDetail.imageUrl,
+                Array.isArray(inquiryDetail.imageId)
+                    ? inquiryDetail.imageId.map((id, index) => ({
+                        imageUrl: Array.isArray(inquiryDetail.imageUrl) ? inquiryDetail.imageUrl[index] : inquiryDetail.imageUrl,
                         imageId: id
                     }))
                     : [{
-                        imageUrl: reviewDetail.imageUrl || '',
-                        imageId: reviewDetail.imageId || ''
+                        imageUrl: inquiryDetail.imageUrl || '',
+                        imageId: inquiryDetail.imageId || ''
                     }]
             );
 
             setInputModify({
-                title: reviewDetail.title || '',
-                content: reviewDetail.content || '',
-                rating: reviewDetail.rating || '',
-                reservationId: reviewDetail.reservation?.id || ''
+                title: inquiryDetail.title || '',
+                content: inquiryDetail.content || '',
             });
 
         }
-    }, [reviewDetail]);
+    }, [inquiryDetail]);
 
     const handleGoBack = () => {
-        navigate('/holdup/reviews');
+        navigate('/holdup/inquiries');
     };
 
     const handleUpdate = (e) => {
-        dispatch(callUpdateReviewAPI(id, inputModify, imageFiles, deletedImageIds));
-        navigate(`/reviews/${id}`)
+        dispatch(callUpdateInquiryAPI(id, inputModify, imageFiles, deletedImageIds));
+        navigate(`/holdup/inquiries/${id}`)
     };
 
     const onChangeHandler = e => {
@@ -128,7 +124,7 @@ function ReviewUpdateForm() {
     return (
         <div>
             <div>
-                {reviewDetail ? (
+                {inquiryDetail ? (
                     <>
                         <span>제목: </span>
                         <input type='text' name='title' placeholder={inputModify.title} onChange={onChangeHandler} />
@@ -136,11 +132,6 @@ function ReviewUpdateForm() {
                         <span>내용:</span>
                         <input type='textarea' name='content' placeholder={inputModify.content} onChange={onChangeHandler} />
 
-                        <span>평점: </span>
-                        <input type='text' name='rating' placeholder={inputModify.rating} onChange={onChangeHandler} />
-
-                        <span>예약ID: </span>
-                        <input type='text' name='reservationId' placeholder={inputModify.reservationId} onChange={onChangeHandler} />
                         <div>
                             <span>이미지 : </span>
                             <input type="file" multiple accept="image/*" onChange={fileChangeHandler} />
@@ -173,4 +164,4 @@ function ReviewUpdateForm() {
     );
 }
 
-export default ReviewUpdateForm;
+export default InquiryUpdateForm;

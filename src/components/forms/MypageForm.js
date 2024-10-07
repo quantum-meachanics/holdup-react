@@ -81,6 +81,7 @@ const MyPage = () => {
                 currentPassword: password.current,
                 nickname: userInfo.nickname,
                 newPassword: password.new || undefined,
+                address: `${userInfo.address} ${userInfo.addressDetail}`.trim(),
                 address: userInfo.address, // address 전송
                 addressDetail: userInfo.addressDetail, // addressDetail 전송
             });
@@ -174,6 +175,38 @@ const MyPage = () => {
                     />
                 </div>
                 <div>
+                    <label>
+                        새 비밀번호:
+                        <input
+                            type="password"
+                            name="new"
+                            value={password.new}
+                            onChange={handleInputChange}
+                        />
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        새 비밀번호 확인:
+                        <input
+                            type="password"
+                            name="confirm"
+                            value={password.confirm}
+                            onChange={handleInputChange}
+                        />
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        주소:
+                        <input
+                            type="text"
+                            name="address"
+                            value={userInfo.address}
+                            readOnly // 주소는 팝업으로 선택하도록 수정
+                        />
+                        <button type="button" onClick={() => setIsPopupOpen(true)}>주소 선택</button>
+                    </label>
                     <label className={styles.label}> 주소 </label>
                     <br />
                     <input

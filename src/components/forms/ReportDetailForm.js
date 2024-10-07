@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { callGetInquiryDetailAPI } from '../../apis/InquiryAPICall';
+import { callGetReportDetailAPI } from '../../apis/ReportAPICall';
 
-function ReviewDetailForm() {
+function ReportDetailForm() {
     const { id } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { inquiryDetail, error } = useSelector(state => state.inquiryDetailReducer);
+    const { reportDetail, error } = useSelector(state => state.reportDetailReducer);
 
     useEffect(() => {
-        dispatch(callGetInquiryDetailAPI(id));
+        dispatch(callGetReportDetailAPI(id));
         console.log('Fetching review for id:', id);
     }, []);
 
     const handleGoBack = () => {
-        navigate('/holdup/inquiries');
+        navigate('/holdup/reports');
     };
 
     const handleUpdate = () => {
-        navigate(`/holdup/inquiries/update/${id}`);
+        navigate(`/holdup/reports/update/${id}`);
     };
 
     if (error) return <div>에러 발생: {error}</div>;
@@ -28,20 +28,20 @@ function ReviewDetailForm() {
 
     return (
         <div>
-            <h1>리뷰 상세</h1>
+            <h1>신고 상세</h1>
             <div>
-                {inquiryDetail ? (
+                {reportDetail ? (
                     <>
-                        <h2>{inquiryDetail.title}</h2>
-                        <p>작성자: {inquiryDetail.nickname}</p>
-                        <p>등록날짜: {inquiryDetail.createDate}</p>
-                        <p>내용: {inquiryDetail.content}</p>
+                        <h2>{reportDetail.title}</h2>
+                        <p>작성자: {reportDetail.nickname}</p>
+                        <p>등록날짜: {reportDetail.createDate}</p>
+                        <p>내용: {reportDetail.content}</p>
                         <div>
                             <h3>이미지</h3>
                             <div>
-                                {inquiryDetail.imageUrl && inquiryDetail.imageUrl.length > 0 ? (
-                                    inquiryDetail.imageUrl.map((url, index) => (
-                                        <img key={index} src={url} alt={`문의 이미지 ${index + 1}`} />
+                                {reportDetail.imageUrl && reportDetail.imageUrl.length > 0 ? (
+                                    reportDetail.imageUrl.map((url, index) => (
+                                        <img key={index} src={url} alt={`리뷰 이미지 ${index + 1}`} />
                                     ))
                                 ) : (
                                     <p>이미지가 없습니다.</p>
@@ -63,4 +63,4 @@ function ReviewDetailForm() {
     );
 }
 
-export default ReviewDetailForm;
+export default ReportDetailForm;

@@ -12,6 +12,11 @@ import reviewCreateCommentReducer from "./ReviewCommentCreateModule";
 import inqueiryReducer from "./InquiryModule";
 import inquiryCreateReducer from "./InquiryCreateModule";
 import inquiryDetailReducer from "./InquiryDetailModule";
+import reportReducer from "./ReportModule";
+import reportCreateReducer from "./ReportCreateModule";
+import reportDetailReducer from "./ReportDetailModule";
+import reportCommentReducer from "./ReportCommentModule";
+import reportCreateCommentReducer from "./ReportCommentCreateModule";
 
 const rootReducer = combineReducers({
     userReducer,
@@ -30,7 +35,14 @@ const rootReducer = combineReducers({
 
     inqueiryReducer,
     inquiryCreateReducer,
-    inquiryDetailReducer
+    inquiryDetailReducer,
+
+    reportReducer,
+    reportCreateReducer,
+    reportDetailReducer,
+    reportCommentReducer,
+    reportCreateCommentReducer
+
 });
 
 export default rootReducer;

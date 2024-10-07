@@ -1,8 +1,9 @@
 import { createReservationFail, createReservationSuccess } from "../modules/ReservationModule";
+import { getMyReservationsSuccess } from "../modules/MyReservationModule";
 import { tokenRequest } from "./Api";
 
 export function callCreateReservationAPI(reservationInfo) {
-    return async (dispatch)=> {
+    return async (dispatch) => {
         try {
 
             console.log("예약할 공간 아이디", reservationInfo.spaceId)
@@ -19,6 +20,29 @@ export function callCreateReservationAPI(reservationInfo) {
 
         } catch (error) {
             dispatch(createReservationFail(error.message || "예약 신청 API 호출 에러 발생"));
+        }
+    };
+}
+
+export function callMyReservationsAPI(page, size) {
+    return async (dispatch) => {
+        try {
+            const response = await tokenRequest(
+                sessionStorage.getItem("token"),
+                "GET",
+                `/reservations?page=${page}&size=${size}`
+            );
+
+            dispatch(getMyReservationsSuccess(
+                response.result.content,
+                response.result.totalPages,
+                page,
+                size,
+                response.result.totalElements
+            ));
+
+        } catch (error) {
+            dispatch(error.message || "");
         }
     };
 }

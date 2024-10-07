@@ -1,36 +1,36 @@
 import { tokenRequest } from "./Api";
-import { getInquiryListSuccess, getInquiryListFail } from "../modules/InquiryModule"
-import { createInquirySuccess, createInquiryFail } from "../modules/InquiryCreateModule";
-import {getInquiryDetailSuccess, getInquiryDetailFail} from "../modules/InquiryDetailModule";
+import { getReportListSuccess, getReportListFail } from "../modules/ReportModule";
+import { createReportSuccess, createReportFail } from "../modules/ReportCreateModule";
+import { getReportDetailSuccess, getReportDetailFail } from "../modules/ReportDetailModule";
 
-export function callGetInquiryListAPI(page = 0, size = 10) {
+export function callGetReportListAPI(page = 0, size = 10) {
     return async (dispatch) => {
         try {
             const token = sessionStorage.getItem('token');
             const response = await tokenRequest(
                 token,
                 "GET",
-                `/inquiries?page=${page}&size=${size}`
+                `/reports?page=${page}&size=${size}`
             );
 
             console.log('API Response:', response);
 
-            dispatch(getInquiryListSuccess(
+            dispatch(getReportListSuccess(
                 response.result.content,
                 response.result.totalPages,
                 page,
                 size,
-                response.result.totalElements
+                response.result.totalElements   
 
             ));
         } catch (error) {
             console.error('API Error:', error);
-            dispatch(getInquiryListFail(error.message || "문의 목록을 불러오는데 실패했습니다."));
+            dispatch(getReportListFail(error.message || "신고 목록을 불러오는데 실패했습니다."));
         }
     };
 }
 
-export function callCreateInquiryAPI(inquiryInfo, imageFiles) {
+export function callCreateReportAPI(reportInfo, imageFiles) {
     return async (dispatch) => {
         try {
             const token = sessionStorage.getItem('token');
@@ -39,7 +39,7 @@ export function callCreateInquiryAPI(inquiryInfo, imageFiles) {
             const formData = new FormData();
 
             // 입력한 정보를 formData에 넣을때 Blob으로 감싸서 json으로잘 전송될수있게함
-            formData.append("inquiryInfo", new Blob([JSON.stringify(inquiryInfo)], { type: "application/json" }));
+            formData.append("reportInfo", new Blob([JSON.stringify(reportInfo)], { type: "application/json" }));
 
             // formData에 첨부한 이미지들 저장
             imageFiles.forEach(image => formData.append("images", image));
@@ -47,48 +47,50 @@ export function callCreateInquiryAPI(inquiryInfo, imageFiles) {
             const response = await tokenRequest(
                 token,
                 "POST",
-                "/inquiries",
+                "/reports",
                 formData
             )
 
             console.log('API Response:', response);
 
-            dispatch(createInquirySuccess(response.inquiryInfo));
+            dispatch(createReportSuccess(response.reportInfo));
 
-            dispatch(callGetInquiryListAPI(0, 10));
+            dispatch(callGetReportListAPI(0, 10));
 
         } catch (error) {
-            dispatch(createInquiryFail(error.message || "문의 등록에 오류가 발생했습니다."))
+            dispatch(createReportFail(error.message || "신고 등록에 오류가 발생했습니다."))
         }
     };
 }
 
 
 
-export function callGetInquiryDetailAPI(id) {
+export function callGetReportDetailAPI(id) {
     return async (dispatch) => {
         try {
             const token = sessionStorage.getItem('token');
             const response = await tokenRequest(
                 token,
                 "GET",
-                `/inquiries/${id}`
+                `/reports/${id}`
             );
 
             console.log('API Response:', response);
 
-            dispatch(getInquiryDetailSuccess(response.result));
+            dispatch(getReportDetailSuccess(response.result));
         } catch (error) {
             console.error('API Error:', error);
-            dispatch(getInquiryDetailFail(error.message || "문의 상세 정보를 불러오는데 실패했습니다."));
+            dispatch(getReportDetailFail(error.message || "신고 상세 정보를 불러오는데 실패했습니다."));
         }
     };
 }
 
-// export function callUpdateReviewAPI(id, modifyInfo, newImages, deleteImage) {
-//     return async (dispatch) => {
-//         try {
-//             const token = sessionStorage.getItem('token');
+
+
+export function callUpdateReportAPI(id, modifyInfo, newImages, deleteImage) {
+    return async (dispatch) => {
+        try {
+            const token = sessionStorage.getItem('token');
 
             // FormData 생성
             const formData = new FormData();
@@ -122,20 +124,20 @@ export function callGetInquiryDetailAPI(id) {
             const response = await tokenRequest(
                 token,
                 "PUT",
-                `/inquiries/${id}`,
+                `/reports/${id}`,
                 formData
 
             )
 
             console.log('API Response:', response);
 
-            // 수정 완료후  다시 inquiryDetail 불러오기
-            dispatch(callGetInquiryDetailAPI(id));
+            // 수정 완료후  다시 reviewDetail 불러오기
+            dispatch(callGetReportDetailAPI(id));
 
             
 
         } catch (error) {
-            dispatch(getInquiryDetailFail(error.message || "리뷰 수정에 오류가 발생했습니다."))
+            dispatch(getReportDetailFail(error.message || "리뷰 수정에 오류가 발생했습니다."))
         }
-    }
+    };
 }
