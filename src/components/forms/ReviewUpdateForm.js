@@ -64,7 +64,7 @@ function ReviewUpdateForm() {
 
     const handleUpdate = (e) => {
         dispatch(callUpdateReviewAPI(id, inputModify, imageFiles, deletedImageIds));
-        navigate(`/reviews/${id}`)
+        navigate(`/holdup/reviews/${id}`)
     };
 
     const onChangeHandler = e => {
