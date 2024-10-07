@@ -55,9 +55,9 @@ function SpacePage() {
             )}
 
             <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={pageChangeHandler}
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={pageChangeHandler}
             />
         </div>
     );

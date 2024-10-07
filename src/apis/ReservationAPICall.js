@@ -24,7 +24,7 @@ export function callCreateReservationAPI(reservationInfo) {
     };
 }
 
-export function callMyReservationsAPI(page, size) {
+export function callMyReservationsAPI(page = 0, size = 0) {
     return async (dispatch) => {
         try {
             const response = await tokenRequest(
