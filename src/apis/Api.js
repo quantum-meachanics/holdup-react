@@ -22,10 +22,14 @@ export const tokenRequest = async (token, method, url, data) => {
         const response = await axios({
             method,
             url: `${DOMAIN}${url}`,
-            headers: { Authorization: `Bearer ${token}`}, // 'Content-Type' 추가 하지 마세요
+            headers: { Authorization: `Bearer ${token}` }, // 'Content-Type' 추가 하지 마세요
             data
         });
+
+        console.log("최종 response 확인", { response });
+
         return response.data;
+
     } catch (error) {
         console.error("API 요청 오류", error);
         throw error;

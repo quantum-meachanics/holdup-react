@@ -16,11 +16,12 @@ export function callCreateSpaceAPI(spaceInfo, imageFiles) {
             imageFiles.forEach(image => formData.append("images", image));
 
             const response = await tokenRequest(
-                sessionStorage.getItem('token'),
+                sessionStorage.getItem("token"),
                 "POST",
                 "/spaces",
                 formData
             )
+
             dispatch(createSpaceSuccess(response.spaceInfo));
 
         } catch (error) {
