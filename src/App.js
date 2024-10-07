@@ -27,10 +27,10 @@ import CreateInquiry from "./pages/CreateInquiry";
 import InquiryDetail from "./pages/InquiryDetail";
 import UpdateInquiry from "./pages/UpdateInquiry";
 import Report from "./pages/Report";
-import CreateReport from "/pages/CreateReport";
-import ReportDetail from "/pages/ReportDetail";
-import UpdateReport from "/pages/UpdateReport";
-import Administrator from "/pages/Administrator";
+import CreateReport from "./pages/CreateReport";
+import ReportDetail from "./pages/ReportDetail";
+import UpdateReport from "./pages/UpdateReport";
+import Administrator from "./pages/Administrator";
 
 function App() {
   const dispatch = useDispatch();

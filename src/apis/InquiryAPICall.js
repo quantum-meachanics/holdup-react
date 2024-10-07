@@ -85,10 +85,12 @@ export function callGetInquiryDetailAPI(id) {
     };
 }
 
-// export function callUpdateReviewAPI(id, modifyInfo, newImages, deleteImage) {
-//     return async (dispatch) => {
-//         try {
-//             const token = sessionStorage.getItem('token');
+
+
+export function callUpdateInquiryAPI(id, modifyInfo, newImages, deleteImage) {
+    return async (dispatch) => {
+        try {
+            const token = sessionStorage.getItem('token');
 
             // FormData 생성
             const formData = new FormData();
@@ -137,5 +139,5 @@ export function callGetInquiryDetailAPI(id) {
         } catch (error) {
             dispatch(getInquiryDetailFail(error.message || "리뷰 수정에 오류가 발생했습니다."))
         }
-    }
+    };
 }
