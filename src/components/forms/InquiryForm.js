@@ -38,6 +38,26 @@ function InquiryForm() {
     console.log('Current state:', { inquiryList, totalPages, error });
     console.log("리뷰 컴포넌트 재랜더링됨");
 
+    // 날짜 형식 포맷
+    const formatDateTime = (dateArray) => {
+        // dateArray가 유효한지 확인
+        if (!Array.isArray(dateArray) || dateArray.length < 5) {
+            console.error("Invalid date array:", dateArray);
+            return "유효하지 않은 날짜";
+        }
+
+        // Date 객체 생성
+        const year = dateArray[0];
+        const month = String(dateArray[1]).padStart(2, '0'); // 월을 두 자리로 포맷
+        const day = String(dateArray[2]).padStart(2, '0'); // 일을 두 자리로 포맷
+        const hour = String(dateArray.length > 3 ? dateArray[3] : 0).padStart(2, '0'); // 시를 두 자리로 포맷
+        const minute = String(dateArray.length > 4 ? dateArray[4] : 0).padStart(2, '0'); // 분을 두 자리로 포맷
+        const second = String(dateArray.length > 5 ? dateArray[5] : 0).padStart(2, '0'); // 초를 두 자리로 포맷
+
+        // "년월일 시:분:초" 형식으로 문자열 생성
+        return `${year}년 ${month}월 ${day}일 ${hour}:${minute}:${second}`;
+    };
+
     return (
         <div>
             <h1>문의 게시판</h1>
@@ -54,7 +74,7 @@ function InquiryForm() {
                         <tbody>
                             {inquiryList.map(inquiryList => (
                                 <tr key={inquiryList.id} onClick={() => handleClick(inquiryList.id)} style={{ cursor: 'pointer' }}>
-                                    <td >{inquiryList.createDate}</td>
+                                    <td >{formatDateTime(inquiryList.createDate)}</td>
                                     <td >{inquiryList.title}</td>
                                     <td>{inquiryList.nickname}</td>
                                 </tr>
