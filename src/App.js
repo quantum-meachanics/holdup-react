@@ -30,6 +30,8 @@ import Report from "./pages/Report";
 import CreateReport from "./pages/CreateReport";
 import ReportDetail from "./pages/ReportDetail";
 import UpdateReport from "./pages/UpdateReport";
+import ChatRoomList from './components/forms/ChatRoomList';
+import ChatRoom from './pages/ChatRoom';  // 채팅방 페이지
 
 function App() {
   const dispatch = useDispatch();
@@ -86,6 +88,11 @@ function App() {
 
           <Route path="holdup/mypage" element={<MyPage />} />
           <Route path="holdup/mypage/credit" element={<CreditPage/>}/>
+
+          {/* 채팅방 목록 페이지 경로 */}
+          <Route path="/holdup/chat" element={<ChatRoomList />} />
+          {/* 개별 채팅방 경로 (roomId가 동적 파라미터로 전달됨) */}
+          <Route path="/chat/:roomId" element={<ChatRoom />} />
         </Route>
       </Routes>
     </BrowserRouter>

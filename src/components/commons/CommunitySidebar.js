@@ -33,7 +33,7 @@ function CommunitySidebar() {
                             </div>
                         </div>
                         <NavLink to="/holdup/mypage" className={style.userButton}>마이페이지</NavLink>
-                        <NavLink to="/" className={style.userButton}>내 채팅</NavLink>
+                        <NavLink to="/holdup/chat" className={style.userButton}>내 채팅</NavLink>
                         <span onClick={logoutHandler} className={style.userButton}>로그아웃</span>
                     </>
                 ) : (

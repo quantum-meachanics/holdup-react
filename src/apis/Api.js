@@ -22,7 +22,7 @@ export const tokenRequest = async (token, method, url, data) => {
         const response = await axios({
             method,
             url: `${DOMAIN}${url}`,
-            headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }, // 'Content-Type' 추가
+            headers: { Authorization: `Bearer ${token}`}, // 'Content-Type' 추가
             data
         });
         return response.data;
@@ -47,4 +47,14 @@ export const tokenCreditRequest = async (token, method, url, body) => {
     }
 
     return await response.json(); // JSON 응답 반환
+};
+
+export const getChatRooms = async () => {
+    const url = '/api/chatrooms';  // 실제 API 엔드포인트에 맞게 수정하세요
+    return tokenCreditRequest(url, 'GET');
+};
+
+export const createChatRoom = async (chatRoomData) => {
+    const url = '/api/chatrooms';
+    return tokenCreditRequest(url, 'POST', chatRoomData);
 };

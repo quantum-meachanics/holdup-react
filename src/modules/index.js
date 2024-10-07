@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import { Client } from '@stomp/stompjs';
 import userReducer from "./UserModule";
 import spaceReducer from "./SpaceModule";
 import reviewReducer from "./ReviewModule";
@@ -17,6 +18,8 @@ import reportCreateReducer from "./ReportCreateModule";
 import reportDetailReducer from "./ReportDetailModule";
 import reportCommentReducer from "./ReportCommentModule";
 import reportCreateCommentReducer from "./ReportCommentCreateModule";
+import chatCreateReducer from "./ChatCreateModule"
+import chatMessagesReducer from "./ChatMessageModule"
 
 const rootReducer = combineReducers({
     userReducer,
@@ -41,7 +44,10 @@ const rootReducer = combineReducers({
     reportCreateReducer,
     reportDetailReducer,
     reportCommentReducer,
-    reportCreateCommentReducer
+    reportCreateCommentReducer,
+
+    chatMessagesReducer,
+    chatCreateReducer
 
 });
 
