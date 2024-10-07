@@ -45,12 +45,7 @@ function ReviewForm() {
     const handleClick = (id) => {
         navigate(`/holdup/reviews/${id}`);
     };
-
-    const handleWriteReview = () => {
-        navigate('/holdup/reviews/create');
-    };
-
-
+    
 
     // 에러 발생 시 에러 메시지 표시
     if (error) {
@@ -91,8 +86,6 @@ function ReviewForm() {
             ) : (
                 <p>리뷰가 없습니다.</p>
             )}
-
-            <button onClick={handleWriteReview}>글쓰기</button>
 
             <Pagination
                 currentPage={currentPage}

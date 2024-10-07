@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { callCreateReviewAPI } from "../../apis/ReviewAPICall";
 
 function CreateReviewForm() {
-
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { reviewInfo, error } = useSelector(state => state.reviewcreateReducer);
@@ -55,22 +54,32 @@ function CreateReviewForm() {
         setImageFiles(imageFiles.filter((_, index) => index !== id));
     };
 
+    // 페이지 이동 메소드
     const onClickHandler = () => {
         dispatch(callCreateReviewAPI(inputReviewInfo, imageFiles));
-        navigate('/holdup/reviews');
+        navigate('/holdup/myPage/reservations');
     };
+
+    
+
+    const onClickGoBack = () => {
+        navigate('/holdup/myPage/reservations');
+    }
 
 
     useEffect(() => {
         if (error) {
             alert(error);
         } else if (reviewInfo) {
-            navigate("/holdiup/reviews");
+            navigate("/holdiup/myPage/reservations");
         }
     }, [reviewInfo, error, navigate, dispatch]);
 
     return (
         <>
+
+            <p>예약ID: {inputReviewInfo.reservationId} </p>
+
             <span>제목 : </span>
             <input type="text" name="title" value={inputReviewInfo.title} onChange={onChangeHandler} />
 
@@ -80,8 +89,8 @@ function CreateReviewForm() {
             <span>별점 : </span>
             <input type="text" name="rating" value={inputReviewInfo.rating} onChange={onChangeHandler} />
 
-            <span>예약ID: </span>
-            <input type="text" name="reservationId" value={inputReviewInfo.reservationId} onChange={onChangeHandler} />
+
+            {/* <input type="text" name="reservationId" value={inputReviewInfo.reservationId} onChange={onChangeHandler} /> */}
 
             <span>이미지 : </span>
             <input type="file" multiple accept="image/*" onChange={fileChangeHandler} />
@@ -95,6 +104,7 @@ function CreateReviewForm() {
             </div>
 
             <button onClick={onClickHandler}>등록하기</button>
+            <button onClick={onClickGoBack}>뒤로가기</button>
         </>
     );
 }
