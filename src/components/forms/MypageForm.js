@@ -81,7 +81,6 @@ const MyPage = () => {
                 currentPassword: password.current,
                 nickname: userInfo.nickname,
                 newPassword: password.new || undefined,
-                address: `${userInfo.address} ${userInfo.addressDetail}`.trim(),
                 address: userInfo.address, // address 전송
                 addressDetail: userInfo.addressDetail, // addressDetail 전송
             });

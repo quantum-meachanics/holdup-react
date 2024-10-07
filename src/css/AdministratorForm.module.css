@@ -1,0 +1,87 @@
+/* AdministratorForm.module.css */
+
+.adminPageContainer {
+    padding: 20px;
+    max-width: 800px;
+    margin: auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.error {
+    color: red;
+    margin-bottom: 20px;
+}
+
+.memberTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.memberTable th,
+.memberTable td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.memberTable th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.memberTable tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.memberTable tr:hover {
+    background-color: #f1f1f1;
+}
+
+.button {
+    padding: 8px 12px;
+    background-color: #007bff; /* 버튼 배경색 */
+    color: white;
+    border: 2px solid green; /* 초록색 테두리 */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s; /* 테두리 색상 변화 추가 */
+}
+
+.button:hover {
+    background-color: #0056b3; /* hover 시 배경색 */
+    border-color: darkgreen; /* hover 시 테두리 색상 변화 */
+}
+
+.updateForm {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.updateForm h2 {
+    margin-bottom: 15px;
+}
+
+.updateForm label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.updateForm input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+.updateForm input[type="checkbox"] {
+    margin-left: 8px;
+}
