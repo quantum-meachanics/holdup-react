@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState , useDispatch } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { updateUserInfo } from '../../apis/MypageAPICall';
 import AddressPopup from './AddressPopup';
@@ -6,6 +6,7 @@ import styles from '../../css/MyPageForm.module.css'; // CSS 모듈 import
 
 const MyPage = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [userInfo, setUserInfo] = useState({
         nickname: '',
         email: '',
