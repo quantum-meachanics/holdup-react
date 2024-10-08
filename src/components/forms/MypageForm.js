@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from "react-redux";
-import { updateUserInfo } from '../../apis/MypageAPICall';
+import { updateUserInfo , fetchUserInfo } from '../../apis/MypageAPICall';
 import AddressPopup from './AddressPopup';
 import styles from '../../css/MyPageForm.module.css';
 
 const MyPage = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
     const [userInfo, setUserInfo] = useState({
         nickname: '',
         email: '',
@@ -24,17 +22,41 @@ const MyPage = () => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     useEffect(() => {
-        const user = JSON.parse(sessionStorage.getItem("user") || "null");
-        if (user) {
-            setUserInfo(prevInfo => ({
-                ...prevInfo,
-                ...user,
-                address: user.address || '',
-                addressDetail: user.addressDetail || '',
-            }));
-        } else {
-            navigate('/holdup/login');
-        }
+        const fetchAndSetUserInfo = async () => {
+            try {
+                // 세션에서 token과 user 객체 가져오기
+                const token = sessionStorage.getItem("token");
+                const storedUser = JSON.parse(sessionStorage.getItem("user") || "null");
+    
+                if (token && storedUser?.email) {
+                    // 회원 정보를 가져오는 API 호출 (email을 사용)
+                    const userData = await fetchUserInfo(token, storedUser.email);
+    
+                    // 가져온 회원 정보를 userInfo 상태에 업데이트
+                    setUserInfo(prevInfo => ({
+                        ...prevInfo,
+                        ...userData, // 서버에서 가져온 회원 정보 적용
+                        address: userData.address || '',
+                        addressDetail: userData.addressDetail || '',
+                    }));
+    
+                    // 세션 스토리지의 user 정보 업데이트
+                    sessionStorage.setItem("user", JSON.stringify({
+                        ...storedUser,
+                        ...userData,
+                    }));
+    
+                } else {
+                    // 로그인 정보가 없으면 로그인 페이지로 이동
+                    navigate('/holdup/login');
+                }
+            } catch (error) {
+                console.error("회원 정보 가져오기 실패:", error);
+                // 오류 처리 로직 추가
+            }
+        };
+    
+        fetchAndSetUserInfo();
     }, [navigate]);
 
     const handleInputChange = (e) => {
@@ -71,6 +93,7 @@ const MyPage = () => {
                 return;
             }
 
+            // API 호출
             const response = await updateUserInfo(token, {
                 email: userInfo.email,
                 currentPassword: password.current,
@@ -80,15 +103,22 @@ const MyPage = () => {
                 addressDetail: userInfo.addressDetail,
             });
 
-            if (response.success) {
+            // API 응답 처리
+            if (response && response.success) {
                 alert(response.message);
-                sessionStorage.setItem("user", JSON.stringify({
+
+                // sessionStorage 및 상태 업데이트
+                const updatedUserInfo = {
                     ...userInfo,
                     address: userInfo.address,
                     addressDetail: userInfo.addressDetail,
-                }));
+                };
+
+                setUserInfo(updatedUserInfo); // 상태 업데이트
+                sessionStorage.setItem("user", JSON.stringify(updatedUserInfo)); // 세션 스토리지 업데이트
+
             } else {
-                setErrors({ general: response.message });
+                setErrors({ general: response.message || "정보 업데이트에 실패했습니다." });
             }
 
         } catch (error) {
@@ -99,14 +129,6 @@ const MyPage = () => {
 
     return (
         <div className={styles.mypageContainer}>
-            <div>
-                <h1 className={styles.heading}>마이 페이지</h1>
-                <h2 className={styles.subheading}>환영합니다, {userInfo.nickname}님!</h2>
-                <p className={styles.infoText}>이메일 : {userInfo.email}</p>
-                <p className={styles.infoText}>역할 : {userInfo.role}</p>
-                <p className={styles.infoText}>크레딧 : {userInfo.credit}</p>
-            </div>
-
             <h3 className={styles.sectionTitle}>회원 정보 수정</h3>
             <form className={styles.form} onSubmit={(e) => { e.preventDefault(); handleUpdateUserInfo(); }}>
                 <div>

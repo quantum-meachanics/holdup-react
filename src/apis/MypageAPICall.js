@@ -72,9 +72,9 @@ export const fetchUserInfo = async (token, email) => {
     try {
         const response = await tokenRequest(token, "GET", `/member?email=${email}`);
 
-        // 서버의 응답에서 success 속성 확인
-        if (response.success) {
-            return response.data; // 성공적인 응답에서 사용자 정보 반환
+        // 응답의 success 속성을 체크 (상황에 따라 success 속성을 확인해야 할 수도 있음)
+        if (response && response.message === '사용자 조회를 성공했습니다.') {
+            return response.result; // 성공적으로 데이터를 반환
         } else {
             throw new Error(response.message || "회원 정보 조회 실패"); // 실패 시 오류 던지기
         }
@@ -83,4 +83,3 @@ export const fetchUserInfo = async (token, email) => {
         throw new Error(error.message || "회원 정보 조회 요청 중 오류가 발생했습니다."); // 오류를 다시 던짐
     }
 };
-
