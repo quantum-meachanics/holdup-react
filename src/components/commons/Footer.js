@@ -9,7 +9,7 @@ function Footer() {
 
                 <div className={style.linkSection}>
                     <NavLink to="/holdup/reports/create" className={style.link}>신고하기</NavLink>
-                    <NavLink to="/" className={style.link}>개인정보 처리방침</NavLink>
+                    <span className={style.link}>개인정보 처리방침</span>
                     <span className={style.link}>이용 약관</span>
                 </div>
 

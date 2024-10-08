@@ -1,64 +1,96 @@
-.guideContainer {
+.main {
+    user-select: none;
+
+    margin: 20px 100px;
+
     display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    margin-top: 20px;
+    flex: 1;
+    flex-direction: column;
+}
+
+.title {
+    font-size: 30px;
+    font-weight: 900;
+
+    text-align: center;
+
+    margin-top: 30px;
+}
+
+.subTitle {
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #d9d9d9;
+
+    text-align: center;
+
+    color: #707070;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.cardSection {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
 }
 
 .card {
-    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    margin: 0 20px;
+
+    height: 450px;
+    width: 300px;
+
     border-radius: 10px;
+
+    background-color: white;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
     transition: transform 0.3s, box-shadow 0.3s;
-    padding: 20px;
-    width: 200px;
-    text-align: center;
-    margin: 20px;
-    cursor: pointer;
 }
 
 .card:hover {
-    transform: scale(1.05); /* 마우스를 올리면 카드 확대 */
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* 호버 시 더 강한 그림자 */
+    transform: scale(1.05);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 
 .guideImage {
-    width: 100%;
-    height: auto;
+    pointer-events: none;
+
+    margin-bottom: 30px;
+
+    height: 200px;
+    width: 200px;
+
     border-radius: 8px;
-    margin-bottom: 15px;
+
+    box-shadow: 0 0 0 1px #d9d9d9 inset;
 }
 
-.guideText {
-    padding: auto;
-    border: #073929 solid 2px;
-    font-weight: bold;
-    font-size: 15px;
-    color: #333;
-}
-
-.guideTitleText {
-    border: #073929 solid 2px;
+.sizeText {
     font-size: 20px;
-    font-weight: bold;
-    color: #333;
+    font-weight: 900;
 }
 
-.guideTitle {
-    font-size: 24px; /* 글씨 크기 */
-    font-weight: bold; /* 굵은 글씨체 */
-    color: #073929; /* 초록색 계열 색상 */
-    text-align: center; /* 가운데 정렬 */
-    padding: 10px 20px; /* 상하, 좌우 여백 추가 */
-    margin-bottom: 30px; /* 아래쪽 여백 추가 */
-    border-bottom: 2px solid #073929; /* 아래쪽에 강조선 추가 */
-    letter-spacing: 1px; /* 글자 간격 */
+.sizeSubText {
+    margin-bottom: 20px;
+
+    font-size: 17px;
+    font-weight: 600;
 }
 
-.exampleList {
-    list-style-type: disc; /* 기본 점 리스트 스타일 */
-    padding-left: 20px; /* 왼쪽 여백 추가 */
-    margin-top: 10px; /* 위쪽 간격 추가 */
-    font-size: 14px;
-    color: #555;
+.exampleText {
+    margin-bottom: 5px;
+    
+    font-size: 15px;
+}
+
+.description {
+    font-size: 15px;
 }

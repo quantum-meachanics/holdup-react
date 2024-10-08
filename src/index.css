@@ -11,6 +11,7 @@ html, body, #root {
   min-height: calc(100vh - 16.6px);
   min-width: 100%;
 
+  color: black;
   /* 테스트용 배경색 */
   background-color: whitesmoke;
   /* 기본 배경색 */

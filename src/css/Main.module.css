@@ -4,8 +4,13 @@
 
     user-select: none;
 
+    margin: 20px 100px;
+
     display: flex;
+    flex: 1;
     flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 .createSpaceButton {
