@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { callGetInquiryDetailAPI } from '../../apis/InquiryAPICall';
+import { callGetInquiryDetailAPI, callDeleteInquiryAPI } from '../../apis/InquiryAPICall';
 
 function InquiryDetailForm() {
     const { id } = useParams();
@@ -44,6 +44,18 @@ function InquiryDetailForm() {
         return `${year}년 ${month}월 ${day}일 ${hour}:${minute}:${second}`;
     };
 
+    const handleDelete = async () => {
+        try {
+            dispatch(callDeleteInquiryAPI(id));
+            // 삭제 성공 시 처리
+            alert('게시글이 성공적으로 삭제되었습니다.');
+            navigate('/holdup/inquiries'); // 목록 페이지로 이동
+        } catch (error) {
+            // 삭제 실패 시 처리
+            alert('게시글 삭제에 실패했습니다: ' + error.message);
+        }
+    };
+
     return (
         <div>
             <h1>문의 상세</h1>
@@ -76,6 +88,7 @@ function InquiryDetailForm() {
             </div>
             <button onClick={handleGoBack}>목록으로 돌아가기</button>
             <button onClick={handleUpdate}>수정</button>
+            <button onClick={handleDelete}>삭제</button>
         </div>
 
     );

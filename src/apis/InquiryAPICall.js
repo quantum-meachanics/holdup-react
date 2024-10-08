@@ -2,6 +2,7 @@ import { tokenRequest } from "./Api";
 import { getInquiryListSuccess, getInquiryListFail } from "../modules/InquiryModule"
 import { createInquirySuccess, createInquiryFail } from "../modules/InquiryCreateModule";
 import {getInquiryDetailSuccess, getInquiryDetailFail} from "../modules/InquiryDetailModule";
+import { deleteInquirySuccess, deleteInquiryFail }  from "../modules/InquiryDeleteModule";
 
 export function callGetInquiryListAPI(page = 0, size = 10) {
     return async (dispatch) => {
@@ -138,6 +139,32 @@ export function callUpdateInquiryAPI(id, modifyInfo, newImages, deleteImage) {
 
         } catch (error) {
             dispatch(getInquiryDetailFail(error.message || "리뷰 수정에 오류가 발생했습니다."))
+        }
+    };
+}
+
+export function callDeleteInquiryAPI(id) {
+    return async (dispatch) => {
+        try {
+            const token = sessionStorage.getItem('token');
+            const response = await tokenRequest(
+                token,
+                "DELETE",
+                `/inquiries/${id}`
+            );
+
+            console.log('API Response:', response);
+
+            // 삭제 성공 후 처리 (예: 알림 표시, 페이지 리다이렉트 등)
+            dispatch(deleteInquirySuccess(response.result));
+
+            dispatch(callGetInquiryListAPI(0,10));
+
+            return true;
+        } catch (error) {
+            console.error('API Error:', error);
+            // 에러 처리 (예: 에러 메시지 표시)
+            dispatch(deleteInquiryFail(error.message || "리뷰 삭제에 오류가 발생했습니다."))
         }
     };
 }
