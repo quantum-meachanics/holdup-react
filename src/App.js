@@ -70,7 +70,7 @@ function App() {
           <Route path="holdup/success" element={<SuccessScreen />} />
 
           <Route path="holdup/reviews" element={<Review />} />
-          <Route path="holdup/reviews/create" element={<CreateReview />} />
+          <Route path="holdup/reviews/create/:id" element={<CreateReview />} />
           <Route path="holdup/reviews/:id" element={<ReviewDetail />} />
           <Route path="holdup/reviews/update/:id" element={<UpdateReview />} />
 
