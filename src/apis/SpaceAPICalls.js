@@ -16,11 +16,12 @@ export function callCreateSpaceAPI(spaceInfo, imageFiles) {
             imageFiles.forEach(image => formData.append("images", image));
 
             const response = await tokenRequest(
-                sessionStorage.getItem('token'),
+                sessionStorage.getItem("token"),
                 "POST",
                 "/spaces",
                 formData
             )
+
             dispatch(createSpaceSuccess(response.spaceInfo));
 
         } catch (error) {
@@ -37,6 +38,8 @@ export function callAllSpacesAPI(page = 0, size = 0) {
                 "GET",
                 `/spaces?page=${page}&size=${size}`
             )
+
+            console.log("가져온 공간 정보", response.result.content);
 
             dispatch(getAllSpacesSuccess(
                 response.result.content,
