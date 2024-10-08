@@ -52,17 +52,17 @@ function CommunitySidebar() {
     return (
         <div className={style.mypageSidebar}>
             <div className={style.infoBox}>
-                <p>닉네임 : {nickname}</p>
-                <p>역할 : {role}</p>
-                <p>크레딧 : {credit}</p>
+                <span>닉네임 : {nickname}</span>
+                <span>역할 : {role}</span>
+                <span>크레딧 : {credit}</span>
             </div>
             <div className={style.linkBox}>
-                <NavLink to="/holdup/mypage" className={style.link}><p>내 정보</p></NavLink>
-                <NavLink to="/holdup/mypage" className={style.link}><p>내 공간</p></NavLink>
-                <NavLink to="/holdup/mypage/reservations" className={style.link}><p>내 예약</p></NavLink>
-                <NavLink to="/holdup/mypage" className={style.link}><p>내 리뷰</p></NavLink>
-                <NavLink to="/holdup/mypage" className={style.link}><p>내 문의</p></NavLink>
-                <NavLink to="/holdup/mypage" className={style.link}><p>접수한 신고</p></NavLink>
+                <NavLink to="/holdup/mypage" className={style.link}>내 정보</NavLink>
+                <NavLink to="/holdup/mypage" className={style.link}>내 공간</NavLink>
+                <NavLink to="/holdup/mypage/reservations" className={style.link}>내 예약</NavLink>
+                <NavLink to="/holdup/mypage" className={style.link}>내 리뷰</NavLink>
+                <NavLink to="/holdup/mypage" className={style.link}>내 문의</NavLink>
+                <NavLink to="/holdup/mypage" className={style.link}>접수한 신고</NavLink>
             </div>
         </div>
     );

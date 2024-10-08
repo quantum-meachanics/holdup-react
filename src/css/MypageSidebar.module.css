@@ -8,47 +8,61 @@
     padding-bottom: 10px;
     margin-right: 20px;
 
-    min-width: 200px;
-    max-width: 200px;
+    min-width: 250px;
+    max-width: 250px;
 
     border-radius: 20px;
+    border: 2px solid #073929;
+    background-color: white;
+}
 
-    background-color: #073929;
+.linkBox {
+    display: flex; /* Flexbox 사용 */
+    flex-direction: column; /* 세로 방향 정렬 */
+    align-items: center; /* 수평 가운데 정렬 */
+    justify-content: center; /* 수직 가운데 정렬 */
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: white;
+    width: 100%;
 }
 
 .link {
-    margin-top: 10px;
-    margin-bottom: 10px;
-
-    color: white;
-    text-decoration: none;
-    font-size: 15px;
-    font-weight: 600;
-}
-
-.link p{
-    background-color: #073929; /* 하얀색 배경 */
-    border: 2px solid #073929;
-    color: white;
-    padding: 10px; /* 텍스트 내부 여백 */
-    border-radius: 4px; /* 텍스트 박스 모서리 둥글게 */
-    margin: 10px 0; /* 각 텍스트 사이의 간격 */
+    background-color: #073929; /* 배경색 설정 */
+    display: flex; /* Flexbox 사용 */
+    justify-content: center; /* 중앙 정렬 */
+    color: white; /* 텍스트 색상 */
+    align-items: center; /* 수직 정렬 */
+    margin: 10px 0; /* 각 링크 간의 간격 */
+    width: 130px; /* 너비 설정 */
+    border-radius: 10px; /* 모서리 둥글게 */
+    padding: 10px; /* 클릭 영역 확대를 위한 패딩 추가 */
+    font-size: 16px; /* 텍스트 크기 조정 */
+    font-weight: 700; /* 글자 두께 증가 */
+    text-decoration: none; /* 밑줄 제거 */
 }
 
 .infoBox {
-    background-color: white; /* 박스의 초록색 배경 */
-    border: 2px solid #073929; /* 노란색 테두리 */
-    border-radius: 8px; /* 모서리를 살짝 둥글게 */
+    display: flex; /* Flexbox 사용 */
+    flex-direction: column; /* 세로 방향 정렬 */
+    align-items: center; /* 수평 가운데 정렬 */
+    justify-content: center; /* 수직 가운데 정렬 */
+    background-color: #f9f9f9; /* 부드러운 배경색 */
+    border: 2px solid #073929; /* 테두리 색상 변경 */
+    border-radius: 12px; /* 모서리를 더 둥글게 */
     padding: 20px; /* 박스 내부 여백 */
     width: fit-content; /* 내용에 맞게 너비 조정 */
-    margin: 20px auto; /* 박스를 중앙에 배치 */
+    margin: 20px auto; /* 중앙 배치 */
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
 }
 
-.infoBox p {
-    background-color: #073929; /* 하얀색 배경 */
-    border: 2px solid #073929;
-    color: white; /* 검은색 글씨 */
-    padding: 10px; /* 텍스트 내부 여백 */
-    border-radius: 4px; /* 텍스트 박스 모서리 둥글게 */
-    margin: 10px 0; /* 각 텍스트 사이의 간격 */
+.infoBox span {
+    text-align: center;
+    background-color: #073929; /* 박스 내부 텍스트 배경색 */
+    border: 2px solid #073929; /* 테두리 색상 유지 */
+    color: white; /* 텍스트 색상 유지 */
+    padding: 12px; /* 텍스트 내부 여백 증가 */
+    border-radius: 8px; /* 모서리 둥글게 */
+    margin: 10px 0; /* 간격 유지 */
+    transition: background-color 0.3s, color 0.3s; /* 애니메이션 효과 추가 */
 }
