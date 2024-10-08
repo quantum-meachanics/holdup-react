@@ -8,11 +8,23 @@ function InquiryDetailForm() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { inquiryDetail, error } = useSelector(state => state.inquiryDetailReducer);
+    const [currentUser, setCurrentUser] = useState(null);
+
 
     useEffect(() => {
         dispatch(callGetInquiryDetailAPI(id));
         console.log('Fetching review for id:', id);
+
+        
+        // SessionStorage에서 사용자 정보 가져오기
+        const userInfo = JSON.parse(sessionStorage.getItem('user'));
+        setCurrentUser(userInfo);
     }, []);
+
+    // 로그인한 사용자와 글쓴이와 같은지 확인
+    const isAuthor = () => {       
+        return currentUser && inquiryDetail && currentUser.nickname === inquiryDetail.nickname;
+    };
 
     const handleGoBack = () => {
         navigate('/holdup/inquiries');
@@ -87,8 +99,12 @@ function InquiryDetailForm() {
 
             </div>
             <button onClick={handleGoBack}>목록으로 돌아가기</button>
-            <button onClick={handleUpdate}>수정</button>
-            <button onClick={handleDelete}>삭제</button>
+            {isAuthor() && (
+                <>
+                    <button onClick={handleUpdate}>수정</button>
+                    <button onClick={handleDelete}>삭제</button>
+                </>
+            )}
         </div>
 
     );
