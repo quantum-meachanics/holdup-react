@@ -8,11 +8,21 @@ function ReportDetailForm() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { reportDetail, error } = useSelector(state => state.reportDetailReducer);
+    const [currentUser, setCurrentUser] = useState(null);
 
     useEffect(() => {
         dispatch(callGetReportDetailAPI(id));
         console.log('Fetching review for id:', id);
+        
+        // SessionStorage에서 사용자 정보 가져오기
+        const userInfo = JSON.parse(sessionStorage.getItem('user'));
+        setCurrentUser(userInfo);
     }, []);
+
+        // 로그인한 사용자와 글쓴이와 같은지 확인
+        const isAuthor = () => {       
+            return currentUser && reportDetail && currentUser.nickname === reportDetail.nickname;
+        };
 
     const handleGoBack = () => {
         navigate('/holdup/reports');
@@ -75,7 +85,11 @@ function ReportDetailForm() {
 
             </div>
             <button onClick={handleGoBack}>목록으로 돌아가기</button>
-            <button onClick={handleUpdate}>수정</button>
+            {isAuthor() && (
+                <>
+                    <button onClick={handleUpdate}>수정</button>
+                </>
+            )}
         </div>
     
     );

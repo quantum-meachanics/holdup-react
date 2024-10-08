@@ -1,7 +1,8 @@
 import { getReviewListSuccess, getReviewListFail } from "../modules/ReviewModule";
 import { createReviewSuccess, createReviewFail } from "../modules/ReviewCreateModule";
 import { getReviewDetailSuccess, getReviewDetailFail } from '../modules/ReviewDetailModule';
-    import { tokenRequest } from "./Api";
+import { deleteReviewSuccess, deleteReviewFail } from '../modules/ReviewDeleteModule';
+import { tokenRequest } from "./Api";
 
 export function callGetReviewListAPI(page = 0, size = 10) {
     return async (dispatch) => {
@@ -134,10 +135,36 @@ export function callUpdateReviewAPI(id, modifyInfo, newImages, deleteImage) {
             // 수정 완료후  다시 reviewDetail 불러오기
             dispatch(callGetReviewDetailAPI(id));
 
-            
+
 
         } catch (error) {
             dispatch(getReviewDetailFail(error.message || "리뷰 수정에 오류가 발생했습니다."))
+        }
+    };
+}
+
+export function callDeleteReviewAPI(id) {
+    return async (dispatch) => {
+        try {
+            const token = sessionStorage.getItem('token');
+            const response = await tokenRequest(
+                token,
+                "DELETE",
+                `/reviews/${id}`
+            );
+
+            console.log('API Response:', response);
+
+            // 삭제 성공 후 처리 (예: 알림 표시, 페이지 리다이렉트 등)
+            dispatch(deleteReviewSuccess(response.result));
+
+            dispatch(callGetReviewListAPI(0,10));
+
+            return true;
+        } catch (error) {
+            console.error('API Error:', error);
+            // 에러 처리 (예: 에러 메시지 표시)
+            dispatch(deleteReviewFail(error.message || "리뷰 삭제에 오류가 발생했습니다."))
         }
     };
 }

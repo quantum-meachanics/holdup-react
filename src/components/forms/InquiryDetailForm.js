@@ -1,18 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { callGetInquiryDetailAPI } from '../../apis/InquiryAPICall';
+import { callGetInquiryDetailAPI, callDeleteInquiryAPI } from '../../apis/InquiryAPICall';
 
 function InquiryDetailForm() {
     const { id } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { inquiryDetail, error } = useSelector(state => state.inquiryDetailReducer);
+    const [currentUser, setCurrentUser] = useState(null);
+
 
     useEffect(() => {
         dispatch(callGetInquiryDetailAPI(id));
         console.log('Fetching review for id:', id);
+
+        
+        // SessionStorage에서 사용자 정보 가져오기
+        const userInfo = JSON.parse(sessionStorage.getItem('user'));
+        setCurrentUser(userInfo);
     }, []);
+
+    // 로그인한 사용자와 글쓴이와 같은지 확인
+    const isAuthor = () => {       
+        return currentUser && inquiryDetail && currentUser.nickname === inquiryDetail.nickname;
+    };
 
     const handleGoBack = () => {
         navigate('/holdup/inquiries');
@@ -42,6 +54,18 @@ function InquiryDetailForm() {
 
         // "년월일 시:분:초" 형식으로 문자열 생성
         return `${year}년 ${month}월 ${day}일 ${hour}:${minute}:${second}`;
+    };
+
+    const handleDelete = async () => {
+        try {
+            dispatch(callDeleteInquiryAPI(id));
+            // 삭제 성공 시 처리
+            alert('게시글이 성공적으로 삭제되었습니다.');
+            navigate('/holdup/inquiries'); // 목록 페이지로 이동
+        } catch (error) {
+            // 삭제 실패 시 처리
+            alert('게시글 삭제에 실패했습니다: ' + error.message);
+        }
     };
 
     return (
@@ -75,7 +99,12 @@ function InquiryDetailForm() {
 
             </div>
             <button onClick={handleGoBack}>목록으로 돌아가기</button>
-            <button onClick={handleUpdate}>수정</button>
+            {isAuthor() && (
+                <>
+                    <button onClick={handleUpdate}>수정</button>
+                    <button onClick={handleDelete}>삭제</button>
+                </>
+            )}
         </div>
 
     );
