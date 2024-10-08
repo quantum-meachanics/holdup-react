@@ -20,14 +20,14 @@
 }
 
 .subheading {
-    font-size: 22px;
+    font-size: 20px;
     margin-bottom: 20px;
     color: #065b29;
     text-align: center;
 }
 
 .sectionTitle {
-    font-size: 20px;
+    font-size: 15px;
     margin-top: 40px;
     margin-bottom: 15px;
     color: #065b29;
@@ -62,7 +62,7 @@
 
 .input {
     width: 90%; /* 입력칸 너비를 줄임 */
-    padding: 12px;
+    padding: 10px;
     font-size: 15px;
     border: 1px solid #073929;
     border-radius: 8px;
@@ -99,18 +99,10 @@
 }
 
 .button:hover {
-    background-color: #d3aa15;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-}
-
-.logoutButton {
-    margin-top: 20px;
+    background-color: #d8b82b;
     color: white;
-    background-color: #065b29;
-}
-
-.logoutButton:hover {
-    background-color: #073929;
+    transform: scale(1.05); /* 호버 시 버튼 확대 */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* 호버 시 더 강한 그림자 */
 }
 
 .addressButton {

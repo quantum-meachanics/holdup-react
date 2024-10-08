@@ -1,63 +1,73 @@
 .findEmailContainer {
-    width: 100%;
+    width: 800px;
     margin: 50px auto;
-    padding: 20px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    padding: 30px; /* 패딩 늘리기 */
+    background-color: #ffffff; /* 배경색 */
+    border-radius: 15px; /* 모서리 둥글게 */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+    transition: transform 0.3s; /* 변환 효과 추가 */
 }
 
 .title {
     text-align: center;
-    color: #073929;
+    color: #073929; /* 제목 색상 */
+    font-size: 2em; /* 제목 크기 */
+    margin-bottom: 20px; /* 제목 아래 간격 추가 */
 }
 
 .inputGroup {
-    margin: 15px 0;
+    margin: 20px 0; /* 상하 마진 증가 */
 }
 
 .inputGroup label {
-    margin-bottom: 5px;
+    margin-bottom: 8px; /* 레이블 아래 간격 증가 */
     font-weight: bold;
     color: #073929;
+    display: block; /* 레이블을 블록 요소로 설정하여 가독성 증가 */
 }
 
 .inputGroup input {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    box-sizing: border-box;
-    background-color: #f9f9f9;
+    width: 100%; /* 입력 필드 너비 100%로 설정 */
+    padding: 12px; /* 패딩 유지 */
+    border: 1px solid #ccc; /* 부드러운 테두리 색상으로 변경 */
+    border-radius: 8px; /* 모서리 둥글게 */
+    box-sizing: border-box; /* 박스 크기 조정 */
+    background-color: #f9f9f9; /* 배경색 유지 */
+    transition: border-color 0.3s, box-shadow 0.3s; /* 테두리와 그림자 변화 효과 추가 */
+    font-size: 1em; /* 글자 크기 설정 */
+    color: #333; /* 글자 색상 설정 */
 }
 
 .inputGroup input:focus {
     outline: none;
     background-color: #fff;
+    border-color: #073929; /* 포커스 시 테두리 색상 변경 */
+    box-shadow: 0 0 5px rgba(7, 57, 41, 0.5); /* 포커스 시 그림자 효과 추가 */
 }
 
 .button {
-    padding: 10px;
-    background-color: #073929;
+    padding: 12px; /* 버튼 패딩 증가 */
+    background-color: #073929; /* 버튼 색상 */
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 1em;
+    font-size: 1.1em; /* 버튼 글자 크기 증가 */
     width: 100%;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.2s; /* 배경색과 변환 효과 추가 */
 }
 
 .button:hover {
-    background-color: #055b4a;
+    background-color: #055b4a; /* 호버 시 색상 변경 */
+    transform: translateY(-2px); /* 호버 시 살짝 위로 이동 */
 }
 
 .message {
     margin-top: 15px;
     text-align: center;
     font-weight: bold;
-    font-size: 1.1em;
-    color: #ff9800;
+    font-size: 1.2em; /* 메세지 글자 크기 증가 */
+    color: #ff9800; /* 메세지 색상 */
     margin-bottom: 20px;
 }
 
@@ -74,22 +84,23 @@
     cursor: pointer;
     font-size: 1em;
     flex: 1;
+    transition: background-color 0.3s; /* 배경색 변화 효과 */
 }
 
 .loginButton {
-    background-color: #073929;
+    background-color: #073929; /* 로그인 버튼 색상 */
     color: white;
 }
 
 .passwordButton {
-    background-color: #ffeb3b;
-    margin-left: 10px;
+    background-color: #ffeb3b; /* 비밀번호 찾기 버튼 색상 */
+    margin-left: 10px; /* 비밀번호 찾기 버튼과 간격 */
 }
 
 .passwordButton:hover {
-    background-color: #fbc02d;
+    background-color: #fbc02d; /* 비밀번호 찾기 버튼 호버 시 색상 */
 }
 
 .loginButton:hover {
-    background-color: #055b4a;
+    background-color: #055b4a; /* 로그인 버튼 호버 시 색상 */
 }

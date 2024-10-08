@@ -8,7 +8,7 @@ function MyReservationsForm() {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { myReservationList, totalPages, error } = useSelector(state => state.myReservationReducer);
+    const { myReservationList, totalPages } = useSelector(state => state.myReservationReducer);
     const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
@@ -52,7 +52,7 @@ function MyReservationsForm() {
 
     return (
         <>
-            <div style={{ display: "flex", flexDirection: "column" }}>
+            <div style={{ display: "flex", flexDirection: "column"}}>
                 <span>나의 예약</span>
                 {myReservationList && myReservationList.length > 0 ? (
                     <table>

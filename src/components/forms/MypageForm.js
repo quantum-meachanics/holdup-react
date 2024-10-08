@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
-import { logoutUser } from '../../modules/UserModule';
 import { updateUserInfo } from '../../apis/MypageAPICall';
 import AddressPopup from './AddressPopup';
-import styles from '../../css/MyPageForm.module.css'; // CSS 모듈 import
+import styles from '../../css/MyPageForm.module.css';
 
 const MyPage = () => {
     const navigate = useNavigate();
@@ -22,7 +21,7 @@ const MyPage = () => {
         confirm: '',
     });
     const [errors, setErrors] = useState({});
-    const [isPopupOpen, setIsPopupOpen] = useState(false); // 팝업 상태
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     useEffect(() => {
         const user = JSON.parse(sessionStorage.getItem("user") || "null");
@@ -55,7 +54,7 @@ const MyPage = () => {
                 addressDetail: '',
             }));
         }
-        setIsPopupOpen(false); // 팝업 닫기
+        setIsPopupOpen(false);
     };
 
     const handleUpdateUserInfo = async () => {
@@ -72,22 +71,17 @@ const MyPage = () => {
                 return;
             }
 
-            console.log("Token:", token);
-            console.log("UserInfo:", userInfo);
-
-            // address와 addressDetail을 별도로 보내도록 설정
             const response = await updateUserInfo(token, {
                 email: userInfo.email,
                 currentPassword: password.current,
                 nickname: userInfo.nickname,
                 newPassword: password.new || undefined,
-                address: userInfo.address, // address 전송
-                addressDetail: userInfo.addressDetail, // addressDetail 전송
+                address: userInfo.address,
+                addressDetail: userInfo.addressDetail,
             });
 
             if (response.success) {
                 alert(response.message);
-                // 세션 스토리지의 사용자 정보 업데이트
                 sessionStorage.setItem("user", JSON.stringify({
                     ...userInfo,
                     address: userInfo.address,
@@ -103,29 +97,20 @@ const MyPage = () => {
         }
     };
 
-    const handleLogout = () => {
-        dispatch(logoutUser());
-        sessionStorage.removeItem("isLogin");
-        sessionStorage.removeItem("user");
-        sessionStorage.removeItem("token");
-        navigate('/holdup/login');
-    };
-
     return (
         <div className={styles.mypageContainer}>
             <div>
-            <h1 className={styles.heading}>마이 페이지</h1>
-            <h2 className={styles.subheading}>환영합니다, {userInfo.nickname}님!</h2>
-            <p className={styles.infoText}>이메일 : {userInfo.email}</p>
-            <p className={styles.infoText}>역할 : {userInfo.role}</p>
-            <p className={styles.infoText}>크레딧 : {userInfo.credit}</p>
+                <h1 className={styles.heading}>마이 페이지</h1>
+                <h2 className={styles.subheading}>환영합니다, {userInfo.nickname}님!</h2>
+                <p className={styles.infoText}>이메일 : {userInfo.email}</p>
+                <p className={styles.infoText}>역할 : {userInfo.role}</p>
+                <p className={styles.infoText}>크레딧 : {userInfo.credit}</p>
             </div>
 
             <h3 className={styles.sectionTitle}>회원 정보 수정</h3>
-            {/* <form className={styles.form} onSubmit={(e) => { e.preventDefault(); handleUpdateUserInfo(); }}> */}
             <form className={styles.form} onSubmit={(e) => { e.preventDefault(); handleUpdateUserInfo(); }}>
                 <div>
-                    <label className={styles.label}> 현재 비밀번호 </label>
+                    <label className={styles.label}>현재 비밀번호</label>
                     <br />
                     <input
                         type="password"
@@ -135,11 +120,9 @@ const MyPage = () => {
                         required
                         className={styles.input}
                     />
-
                 </div>
                 <div>
-                    <label className={styles.label}> 닉네임 </label>
-
+                    <label className={styles.label}>닉네임</label>
                     <br />
                     <input
                         type="text"
@@ -148,10 +131,9 @@ const MyPage = () => {
                         onChange={handleInputChange}
                         className={styles.input}
                     />
-
                 </div>
                 <div>
-                    <label className={styles.label}> 새 비밀번호</label>
+                    <label className={styles.label}>새 비밀번호</label>
                     <br />
                     <input
                         type="password"
@@ -160,10 +142,9 @@ const MyPage = () => {
                         onChange={handleInputChange}
                         className={styles.input}
                     />
-
                 </div>
                 <div>
-                    <label className={styles.label}> 새 비밀번호 확인 </label>
+                    <label className={styles.label}>새 비밀번호 확인</label>
                     <br />
                     <input
                         type="password"
@@ -174,39 +155,7 @@ const MyPage = () => {
                     />
                 </div>
                 <div>
-                    <label>
-                        새 비밀번호:
-                        <input
-                            type="password"
-                            name="new"
-                            value={password.new}
-                            onChange={handleInputChange}
-                        />
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        새 비밀번호 확인:
-                        <input
-                            type="password"
-                            name="confirm"
-                            value={password.confirm}
-                            onChange={handleInputChange}
-                        />
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        주소:
-                        <input
-                            type="text"
-                            name="address"
-                            value={userInfo.address}
-                            readOnly // 주소는 팝업으로 선택하도록 수정
-                        />
-                        <button type="button" onClick={() => setIsPopupOpen(true)}>주소 선택</button>
-                    </label>
-                    <label className={styles.label}> 주소 </label>
+                    <label className={styles.label}>주소</label>
                     <br />
                     <input
                         type="text"
@@ -215,12 +164,11 @@ const MyPage = () => {
                         readOnly
                         className={styles.input}
                     />
-                    <br/>
+                    <br />
                     <button type="button" onClick={() => setIsPopupOpen(true)} className={styles.addressButton}>주소 선택</button>
                 </div>
                 <div>
-                    <label className={styles.label}> 상세 주소 </label>
-
+                    <label className={styles.label}>상세 주소</label>
                     <br />
                     <input
                         type="text"
@@ -229,14 +177,12 @@ const MyPage = () => {
                         onChange={handleInputChange}
                         className={styles.input}
                     />
-
                 </div>
                 {errors.general && <p className={styles.error}>{errors.general}</p>}
                 {errors.password && <p className={styles.error}>{errors.password}</p>}
                 <button type="submit" className={styles.button}>정보 수정</button>
-                <button onClick={handleLogout} className={`${styles.button} ${styles.logoutButton}`}>로그아웃</button>
             </form>
-            
+
             {isPopupOpen && <AddressPopup onAddressSelect={handleAddressSelect} />}
         </div>
     );

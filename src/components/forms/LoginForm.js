@@ -42,7 +42,7 @@ function LoginForm() {
     return (
         <div className={styles.loginForm}>
             <div className={styles.loginInputGroup}>
-                <label>ID:</label>
+                <label className={styles.label}>ID:</label>
                 <input
                     type="text"
                     name="email"
@@ -52,7 +52,7 @@ function LoginForm() {
                 />
             </div>
             <div className={styles.loginInputGroup}>
-                <label>PASSWORD:</label>
+                <label className={styles.label}>PASSWORD:</label>
                 <input
                     type="password"
                     name="password"

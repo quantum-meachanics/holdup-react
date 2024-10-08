@@ -1,55 +1,42 @@
 .mypageContent {
     display: flex; /* Flexbox를 사용하여 수평 정렬 */
-    /* gap: 20px; 컴포넌트 사이의 간격 조정 */
+    gap: 20px; 
 }
 
 .mypageForm {
+    gap: 20px; 
     flex: 1; /* MypageForm의 비율 */
 }
 
-.button {
-    background-color: #073929;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
-    margin-top: 10px;
-    margin: 0 20px;
-}
-
 .mypageButton {
-    width: 25%;
-    background-color: #073929;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
+    background-color: white;
+    color: black;
+    padding: 12px 20px; /* 패딩을 더해 버튼을 크게 */
     cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
+    font-size: 16px; /* 폰트 크기 확대 */
+    font-weight: bold;
+    border: 2px solid #055b4a; /* 버튼 테두리 추가 */
+    border-radius: 8px; /* 둥근 모서리 */
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     margin-top: 10px;
     margin: 0 20px;
+    text-align: center; /* 텍스트 가운데 정렬 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 버튼에 그림자 추가 */
 }
 
 .mypageButton:hover {
     background-color: #055b4a;
-}
-
-
-.button:hover {
-    background-color: #055b4a;
+    color: white;
+    transform: scale(1.05); /* 호버 시 버튼 확대 */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* 호버 시 더 강한 그림자 */
 }
 
 .buttonContent {
-    /* display: flex; flexbox 사용 */
-    /* justify-content: center; 수평 중앙 정렬 */
-    /* align-items: center; 수직 중앙 정렬 (필요에 따라) */
+    display: flex;
+    justify-content: center;
     margin: 20px auto;
 }
 
-/* .myPageSidebar {
-    MyPageSidebar의 비율 
-} */
+.title {
+    text-align: center;
+}

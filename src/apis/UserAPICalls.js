@@ -13,7 +13,7 @@ export function callLoginAPI(loginInfo, navigate) {
             if (response.token) {
                 // 필요한 사용자 정보만 추출
                 const { id, name, nickname, email, role , address , addressDetail , credit } = response.userInfo;
-
+                
                 const userData = {
                     id,
                     name,       // 이름
@@ -27,6 +27,7 @@ export function callLoginAPI(loginInfo, navigate) {
                 };
 
                 console.log("추출된 사용자 정보 확인", userData);
+                console.log("userInfo",response.userInfo);
                 sessionStorage.setItem("token", response.token); // JWT 토큰 저장
                 sessionStorage.setItem("isLogin", "true"); // 로그인 상태 저장 (문자열로 저장)
                 dispatch(loginSuccess(userData)); // Redux 상태 업데이트
