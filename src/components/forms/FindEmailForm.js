@@ -35,6 +35,8 @@ const FindEmailForm = () => {
                 <form onSubmit={handleSubmit}>
                     <div className={style.inputGroup}>
                         <label htmlFor="name">이름</label>
+                        <br/>
+                        <br/>
                         <input
                             type="text"
                             id="name"
@@ -45,6 +47,8 @@ const FindEmailForm = () => {
                     </div>
                     <div className={style.inputGroup}>
                         <label htmlFor="phone">전화번호</label>
+                        <br/>
+                        <br/>
                         <input
                             type="text"
                             id="phone"

@@ -4,7 +4,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { loginSuccess, resetLoginUser } from "./modules/UserModule"; // 필요한 액션 임포트
 
 import MyPage from "./pages/Mypage";
-import SuccessScreen from "./components/forms/SuccessScreen";
 import Layout from "./layouts/Layout";
 import CreateSpace from "./pages/CreateSpace";
 import CreateSpaceSuccessPage from "./pages/CreateSpaceSuccessPage";
@@ -67,10 +66,9 @@ function App() {
           <Route path="holdup/login" element={<Login />} />
           <Route path="holdup/find-email" element={<FindEmailForm />} />
           <Route path="holdup/email-verification" element={<EmailVerification />} />
-          <Route path="holdup/success" element={<SuccessScreen />} />
 
           <Route path="holdup/reviews" element={<Review />} />
-          <Route path="holdup/reviews/create" element={<CreateReview />} />
+          <Route path="holdup/reviews/create/:id" element={<CreateReview />} />
           <Route path="holdup/reviews/:id" element={<ReviewDetail />} />
           <Route path="holdup/reviews/update/:id" element={<UpdateReview />} />
 
@@ -89,6 +87,7 @@ function App() {
           <Route path="holdup/mypage" element={<MyPage />} />
           <Route path="holdup/mypage/credit" element={<CreditPage/>}/>
           <Route path="holdup/mypage/reservations" element={<MyReservations />}/>
+  
 
           <Route path="holdup/admin" element={<Administrator/>}/>
         </Route>

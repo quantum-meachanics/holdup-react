@@ -8,7 +8,7 @@ function MyReservationsForm() {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { myReservationList, totalPages, error } = useSelector(state => state.myReservationReducer);
+    const { myReservationList, totalPages } = useSelector(state => state.myReservationReducer);
     const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
@@ -26,6 +26,10 @@ function MyReservationsForm() {
         navigate(`/holdup/spaces/${spaceId}`);
     };
 
+    const handleWriteReview = (id) => {
+        navigate(`/holdup/reviews/create/${id}`);
+    };
+
     // 날짜 형식 포맷
     const formatDateTime = (dateArray) => {
         // dateArray가 유효한지 확인
@@ -33,7 +37,7 @@ function MyReservationsForm() {
             console.error("Invalid date array:", dateArray);
             return "유효하지 않은 날짜";
         }
-    
+
         // Date 객체 생성
         const year = dateArray[0];
         const month = String(dateArray[1]).padStart(2, '0'); // 월을 두 자리로 포맷
@@ -41,14 +45,14 @@ function MyReservationsForm() {
         const hour = String(dateArray.length > 3 ? dateArray[3] : 0).padStart(2, '0'); // 시를 두 자리로 포맷
         const minute = String(dateArray.length > 4 ? dateArray[4] : 0).padStart(2, '0'); // 분을 두 자리로 포맷
         const second = String(dateArray.length > 5 ? dateArray[5] : 0).padStart(2, '0'); // 초를 두 자리로 포맷
-    
+
         // "년월일 시:분:초" 형식으로 문자열 생성
         return `${year}년 ${month}월 ${day}일 ${hour}:${minute}:${second}`;
     };
 
     return (
         <>
-            <div style={{ display: "flex", flexDirection: "column" }}>
+            <div style={{ display: "flex", flexDirection: "column"}}>
                 <span>나의 예약</span>
                 {myReservationList && myReservationList.length > 0 ? (
                     <table>
@@ -83,6 +87,13 @@ function MyReservationsForm() {
 
                                     {/* 공간이름(클릭시 해당 공간 상세페이지로 이동) */}
                                     <td onClick={() => spaceNameClickHandler(myReservation.spaceId)}>{myReservation.spaceName}</td>
+
+                                    {!myReservation.hasReview && (
+                                        <button onClick={() => handleWriteReview(myReservation.id)}>
+                                            리뷰 쓰기
+                                        </button>
+                                    )}
+
                                 </tr>
                             ))}
                         </tbody>

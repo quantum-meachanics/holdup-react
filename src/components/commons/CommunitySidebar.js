@@ -28,7 +28,7 @@ function CommunitySidebar() {
                             <span className={style.nickname}>{userInfo.nickname}</span>
                             <div className={style.creditSection}>
                                 <span className={style.creditLabel}>크레딧 : </span>
-                                <span className={style.credit}>1234567890</span>
+                                <span className={style.credit}>{userInfo.credit}</span>
                                 <NavLink to="/" className={style.creditButton}>+</NavLink>
                             </div>
                         </div>

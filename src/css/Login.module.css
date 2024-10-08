@@ -6,6 +6,10 @@
     height: 100vh; /* 화면 전체 높이 */
 }
 
+.label{
+    font-weight: bold;
+}
+
 h1 {
     color: #073929; 
     margin-bottom: 30px; /* 제목과 폼 사이의 여백 */
@@ -85,23 +89,53 @@ h1 {
     cursor: pointer;
     font-size: 1em; /* 폰트 크기 줄임 */
     height: 45px; /* 높이 줄임 */
-    transition: background-color 0.3s; /* 배경색 변화 애니메이션 */
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.loginButton:hover {
+    background-color: #055b4a;
+    color: white;
+    transform: scale(1.05); /* 호버 시 버튼 확대 */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* 호버 시 더 강한 그림자 */
 }
 
 .loginButton:hover {
     background-color: #218838; /* 버튼 호버 시 조금 더 어두운 초록색 */
 }
 
-.signupLink a,
-.findLinks a {
-    text-decoration: none; /* 밑줄 제거 */
-    color: #073929; /* 링크 색상 */
-    font-size: 1em; /* 폰트 크기 증가 */
-    transition: color 0.3s; /* 색상 변화 애니메이션 */
+.singupLink {
+    display: flex; /* 플렉스 박스를 사용하여 링크를 수평으로 배치 */
+    justify-content: center; /* 가운데 정렬 */
+    margin-top: 20px; /* 상단 마진 추가 */
 }
 
-.signupLink a:hover,
-.findLinks a:hover {
+.signupLink a {
+    margin: 0 15px; /* 좌우 간격 추가 */
+    text-decoration: none; /* 링크 아래 선 제거 */
+    color: #073929; /* 링크 색상 설정 */
+    font-weight: bold; /* 링크 글씨를 굵게 설정 */
+    transition: color 0.3s; /* 색상 변화 효과 추가 */
+}
+
+.signupLink a:hover {
     color: #055b4a; /* 링크 호버 시 색상 */
     text-decoration: underline; /* 링크에 밑줄 추가 */
+}
+
+.findLinks {
+    display: flex; /* 플렉스 박스를 사용하여 링크를 수평으로 배치 */
+    justify-content: center; /* 가운데 정렬 */
+
+}
+
+.findLinks a {
+    margin: 0 15px; /* 좌우 간격 추가 */
+    text-decoration: none; /* 링크 아래 선 제거 */
+    color: #073929; /* 링크 색상 설정 */
+    font-weight: bold; /* 링크 글씨를 굵게 설정 */
+    transition: color 0.3s; /* 색상 변화 효과 추가 */
+}
+
+.findLinks a:hover {
+    color: #055b4a; /* 호버 시 링크 색상 변경 */
 }
