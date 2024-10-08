@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { callCreateReviewAPI } from "../../apis/ReviewAPICall";
 
 function CreateReviewForm() {
+    const {id} = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { reviewInfo, error } = useSelector(state => state.reviewcreateReducer);
@@ -12,7 +13,7 @@ function CreateReviewForm() {
         title: '',
         content: '',
         rating: '',
-        reservationId: '',
+        reservationId: id,
     });
 
     const [imageFiles, setImageFiles] = useState([]); // 파일 리스트 저장할 state
@@ -60,7 +61,6 @@ function CreateReviewForm() {
         navigate('/holdup/myPage/reservations');
     };
 
-    
 
     const onClickGoBack = () => {
         navigate('/holdup/myPage/reservations');
@@ -78,7 +78,7 @@ function CreateReviewForm() {
     return (
         <>
 
-            <p>예약ID: {inputReviewInfo.reservationId} </p>
+            <p>예약ID: {id} </p>
 
             <span>제목 : </span>
             <input type="text" name="title" value={inputReviewInfo.title} onChange={onChangeHandler} />
@@ -88,9 +88,6 @@ function CreateReviewForm() {
 
             <span>별점 : </span>
             <input type="text" name="rating" value={inputReviewInfo.rating} onChange={onChangeHandler} />
-
-
-            {/* <input type="text" name="reservationId" value={inputReviewInfo.reservationId} onChange={onChangeHandler} /> */}
 
             <span>이미지 : </span>
             <input type="file" multiple accept="image/*" onChange={fileChangeHandler} />

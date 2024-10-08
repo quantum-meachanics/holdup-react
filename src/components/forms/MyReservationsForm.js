@@ -88,9 +88,11 @@ function MyReservationsForm() {
                                     {/* 공간이름(클릭시 해당 공간 상세페이지로 이동) */}
                                     <td onClick={() => spaceNameClickHandler(myReservation.spaceId)}>{myReservation.spaceName}</td>
 
-                                    <td>
-                                        <button onClick={() => handleWriteReview(myReservation.id)}>리뷰쓰기</button>
-                                    </td>
+                                    {!myReservation.hasReview && (
+                                        <button onClick={() => handleWriteReview(myReservation.id)}>
+                                            리뷰 쓰기
+                                        </button>
+                                    )}
 
                                 </tr>
                             ))}
@@ -99,8 +101,6 @@ function MyReservationsForm() {
                 ) : (
                     <span>신청한 예약이 없습니다.</span>
                 )}
-
-                {/* <button onClick={handleWriteReview}>리뷰쓰기</button> */}
 
                 <Pagination
                     currentPage={currentPage}
