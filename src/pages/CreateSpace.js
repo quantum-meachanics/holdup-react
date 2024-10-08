@@ -3,9 +3,11 @@ import CreateSpaceForm from "../components/forms/CreateSpaceForm";
 
 function CreateSpace() {
     return (
-        <div style={{display: "flex"}}>
+        <div style={{ display: "flex", width: "100%" }}>
             <CommunitySidebar />
-            <CreateSpaceForm />
+            <div style={{ flex: 1 }}>
+                <CreateSpaceForm />
+            </div>
         </div>
     );
 }

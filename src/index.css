@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
+
+html, body, #root {
+  font-family: "Nanum Gothic";
+
+  display: inline-block;
+
+  margin: 0;
+  padding: 0;
+
+  min-height: calc(100vh - 16.6px);
+  min-width: 100%;
+
+  /* 테스트용 배경색 */
+  background-color: whitesmoke;
+  /* 기본 배경색 */
+  /* background-color: white; */
+
+  white-space: nowrap;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+}

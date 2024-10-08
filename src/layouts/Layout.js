@@ -5,11 +5,11 @@ import style from '../css/Layout.module.css';
 
 function Layout() {
     return (
-        <div className={style.layout}>
+        <>
             <Header />
             <div className={style.outlet}><Outlet /></div>
             <Footer />
-        </div>
+        </>
     );
 }
 
