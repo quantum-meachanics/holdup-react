@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from "react-redux";
-import { logoutUser } from '../../modules/UserModule';
 import { updateUserInfo } from '../../apis/MypageAPICall';
 import AddressPopup from './AddressPopup';
 import styles from '../../css/MyPageForm.module.css'; // CSS 모듈 import
 
 const MyPage = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
     const [userInfo, setUserInfo] = useState({
         nickname: '',
         email: '',
@@ -103,141 +100,96 @@ const MyPage = () => {
         }
     };
 
-    const handleLogout = () => {
-        dispatch(logoutUser());
-        sessionStorage.removeItem("isLogin");
-        sessionStorage.removeItem("user");
-        sessionStorage.removeItem("token");
-        navigate('/holdup/login');
-    };
 
     return (
         <div className={styles.mypageContainer}>
             <div>
-            <h1 className={styles.heading}>마이 페이지</h1>
-            <h2 className={styles.subheading}>환영합니다, {userInfo.nickname}님!</h2>
-            <p className={styles.infoText}>이메일 : {userInfo.email}</p>
-            <p className={styles.infoText}>역할 : {userInfo.role}</p>
-            <p className={styles.infoText}>크레딧 : {userInfo.credit}</p>
-            </div>
+                <p >닉네임 : {userInfo.nickname}</p>
+                <p >역할 : {userInfo.role}</p>
+                <p >크레딧 : {userInfo.credit}</p>
+                <form className={styles.form} onSubmit={(e) => { e.preventDefault(); handleUpdateUserInfo(); }}>
+                    <div>
+                        <label className={styles.label}> 현재 비밀번호 </label>
+                        <br />
+                        <input
+                            type="password"
+                            name="current"
+                            value={password.current}
+                            onChange={handleInputChange}
+                            required
+                            className={styles.input}
+                        />
 
-            <h3 className={styles.sectionTitle}>회원 정보 수정</h3>
-            {/* <form className={styles.form} onSubmit={(e) => { e.preventDefault(); handleUpdateUserInfo(); }}> */}
-            <form className={styles.form} onSubmit={(e) => { e.preventDefault(); handleUpdateUserInfo(); }}>
-                <div>
-                    <label className={styles.label}> 현재 비밀번호 </label>
-                    <br />
-                    <input
-                        type="password"
-                        name="current"
-                        value={password.current}
-                        onChange={handleInputChange}
-                        required
-                        className={styles.input}
-                    />
+                    </div>
+                    <div>
+                        <label className={styles.label}> 닉네임 </label>
 
-                </div>
-                <div>
-                    <label className={styles.label}> 닉네임 </label>
+                        <br />
+                        <input
+                            type="text"
+                            name="nickname"
+                            value={userInfo.nickname}
+                            onChange={handleInputChange}
+                            className={styles.input}
+                        />
 
-                    <br />
-                    <input
-                        type="text"
-                        name="nickname"
-                        value={userInfo.nickname}
-                        onChange={handleInputChange}
-                        className={styles.input}
-                    />
-
-                </div>
-                <div>
-                    <label className={styles.label}> 새 비밀번호</label>
-                    <br />
-                    <input
-                        type="password"
-                        name="new"
-                        value={password.new}
-                        onChange={handleInputChange}
-                        className={styles.input}
-                    />
-
-                </div>
-                <div>
-                    <label className={styles.label}> 새 비밀번호 확인 </label>
-                    <br />
-                    <input
-                        type="password"
-                        name="confirm"
-                        value={password.confirm}
-                        onChange={handleInputChange}
-                        className={styles.input}
-                    />
-                </div>
-                <div>
-                    <label>
-                        새 비밀번호:
+                    </div>
+                    <div>
+                        <label className={styles.label}> 새 비밀번호</label>
+                        <br />
                         <input
                             type="password"
                             name="new"
                             value={password.new}
                             onChange={handleInputChange}
+                            className={styles.input}
                         />
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        새 비밀번호 확인:
+
+                    </div>
+                    <div>
+                        <label className={styles.label}> 새 비밀번호 확인 </label>
+                        <br />
                         <input
                             type="password"
                             name="confirm"
                             value={password.confirm}
                             onChange={handleInputChange}
+                            className={styles.input}
                         />
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        주소:
+                    </div>
+                    <div>
+                        <label className={styles.label}> 주소 </label>
+                        <br />
                         <input
                             type="text"
                             name="address"
                             value={userInfo.address}
-                            readOnly // 주소는 팝업으로 선택하도록 수정
+                            readOnly
+                            className={styles.input}
                         />
-                        <button type="button" onClick={() => setIsPopupOpen(true)}>주소 선택</button>
-                    </label>
-                    <label className={styles.label}> 주소 </label>
-                    <br />
-                    <input
-                        type="text"
-                        name="address"
-                        value={userInfo.address}
-                        readOnly
-                        className={styles.input}
-                    />
-                    <br/>
-                    <button type="button" onClick={() => setIsPopupOpen(true)} className={styles.addressButton}>주소 선택</button>
-                </div>
-                <div>
-                    <label className={styles.label}> 상세 주소 </label>
+                        <br />
+                        <button type="button" onClick={() => setIsPopupOpen(true)} className={styles.addressButton}>주소 선택</button>
+                    </div>
+                    <div>
+                        <label className={styles.label}> 상세 주소 </label>
 
-                    <br />
-                    <input
-                        type="text"
-                        name="addressDetail"
-                        value={userInfo.addressDetail}
-                        onChange={handleInputChange}
-                        className={styles.input}
-                    />
+                        <br />
+                        <input
+                            type="text"
+                            name="addressDetail"
+                            value={userInfo.addressDetail}
+                            onChange={handleInputChange}
+                            className={styles.input}
+                        />
 
-                </div>
-                {errors.general && <p className={styles.error}>{errors.general}</p>}
-                {errors.password && <p className={styles.error}>{errors.password}</p>}
-                <button type="submit" className={styles.button}>정보 수정</button>
-                <button onClick={handleLogout} className={`${styles.button} ${styles.logoutButton}`}>로그아웃</button>
-            </form>
-            
-            {isPopupOpen && <AddressPopup onAddressSelect={handleAddressSelect} />}
+                    </div>
+                    {errors.general && <p className={styles.error}>{errors.general}</p>}
+                    {errors.password && <p className={styles.error}>{errors.password}</p>}
+                    <button type="submit" className={styles.button}>정보 수정</button>
+                </form>
+
+                {isPopupOpen && <AddressPopup onAddressSelect={handleAddressSelect} />}
+            </div>
         </div>
     );
 };
