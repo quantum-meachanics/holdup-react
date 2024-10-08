@@ -1,18 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { callGetReviewDetailAPI,callDeleteReviewAPI } from '../../apis/ReviewAPICall';
+import { callGetReviewDetailAPI, callDeleteReviewAPI } from '../../apis/ReviewAPICall';
 
 function ReviewDetailForm() {
     const { id } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { reviewDetail, error } = useSelector(state => state.reviewDetailReducer);
+    const [currentUser, setCurrentUser] = useState(null);
 
     useEffect(() => {
         dispatch(callGetReviewDetailAPI(id));
         console.log('Fetching review for id:', id);
+
+        // SessionStorage에서 사용자 정보 가져오기
+        const userInfo = JSON.parse(sessionStorage.getItem('user'));
+        setCurrentUser(userInfo);
     }, []);
+
+    // 로그인한 사용자와 글쓴이와 같은지 확인
+    const isAuthor = () => {       
+        return currentUser && reviewDetail && currentUser.nickname === reviewDetail.nickname;
+    };
 
     const handleGoBack = () => {
         navigate('/holdup/reviews');
@@ -42,22 +52,22 @@ function ReviewDetailForm() {
         return `${year}년 ${month}월 ${day}일 ${hour}:${minute}:${second}`;
     };
 
-        // 페이지 이동 핸들러
-        const reservationIdClickHandler = (id) => {
-            navigate(`/holdup/myPage/reservations`);
-        };
+    // 페이지 이동 핸들러
+    const reservationIdClickHandler = (id) => {
+        navigate(`/holdup/myPage/reservations`);
+    };
 
-        const handleDelete = async () => {
-            try {
-                dispatch(callDeleteReviewAPI(id));
-                // 삭제 성공 시 처리
-                alert('리뷰가 성공적으로 삭제되었습니다.');
-                navigate('/holdup/reviews'); // 목록 페이지로 이동
-            } catch (error) {
-                // 삭제 실패 시 처리
-                alert('리뷰 삭제에 실패했습니다: ' + error.message);
-            }
-        };
+    const handleDelete = async () => {
+        try {
+            dispatch(callDeleteReviewAPI(id));
+            // 삭제 성공 시 처리
+            alert('리뷰가 성공적으로 삭제되었습니다.');
+            navigate('/holdup/reviews'); // 목록 페이지로 이동
+        } catch (error) {
+            // 삭제 실패 시 처리
+            alert('리뷰 삭제에 실패했습니다: ' + error.message);
+        }
+    };
 
     if (error) return <div>에러 발생: {error}</div>;
 
@@ -96,8 +106,12 @@ function ReviewDetailForm() {
 
             </div>
             <button onClick={handleGoBack}>목록으로 돌아가기</button>
-            <button onClick={handleUpdate}>수정</button>
-            <button onClick={handleDelete}>삭제</button>
+            {isAuthor() && (
+                <>
+                    <button onClick={handleUpdate}>수정</button>
+                    <button onClick={handleDelete}>삭제</button>
+                </>
+            )}
         </div>
 
     );
