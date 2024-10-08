@@ -1,0 +1,10 @@
+.main {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+.title {
+    font-size: 35px;
+    font-weight: 600;
+}

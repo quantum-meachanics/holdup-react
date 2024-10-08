@@ -8,9 +8,9 @@ function Footer() {
                 <span className={style.logoText}>HoldUP</span>
 
                 <div className={style.linkSection}>
-                    <NavLink to="/" className={style.link}>신고하기</NavLink>
+                    <NavLink to="/holdup/reports/create" className={style.link}>신고하기</NavLink>
                     <NavLink to="/" className={style.link}>개인정보 처리방침</NavLink>
-                    <NavLink to="/" className={style.link}>이용 약관</NavLink>
+                    <span className={style.link}>이용 약관</span>
                 </div>
 
                 <div className={style.bossInfo}>
