@@ -19,36 +19,29 @@ function CommunitySidebar() {
     };
 
     return (
-        <div className={style.communitySidebar}>
-            <div className={style.userSection}>
-                {isLogin ? (
-                    <>
-                        <div className={style.userInfo}>
-                            {/* <span className={style.nickname}>열두글자까지가능한닉네임</span> */}
-                            <span className={style.nickname}>{userInfo.nickname}</span>
-                            <div className={style.creditSection}>
-                                <span className={style.creditLabel}>크레딧 : </span>
-                                <span className={style.credit}>{userInfo.credit}</span>
-                                <NavLink to="/" className={style.creditButton}>+</NavLink>
-                            </div>
-                        </div>
-                        <NavLink to="/holdup/mypage" className={style.userButton}>마이페이지</NavLink>
-                        <NavLink to="/" className={style.userButton}>내 채팅</NavLink>
-                        <span onClick={logoutHandler} className={style.userButton}>로그아웃</span>
-                    </>
-                ) : (
-                    <NavLink to="/holdup/login" className={style.loginButton}>로그인하기</NavLink>
-                )}
-            </div>
+        <div className={style.main}>
+            {isLogin ? (
+                <div className={style.user}>
+                    <span className={style.nickname}>{userInfo.nickname}</span>
+                    <div className={style.creditSection}>
+                        <span className={style.creditLabel}>크레딧 : </span>
+                        <span className={style.credit}>{userInfo.credit}</span>
+                        <NavLink to="/" className={style.creditButton}>+</NavLink>
+                    </div>
+                    <NavLink to="/holdup/mypage" className={style.userLink}>마이페이지</NavLink>
+                    <NavLink to="/" className={style.userLink}>내 채팅</NavLink>
+                    <span onClick={logoutHandler} className={style.userLink}>로그아웃</span>
+                </div>
+            ) : (
+                <NavLink to="/holdup/login" className={style.loginButton}>로그인하기</NavLink>
+            )}
 
-            <div className={style.menuSection}>
-                <NavLink to="/holdup/guideline" className={style.menuLink}>가이드라인</NavLink>
-                <NavLink to="/" className={style.menuLink}>공지사항</NavLink>
-                <NavLink to="/holdup/spaces" className={style.menuLink}>공간 게시판</NavLink>
-                <NavLink to="/holdup/reviews" className={style.menuLink}>리뷰 게시판</NavLink>
-                <NavLink to="/holdup/inquiries" className={style.menuLink}>문의 게시판</NavLink>
-                <NavLink to="/holdup/reports" className={style.menuLink}>신고 게시판</NavLink>
-            </div>
+            <NavLink to="/holdup/guideline" className={style.menuLink}>가이드라인</NavLink>
+            <NavLink to="/" className={style.menuLink}>공지사항</NavLink>
+            <NavLink to="/holdup/spaces" className={style.menuLink}>공간 게시판</NavLink>
+            <NavLink to="/holdup/reviews" className={style.menuLink}>리뷰 게시판</NavLink>
+            <NavLink to="/holdup/inquiries" className={style.menuLink}>문의 게시판</NavLink>
+            <NavLink to="/holdup/reports" className={style.menuLink}>신고 게시판</NavLink>
         </div>
     );
 }
