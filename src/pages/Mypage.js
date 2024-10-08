@@ -25,7 +25,7 @@ function Mypage() {
                 <div className={style.mypageContent}>
                     {activeComponent === 'mypageForm' && (
                         <>
-                            <div> {/* MyPageSidebar 영역 */}
+                            <div className={style.mypageSidebar}> {/* MyPageSidebar 영역 */}
                                 <MyPageSidebar />
                             </div>
                             <div className={style.mypageForm}> {/* MypageForm 영역 */}
