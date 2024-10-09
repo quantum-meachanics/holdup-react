@@ -2,6 +2,7 @@ import { getReviewListSuccess, getReviewListFail } from "../modules/ReviewModule
 import { createReviewSuccess, createReviewFail } from "../modules/ReviewCreateModule";
 import { getReviewDetailSuccess, getReviewDetailFail } from '../modules/ReviewDetailModule';
 import { deleteReviewSuccess, deleteReviewFail } from '../modules/ReviewDeleteModule';
+import { callMyReservationsAPI } from "./ReservationAPICall";
 import { tokenRequest } from "./Api";
 
 export function callGetReviewListAPI(page = 0, size = 10) {
@@ -56,7 +57,7 @@ export function callCreateReviewAPI(reviewInfo, imageFiles) {
 
             dispatch(createReviewSuccess(response.reviewInfo));
 
-            dispatch(callGetReviewListAPI(0, 10));
+            dispatch(callMyReservationsAPI(0, 10));
 
         } catch (error) {
             dispatch(createReviewFail(error.message || "리뷰 등록에 오류가 발생했습니다."))

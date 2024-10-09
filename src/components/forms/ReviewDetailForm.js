@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { callGetReviewDetailAPI, callDeleteReviewAPI } from '../../apis/ReviewAPICall';
+import StarRating from './Ratingform';
 
 function ReviewDetailForm() {
     const { id } = useParams();
@@ -82,7 +83,7 @@ function ReviewDetailForm() {
                         <h2>{reviewDetail.title}</h2>
                         <p>작성자: {reviewDetail.nickname}</p>
                         <p>등록날짜: {formatDateTime(reviewDetail.createDate)}</p>
-                        <p>평점: {reviewDetail.rating}</p>
+                        <p>평점: <StarRating rating={reviewDetail.rating} readOnly={true} /></p>
                         <p onClick={() => reservationIdClickHandler(reviewDetail.reservation.id)} style={{ cursor: 'pointer' }}>예약 ID: {reviewDetail.reservation.id}</p>
                         <p>내용: {reviewDetail.content}</p>
                         <div>

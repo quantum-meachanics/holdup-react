@@ -2,9 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { callCreateReviewAPI } from "../../apis/ReviewAPICall";
+import StarRating from "./Ratingform";
 
 function CreateReviewForm() {
-    const {id} = useParams();
+    const { id } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { reviewInfo, error } = useSelector(state => state.reviewcreateReducer);
@@ -12,10 +13,10 @@ function CreateReviewForm() {
     const [inputReviewInfo, setReviewInfo] = useState({
         title: '',
         content: '',
-        rating: '',
         reservationId: id,
+        rating: 0
     });
-
+    const [rating, setRating] = useState(0);
     const [imageFiles, setImageFiles] = useState([]); // 파일 리스트 저장할 state
     const [showImages, setShowImages] = useState([]); // 화면에 보여줄 이미지 state
 
@@ -57,7 +58,7 @@ function CreateReviewForm() {
 
     // 페이지 이동 메소드
     const onClickHandler = () => {
-        dispatch(callCreateReviewAPI(inputReviewInfo, imageFiles));
+        dispatch(callCreateReviewAPI({...inputReviewInfo, rating}, imageFiles));
         navigate('/holdup/myPage/reservations');
     };
 
@@ -65,6 +66,12 @@ function CreateReviewForm() {
     const onClickGoBack = () => {
         navigate('/holdup/myPage/reservations');
     }
+
+    // rating 변경 핸들러
+    const handleRatingChange = (newRating) => {
+        setRating(newRating);
+        setReviewInfo(prev => ({ ...prev, rating: newRating }));
+    };
 
 
     useEffect(() => {
@@ -87,7 +94,7 @@ function CreateReviewForm() {
             <textarea type="text" name="content" value={inputReviewInfo.content} onChange={onChangeHandler} />
 
             <span>별점 : </span>
-            <input type="text" name="rating" value={inputReviewInfo.rating} onChange={onChangeHandler} />
+            <StarRating rating={inputReviewInfo.rating} setRating={handleRatingChange} />
 
             <span>이미지 : </span>
             <input type="file" multiple accept="image/*" onChange={fileChangeHandler} />
