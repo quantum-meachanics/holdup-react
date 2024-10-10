@@ -81,7 +81,7 @@ function InquiryDetailForm() {
                     <div className={style.imageSection}>
                         {inquiryDetail.imageUrl && inquiryDetail.imageUrl.length > 0 ? (
                             inquiryDetail.imageUrl.map((url, index) => (
-                                <img className={style.images} key={index} src={url} alt={`문의 이미지 ${index + 1}`} />
+                                <img className={style.image} key={index} src={url} alt={`문의 이미지 ${index + 1}`} />
                             ))
                         ) : (
                             <p>이미지가 없습니다.</p>
