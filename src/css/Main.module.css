@@ -2,17 +2,18 @@
     /* 구역 확인용 내부 외곽선 */
     /* box-shadow: 0 0 0 1px red inset; */
 
+    user-select: none;
+
+    margin: 20px 100px;
+
     display: flex;
+    flex: 1;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-
-    min-height: 860px;
 }
 
 .createSpaceButton {
-    user-select: none;
-
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -23,12 +24,21 @@
     width: 350px;
     border-radius: 30px;
 
+    color: black;
+    background-color: white;
+    box-shadow: 0 0 0 10px #073929 inset;
+
+    text-decoration: none;
+}
+
+.createSpaceButton:hover {
+    cursor: pointer;
+
+    color: white;
     background-color: #073929;
 }
 
 .useSpaceButton {
-    user-select: none;
-
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -39,6 +49,17 @@
     width: 350px;
     border-radius: 30px;
 
+    color: black;
+    background-color: white;
+    box-shadow: 0 0 0 10px #FFC600 inset;
+
+    text-decoration: none;
+}
+
+.useSpaceButton:hover {
+    cursor: pointer;
+
+    color: white;
     background-color: #FFC600;
 }
 
@@ -47,7 +68,15 @@
 
     text-align: left;
 
-    color: white;
+    font-size: 30px;
+    font-weight: 900;
+}
+
+.title:hover {
+    width: 75%;
+
+    text-align: left;
+
     font-size: 30px;
     font-weight: 900;
 }
@@ -74,6 +103,4 @@
     margin-top: 20px;
 
     text-align: left;
-
-    color: white;
 }

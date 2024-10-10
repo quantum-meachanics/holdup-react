@@ -87,7 +87,7 @@ function CreateSpaceForm() {
             alert('서울시에 해당하는 공간만 등록할 수 있습니다.');
             return;
         }
-        
+
         dispatch(callCreateSpaceAPI(inputSpaceInfo, imageFiles));
     };
 
@@ -103,46 +103,55 @@ function CreateSpaceForm() {
 
     return (
         <div className={style.createSpaceForm}>
-            <span className={style.label}>공간 이름</span>
-            <input className={style.input} type="text" name="name" value={inputSpaceInfo.name} onChange={onChangeHandler} />
+            <span className={style.title}>공간 등록하기</span>
+            <div className={style.content}>
+                <div className={style.inputSection}>
+                    <span className={style.label}>공간 이름</span>
+                    <input className={style.input} type="text" name="name" value={inputSpaceInfo.name} onChange={onChangeHandler} />
 
-            <span>공간 주소</span>
-            <input className={style.input} type="text" name="address" value={inputSpaceInfo.address} readOnly />
-            <button className={style.button} type="button" onClick={openAddressPopup}>주소 검색</button>
+                    <span>공간 주소</span>
+                    <input className={style.input} type="text" name="address" value={inputSpaceInfo.address} readOnly />
+                    <button className={style.button} type="button" onClick={openAddressPopup}>주소 검색</button>
 
-            <span>상세주소</span>
-            <input className={style.input} type="text" name="detailAddress" ref={detailAddressRef} value={inputSpaceInfo.detailAddress} onChange={onChangeHandler} />
+                    <span>상세주소</span>
+                    <input className={style.input} type="text" name="detailAddress" ref={detailAddressRef} value={inputSpaceInfo.detailAddress} onChange={onChangeHandler} />
 
-            <span>공간 설명</span>
-            <input className={style.input} type="text" name="description" value={inputSpaceInfo.description} onChange={onChangeHandler} />
+                    <span>공간 설명</span>
+                    <input className={style.input} type="text" name="description" value={inputSpaceInfo.description} onChange={onChangeHandler} />
 
-            <span>공간 너비</span>
-            <input className={style.input} type="number" name="width" value={inputSpaceInfo.width} onChange={onChangeHandler} />
+                    <span>공간 너비</span>
+                    <input className={style.input} type="number" name="width" value={inputSpaceInfo.width} onChange={onChangeHandler} />
 
-            <span>공간 높이</span>
-            <input className={style.input} type="number" name="height" value={inputSpaceInfo.height} onChange={onChangeHandler} />
+                    <span>공간 높이</span>
+                    <input className={style.input} type="number" name="height" value={inputSpaceInfo.height} onChange={onChangeHandler} />
 
-            <span>공간 깊이</span>
-            <input className={style.input} type="number" name="depth" value={inputSpaceInfo.depth} onChange={onChangeHandler} />
+                    <span>공간 깊이</span>
+                    <input className={style.input} type="number" name="depth" value={inputSpaceInfo.depth} onChange={onChangeHandler} />
 
-            <span>공간 갯수</span>
-            <input className={style.input} type="number" name="count" value={inputSpaceInfo.count} onChange={onChangeHandler} />
+                    <span>공간 갯수</span>
+                    <input className={style.input} type="number" name="count" value={inputSpaceInfo.count} onChange={onChangeHandler} />
 
-            <span>공간 가격</span>
-            <input className={style.input} type="number" name="price" value={inputSpaceInfo.price} onChange={onChangeHandler} />
+                    <span>공간 가격</span>
+                    <input className={style.input} type="number" name="price" value={inputSpaceInfo.price} onChange={onChangeHandler} />
+                    <button className={style.button} onClick={onClickHandler}>등록하기</button>
+                </div>
 
-            <span>공간 사진</span>
-            <input type="file" multiple accept="image/*" onChange={fileChangeHandler} />
-            <div>
-                {showImages.map((image, id) => (
-                    <div key={id}>
-                        <img src={image} alt={`${image}-${id}`} />
-                        <button type="button" onClick={() => deleteImage(id)}>X</button>
+                <div className={style.verticalLine}></div>
+
+                <div className={style.imageSection}>
+                    <span>사진 등록하기</span>
+                    <input type="file" multiple accept="image/*" onChange={fileChangeHandler} />
+                    <div className={style.imagePreview}>
+                        {showImages.map((image, id) => (
+                            <div key={id} className={style.previewImage}>
+                                <img src={image} alt={`${image}-${id}`} />
+                                <span className={style.imageOrder}>{id + 1}</span>
+                                <button type="button" className={style.deleteButton} onClick={() => deleteImage(id)}>X</button>
+                            </div>
+                        ))}
                     </div>
-                ))}
+                </div>
             </div>
-
-            <button className={style.button} onClick={onClickHandler}>등록하기</button>
         </div>
     );
 }

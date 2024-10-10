@@ -1,24 +1,37 @@
-.communitySidebar {
+.main {
     display: flex;
     flex-direction: column;
-    margin-right: 20px;
-}
-
-.userSection {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
 
-    padding-top: 10px;
-    padding-bottom: 10px;
+    margin-right: 20px;
+    padding: 10px 0;
 
     min-width: 160px;
     max-width: 160px;
+    height: fit-content;
+
+    border-radius: 20px;
+    background-color: #073929;
+
+    color: white;
+}
+
+.user {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 5px 0;
+
+    width: 140px;
+    height: fit-content;
 
     border-radius: 20px;
 
-    background-color: #FFC600;
+    color: black;
+    background-color: white;
 }
 
 .loginButton {
@@ -26,10 +39,14 @@
     align-items: center;
     justify-content: center;
 
-    height: 40px;
-    width: 140px;
-    border-radius: 20px;
-    background-color: #FFE27f;
+    margin: 10px 0;
+    width: 120px;
+    height: 35px;
+
+    box-shadow: 0 0 0 2px white inset;
+    border-radius: 10px;
+
+    background-color: white;
 
     color: black;
     font-size: 20px;
@@ -37,22 +54,26 @@
     text-decoration: none;
 }
 
-.userInfo {
+.userLink {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
 
-    width: 150px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    margin: 5px 0;
+    width: 120px;
+    height: 35px;
+
+    box-shadow: 0 0 0 2px #073929 inset;
     border-radius: 10px;
+
+    color: #073929;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: 600;
 }
 
-.nickname {
-    font-size: 12px;
-    font-weight: 600;
-    margin-bottom: 5px;
+.userLink:hover {
+    cursor: pointer;
 }
 
 .creditSection {
@@ -62,8 +83,8 @@
 
     min-height: 20px;
     max-height: 20px;
-    min-width: 140px;
-    max-width: 140px;
+    min-width: 120px;
+    max-width: 120px;
     background-color: white;
     border-radius: 5px;
 
@@ -105,45 +126,17 @@
     text-decoration: none;
 }
 
-.userButton {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    height: 30px;
-    width: 140px;
-    border-radius: 10px;
-
-    margin-top: 5px;
-    background-color: #FFE27f;
-
-    color: black;
-    font-size: 20px;
-    font-weight: 600;
-    text-decoration: none;
-}
-
-.userButton:hover {
-    cursor: pointer;
-}
-
-.menuSection {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    min-width: 160px;
-    max-width: 160px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border-radius: 20px;
-    background-color: #073929;
-}
-
 .menuLink {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin: 10px 0;
+    width: 120px;
+    height: 35px;
+
+    box-shadow: 0 0 0 2px white inset;
+    border-radius: 10px;
 
     color: white;
     text-decoration: none;

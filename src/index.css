@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
+
+html, body, #root {
+  font-family: "Nanum Gothic";
+
+  display: inline-block;
+
+  margin: 0;
+  padding: 0;
+
+  min-height: calc(100vh - 15px);
+  min-width: 100%;
+
+  color: black;
+  /* 테스트용 배경색 */
+  background-color: whitesmoke;
+  /* 기본 배경색 */
+  /* background-color: white; */
+
+  white-space: nowrap;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 스크롤바 전체 영역 */
+::-webkit-scrollbar {
+  width: 15px; /* 스크롤바 너비 */
+}
+
+::-webkit-scrollbar:horizontal {
+  height: 15px;
+}
+
+/* 스크롤바 트랙 (스크롤바 배경) */
+::-webkit-scrollbar-track {
+  background-color: #d9d9d9;
+}
+
+/* 스크롤바 핸들 (움직이는 부분) */
+::-webkit-scrollbar-thumb {
+  border-radius: 10px; /* 둥근 모서리 */
+  background-color: #073929;
+}
+
+/* 스크롤바 핸들 hover 시 */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* hover 시 색상 변화 */
+}
