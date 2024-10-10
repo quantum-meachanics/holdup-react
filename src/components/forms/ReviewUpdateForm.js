@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { callGetReviewDetailAPI, callUpdateReviewAPI } from '../../apis/ReviewAPICall';
+import StarRating from './Ratingform';
 
 function ReviewUpdateForm() {
     const { id } = useParams();
@@ -20,6 +21,9 @@ function ReviewUpdateForm() {
 
     // 파일 리스트 저장할 state
     const [imageFiles, setImageFiles] = useState([]);
+
+    // 별점을 위한 상태 추가
+    const [rating, setRating] = useState(0);  
 
     const [showImages, setShowImages] = useState([]);
     const [inputModify, setInputModify] = useState({
@@ -51,15 +55,17 @@ function ReviewUpdateForm() {
             setInputModify({
                 title: reviewDetail.title || '',
                 content: reviewDetail.content || '',
-                rating: reviewDetail.rating || '',
+                rating: reviewDetail.rating || 0,
                 reservationId: reviewDetail.reservation?.id || ''
             });
+
+            setRating(reviewDetail.rating || 0);  // 별점 상태 초기화
 
         }
     }, [reviewDetail]);
 
     const handleGoBack = () => {
-        navigate('/holdup/reviews');
+        navigate(`/holdup/reviews/${id}`);
     };
 
     const handleUpdate = (e) => {
@@ -72,6 +78,11 @@ function ReviewUpdateForm() {
             ...inputModify,
             [e.target.name]: e.target.value
         })
+    };
+
+    const handleRatingChange = (newRating) => {
+        setRating(newRating);
+        setInputModify(prev => ({ ...prev, rating: newRating }));
     };
 
 
@@ -137,10 +148,9 @@ function ReviewUpdateForm() {
                         <input type='textarea' name='content' placeholder={inputModify.content} onChange={onChangeHandler} />
 
                         <span>평점: </span>
-                        <input type='text' name='rating' placeholder={inputModify.rating} onChange={onChangeHandler} />
+                        <StarRating rating={rating} setRating={handleRatingChange} />
 
-                        <span>예약ID: </span>
-                        <input type='text' name='reservationId' placeholder={inputModify.reservationId} onChange={onChangeHandler} />
+                        <span>예약ID:{inputModify.reservationId} </span>
                         <div>
                             <span>이미지 : </span>
                             <input type="file" multiple accept="image/*" onChange={fileChangeHandler} />
