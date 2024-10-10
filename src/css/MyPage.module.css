@@ -4,9 +4,8 @@
     /* Flexbox를 사용하여 수평 정렬 */
     gap: 0px;
     /* gap을 0으로 설정 */
-    max-width: 100%;
     /* 최대 너비 설정 */
-    margin: 0 auto;
+    /* margin: 0 auto; */
     /* 중앙 정렬 */
     /* border: #055b4a solid 1px; */
 }
@@ -18,16 +17,16 @@
     /* 가로 방향 가운데 정렬 */
     justify-content: center;
     /* 세로 방향 가운데 정렬 (필요에 따라 추가) */
-    margin-right: 200px;
+    margin-right: 300px;
 }
 
 .mypageSidebar {
     /* border: #055b4a solid 1px; */
     display: 10px;
     /* Flexbox 사용 */
-    align-items: center;
+    /* align-items: center; */
     /* 가로 방향 가운데 정렬 */
-    margin-left: -50px;
+    margin-left: 30px;
 }
 
 .mypageButton {

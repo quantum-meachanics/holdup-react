@@ -65,6 +65,19 @@
     margin: 0 auto; /* 입력칸 가운데 정렬 */
 }
 
+.inputPassword{
+    width: 75%; /* 입력칸 너비를 줄임 */
+    padding: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    border: 1px solid #073929;
+    border-radius: 8px;
+    color: #073929;
+    background-color: #f1f1f1; /* 밝은 배경 */
+    transition: border-color 0.3s;
+    margin: 0 auto; /* 입력칸 가운데 정렬 */
+}
+
 .input:focus {
     border-color: #065b29; 
     background-color: #ffffff;
@@ -118,4 +131,23 @@
     margin-top: 10px;
     font-weight: bold;
     color: #073929;
+}
+
+.showPasswordButton {
+    margin-top: 8px;
+    background: none;
+    border: none;
+    color: #073929;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.showPasswordButton:hover {
+    text-decoration: underline;
+}
+
+.passwordStrength {
+    font-size: 14px;
+    margin-top: 8px;
+    color: #555;
 }
