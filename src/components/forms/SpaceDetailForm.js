@@ -92,7 +92,7 @@ function SpaceDetailForm() {
 
                         <span className={style.description}>{spaceDetail.description}</span>
 
-                        <span className={style.size}>{spaceDetail.width} X {spaceDetail.depth} X {spaceDetail.depth} (너비X높이X깊이)</span>
+                        <span className={style.size}>{spaceDetail.width} X {spaceDetail.depth} X {spaceDetail.depth} (너비X높이X깊이 / cm 단위)</span>
 
                         <span className={style.price}>시간당 {spaceDetail.price} 크레딧</span>
 
