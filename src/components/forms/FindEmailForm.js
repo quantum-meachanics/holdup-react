@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // useNavigate로 변경
 import { request } from '../../apis/Api'; // API 요청을 위한 유틸리티
-import style from '../../css/FindEmailForm.module.css'; // CSS 모듈
+import style from '../../css/FindEmailForm.module.css'; 
 
 const FindEmailForm = () => {
     const [name, setName] = useState('');
@@ -28,6 +28,13 @@ const FindEmailForm = () => {
         }
     };
 
+    const handlePhoneChange = (e) => {
+        const value = e.target.value.replace(/[^0-9]/g, ''); // 숫자만 허용
+        if (value.length > 11) return; // 최대 11자리 제한
+        let formatted = value.length === 11 ? value.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3') : value;
+        setPhone(formatted); // 전화번호 상태 업데이트
+    };
+
     return (
         <div className={style.findEmailContainer}>
             <h2 className={style.title}>이메일 찾기</h2>
@@ -35,8 +42,6 @@ const FindEmailForm = () => {
                 <form onSubmit={handleSubmit}>
                     <div className={style.inputGroup}>
                         <label htmlFor="name">이름</label>
-                        <br/>
-                        <br/>
                         <input
                             type="text"
                             id="name"
@@ -47,13 +52,11 @@ const FindEmailForm = () => {
                     </div>
                     <div className={style.inputGroup}>
                         <label htmlFor="phone">전화번호</label>
-                        <br/>
-                        <br/>
                         <input
                             type="text"
                             id="phone"
                             value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
+                            onChange={handlePhoneChange} // 변경된 핸들러 사용
                             required
                         />
                     </div>

@@ -1,67 +1,123 @@
 .emailVerificationContainer {
+    flex: 1;
     width: 800px; /* 너비 설정 */
     margin: 50px auto; /* 중앙 정렬 */
-    padding: 20px; /* 여백 */
+    padding: 30px; /* 여백 (조금 더 크게 설정) */
     background-color: white; /* 흰색 배경 */
-    border-radius: 10px; /* 둥근 모서리 */
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    border-radius: 15px; /* 둥근 모서리 (더 부드럽게 설정) */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* 그림자 효과 (더 부드럽게) */
+    transition: box-shadow 0.3s ease; /* 마우스 오버 시 부드러운 전환 */
+}
+
+.emailVerificationContainer:hover {
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15); /* 마우스 오버 시 더 깊은 그림자 */
 }
 
 .inputGroup {
     display: flex; /* Flexbox로 설정 */
     flex-direction: column; /* 세로 방향 정렬 */
-    margin: 15px 0; /* 상하 여백 */
+    margin: 20px 0; /* 상하 여백 (조금 더 큼) */
 }
 
 .inputGroup label {
-    margin-bottom: 5px; /* 라벨과 입력 사이의 간격 */
+    margin-bottom: 8px; /* 라벨과 입력 사이의 간격 (더 넉넉하게) */
     font-weight: bold; /* 라벨 두껍게 */
     color: #073929; /* 라벨 색상 */
+    font-size: 18px; /* 라벨 글자 크기 약간 확대 */
 }
 
 .inputGroup input {
-    padding: 10px; /* 내부 여백 */
+    padding: 12px 15px; /* 내부 여백 (조금 더 넉넉하게 설정) */
     border: 1px solid #ccc; /* 테두리 추가 */
-    border-radius: 5px; /* 둥근 모서리 */
+    border-radius: 8px; /* 둥근 모서리 (더 부드럽게) */
     box-sizing: border-box; /* 박스 크기 설정 */
     background-color: #f9f9f9; /* 배경색 추가 */
-    height: 45px; /* 고정 높이 설정 */
+    height: 50px; /* 고정 높이 설정 (조금 더 큼) */
+    font-size: 16px; /* 글자 크기 확대 */
+    transition: border-color 0.3s ease; /* 포커스 시 부드러운 테두리 전환 */
+}
+
+.inputGroup input:focus {
+    border-color: #073929; /* 포커스 시 테두리 색상 변경 */
+    outline: none; /* 기본 아웃라인 제거 */
+    box-shadow: 0 0 8px rgba(7, 57, 41, 0.2); /* 포커스 시 부드러운 그림자 */
 }
 
 .passwordContainer {
     display: flex; /* Flexbox로 설정 */
     align-items: center; /* 수직 중앙 정렬 */
+    margin-top: 20px; /* 추가 여백 */
 }
 
 .showPasswordButton {
-    height: 45px; /* 입력란과 동일한 높이 설정 */
+    height: 50px; /* 입력란과 동일한 높이 설정 (조금 더 큼) */
     margin-left: 10px; /* 입력란과 버튼 간격 */
     cursor: pointer; /* 커서 변경 */
     background-color: #073929; /* 버튼 배경색 */
     color: white; /* 버튼 글자색 */
     border: none; /* 테두리 제거 */
-    border-radius: 5px; /* 둥근 모서리 */
-    padding: 0 10px; /* 좌우 패딩 추가 */
+    border-radius: 8px; /* 둥근 모서리 (더 부드럽게) */
+    padding: 0 15px; /* 좌우 패딩 추가 (더 넉넉하게 설정) */
+    transition: background-color 0.3s ease; /* 마우스 오버 시 부드러운 색 전환 */
+}
+
+.showPasswordButton:hover {
+    background-color: #052d1f; /* 마우스 오버 시 더 어두운 배경색 */
 }
 
 .button {
     background-color: #073929; /* 버튼 배경색 */
     color: white; /* 글자색 */
     border: none; /* 테두리 제거 */
-    border-radius: 5px; /* 둥근 모서리 */
-    padding: 10px; /* 내부 여백 */
+    border-radius: 8px; /* 둥근 모서리 */
+    padding: 15px; /* 내부 여백 (좀 더 넉넉하게 설정) */
     cursor: pointer; /* 커서 변경 */
     width: 100%; /* 버튼 너비 100% */
+    font-size: 18px; /* 버튼 글자 크기 */
+    font-weight: bold; /* 버튼 글자 두껍게 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+    transition: background-color 0.3s ease; /* 마우스 오버 시 부드러운 색 전환 */
+}
+
+.lbuttonContainer {
+    display: flex; /* Flexbox로 버튼을 정렬 */
+    justify-content: center; /* 버튼들을 수평 가운데로 정렬 */
+    gap: 20px; /* 버튼 사이의 간격 추가 */
+    margin-top: 20px; /* 위쪽 여백 추가 */
+}
+
+.lbutton {
+    background-color: #073929; /* 버튼 배경색 */
+    color: white; /* 글자색 */
+    border: none; /* 테두리 제거 */
+    border-radius: 8px; /* 둥근 모서리 */
+    padding: 15px; /* 내부 여백 */
+    cursor: pointer; /* 커서 변경 */
+    font-size: 18px; /* 버튼 글자 크기 */
+    font-weight: bold; /* 버튼 글자 두껍게 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+    transition: background-color 0.3s ease; /* 마우스 오버 시 부드러운 색 전환 */
+}
+
+.lbutton:hover {
+    background-color: #052d1f; /* 마우스 오버 시 더 어두운 배경색 */
+}
+.button:hover {
+    background-color: #052d1f; /* 마우스 오버 시 더 어두운 배경색 */
 }
 
 .timer {
     margin-top: 10px; /* 타이머 상단 여백 */
     color: #ff9800; /* 타이머 색상 */
+    font-size: 16px; /* 타이머 글자 크기 */
+    text-align: center; /* 중앙 정렬 */
+    font-weight: 600; /* 글자 두껍게 */
 }
 
 .message {
     margin-top: 20px; /* 메시지 상단 여백 */
-    color: #ff9800; /* 에러 메시지 색상 */
+    color: #ff9800; /* 메시지 색상 */
     text-align: center; /* 중앙 정렬 */
-    font-size: 30px;
+    font-size: 18px; /* 메시지 글자 크기 */
+    font-weight: bold; /* 글자 두껍게 */
 }
