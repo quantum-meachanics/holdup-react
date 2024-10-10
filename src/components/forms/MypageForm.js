@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { updateUserInfo , fetchUserInfo } from '../../apis/MypageAPICall';
+import { updateUserInfo, fetchUserInfo } from '../../apis/MypageAPICall';
 import AddressPopup from './AddressPopup';
 import styles from '../../css/MyPageForm.module.css';
 
@@ -18,44 +18,46 @@ const MyPage = () => {
         new: '',
         confirm: '',
     });
+    const [passwordStrength, setPasswordStrength] = useState('');
+    const [passwordMatch, setPasswordMatch] = useState(true);
     const [errors, setErrors] = useState({});
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+    // 비밀번호 가시성 상태 관리
+    const[showPassword,setShowPassword] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     useEffect(() => {
         const fetchAndSetUserInfo = async () => {
             try {
-                // 세션에서 token과 user 객체 가져오기
                 const token = sessionStorage.getItem("token");
                 const storedUser = JSON.parse(sessionStorage.getItem("user") || "null");
-    
+
                 if (token && storedUser?.email) {
-                    // 회원 정보를 가져오는 API 호출 (email을 사용)
                     const userData = await fetchUserInfo(token, storedUser.email);
-    
-                    // 가져온 회원 정보를 userInfo 상태에 업데이트
+
                     setUserInfo(prevInfo => ({
                         ...prevInfo,
-                        ...userData, // 서버에서 가져온 회원 정보 적용
+                        ...userData,
                         address: userData.address || '',
                         addressDetail: userData.addressDetail || '',
                     }));
-    
-                    // 세션 스토리지의 user 정보 업데이트
+
                     sessionStorage.setItem("user", JSON.stringify({
                         ...storedUser,
                         ...userData,
                     }));
-    
+
                 } else {
-                    // 로그인 정보가 없으면 로그인 페이지로 이동
                     navigate('/holdup/login');
                 }
             } catch (error) {
                 console.error("회원 정보 가져오기 실패:", error);
-                // 오류 처리 로직 추가
+                setErrors({ general: "회원 정보를 가져오는 중 오류가 발생했습니다." });
             }
         };
-    
+
         fetchAndSetUserInfo();
     }, [navigate]);
 
@@ -65,6 +67,12 @@ const MyPage = () => {
             setUserInfo(prev => ({ ...prev, [name]: value }));
         } else if (name in password) {
             setPassword(prev => ({ ...prev, [name]: value }));
+            if (name === 'new') {
+                setPasswordStrength(getPasswordStrength(value));
+            }
+            if (name === 'confirm') {
+                setPasswordMatch(value === password.new);
+            }
         }
     };
 
@@ -79,6 +87,15 @@ const MyPage = () => {
         setIsPopupOpen(false);
     };
 
+    const getPasswordStrength = (password) => {
+        if (password.length < 6) return '너무 짧습니다.';
+        if (!/[A-Z]/.test(password)) return '대문자를 포함해야 합니다.';
+        if (!/[a-z]/.test(password)) return '소문자를 포함해야 합니다.';
+        if (!/[0-9]/.test(password)) return '숫자를 포함해야 합니다.';
+        if (!/[!@#$%^&*]/.test(password)) return '특수 문자를 포함해야 합니다.';
+        return '강함';
+    };
+
     const handleUpdateUserInfo = async () => {
         try {
             const token = sessionStorage.getItem("token");
@@ -87,13 +104,11 @@ const MyPage = () => {
                 return;
             }
 
-            // 새 비밀번호와 비밀번호 확인이 일치하는지 확인
             if (password.new && password.new !== password.confirm) {
                 setErrors({ password: "새 비밀번호와 비밀번호 확인이 일치하지 않습니다." });
                 return;
             }
 
-            // API 호출
             const response = await updateUserInfo(token, {
                 email: userInfo.email,
                 currentPassword: password.current,
@@ -103,19 +118,17 @@ const MyPage = () => {
                 addressDetail: userInfo.addressDetail,
             });
 
-            // API 응답 처리
             if (response && response.success) {
                 alert(response.message);
 
-                // sessionStorage 및 상태 업데이트
                 const updatedUserInfo = {
                     ...userInfo,
                     address: userInfo.address,
                     addressDetail: userInfo.addressDetail,
                 };
 
-                setUserInfo(updatedUserInfo); // 상태 업데이트
-                sessionStorage.setItem("user", JSON.stringify(updatedUserInfo)); // 세션 스토리지 업데이트
+                setUserInfo(updatedUserInfo);
+                sessionStorage.setItem("user", JSON.stringify(updatedUserInfo));
 
             } else {
                 setErrors({ general: response.message || "정보 업데이트에 실패했습니다." });
@@ -135,13 +148,20 @@ const MyPage = () => {
                     <label className={styles.label}>현재 비밀번호</label>
                     <br />
                     <input
-                        type="password"
+                         type={showPassword ? "text" : "password"}  // 비밀번호 가시성 토글
                         name="current"
                         value={password.current}
                         onChange={handleInputChange}
                         required
-                        className={styles.input}
+                        className={styles.inputPassword}
                     />
+                    <button 
+                        type="button" 
+                        onClick={() => setShowPassword(prev => !prev)}  // 토글 버튼
+                        className={styles.showPasswordButton}
+                    >
+                        {showPassword ? "숨기기" : "보기"}
+                    </button>
                 </div>
                 <div>
                     <label className={styles.label}>닉네임</label>
@@ -158,23 +178,43 @@ const MyPage = () => {
                     <label className={styles.label}>새 비밀번호</label>
                     <br />
                     <input
-                        type="password"
+                        type={showNewPassword ? "text" : "password"}  // 비밀번호 가시성 토글
                         name="new"
                         value={password.new}
                         onChange={handleInputChange}
-                        className={styles.input}
+                        className={styles.inputPassword}
                     />
+                    <button 
+                        type="button" 
+                        onClick={() => setShowNewPassword(prev => !prev)}  // 토글 버튼
+                        className={styles.showPasswordButton}
+                    >
+                        {showNewPassword ? "숨기기" : "보기"}
+                    </button>
+                    <p className={styles.passwordStrength}>
+                        비밀번호 강도: <strong>{passwordStrength}</strong>
+                    </p>
                 </div>
                 <div>
                     <label className={styles.label}>새 비밀번호 확인</label>
                     <br />
                     <input
-                        type="password"
+                        type={showConfirmPassword ? "text" : "password"}  // 비밀번호 확인 가시성 토글
                         name="confirm"
                         value={password.confirm}
                         onChange={handleInputChange}
-                        className={styles.input}
+                        className={styles.inputPassword}
                     />
+                    <button 
+                        type="button" 
+                        onClick={() => setShowConfirmPassword(prev => !prev)}  // 토글 버튼
+                        className={styles.showPasswordButton}
+                    >
+                        {showConfirmPassword ? "숨기기" : "보기"}
+                    </button>
+                    {!passwordMatch && (
+                        <p className={styles.error}>비밀번호가 일치하지 않습니다.</p>
+                    )}
                 </div>
                 <div>
                     <label className={styles.label}>주소</label>

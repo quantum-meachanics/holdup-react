@@ -1,0 +1,140 @@
+/* 기본적인 전역 스타일 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f9;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* 전체 레이아웃 스타일 */
+.container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+/* 채팅방 목록 스타일 */
+.chat-room-list {
+  list-style: none;
+  margin-bottom: 20px;
+}
+
+.chat-room-list li {
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.chat-room-list li:hover {
+  background-color: #eef;
+}
+
+/* 채팅 입력 및 메시지 스타일 */
+.chat-room {
+  border-top: 1px solid #ddd;
+  padding-top: 20px;
+}
+
+.chat-room ul {
+  list-style: none;
+  margin-bottom: 20px;
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.chat-room ul li {
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #eef;
+  border-radius: 5px;
+}
+
+/* 메시지 입력 폼 스타일 */
+.chat-room input[type="text"] {
+  width: calc(100% - 120px);
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+.chat-room button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.chat-room button:hover {
+  background-color: #0056b3;
+}
+
+/* 채팅방 헤더 스타일 */
+.chat-room h2 {
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 1.5rem;
+  color: #007bff;
+}
+
+/* 채팅방 생성 버튼 스타일 */
+button {
+  background-color: #28a745;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #218838;
+}
+
+input {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 600px) {
+  .container {
+      padding: 10px;
+  }
+
+  .chat-room input[type="text"] {
+      width: calc(100% - 100px);
+  }
+
+  .chat-room button {
+      padding: 8px 15px;
+  }
+}

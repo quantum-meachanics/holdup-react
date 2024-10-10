@@ -83,19 +83,21 @@ const EmailVerification = () => {
 
     return (
         <div className={styles.emailVerificationContainer}>
-            <h2>이메일 인증</h2>
+            <h2 className={styles.title}>이메일 인증</h2>
             {isSuccess ? (
-                <div>
+                <div className={styles.successMessage}>
                     <p>비밀번호가 성공적으로 변경되었습니다.</p>
-                    <button className={styles.button} onClick={() => navigate('/holdup/login')}>
-                        로그인
-                    </button>
-                    <button className={styles.button} onClick={() => navigate('/holdup/find-email')}>
-                        아이디 찾기
-                    </button>
+                    <div className={styles.lbuttonContainer}>
+                        <button className={styles.lbutton} onClick={() => navigate('/holdup/login')}>
+                            로그인
+                        </button>
+                        <button className={styles.lbutton} onClick={() => navigate('/holdup/find-email')}>
+                            아이디 찾기
+                        </button>
+                    </div>
                 </div>
             ) : (
-                <>
+                <div className={styles.formContainer}>
                     <form onSubmit={handleSendCode}>
                         <div className={styles.inputGroup}>
                             <label>이메일 주소</label>
@@ -130,12 +132,15 @@ const EmailVerification = () => {
                                 <label>새 비밀번호</label>
                                 <div className={styles.passwordContainer}>
                                     <input
-                                        type={showPassword ? "text" : "password"} // 비밀번호 표시 여부에 따라 type 변경
+                                        type={showPassword ? "text" : "password"}
                                         value={newPassword}
                                         onChange={handleNewPasswordChange}
                                         required
                                     />
-                                    <span onClick={() => setShowPassword(!showPassword)} style={{ cursor: 'pointer', marginLeft: '10px' }}>
+                                    <span
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className={styles.showPasswordButton}
+                                    >
                                         {showPassword ? "숨기기" : "보기"}
                                     </span>
                                 </div>
@@ -152,7 +157,10 @@ const EmailVerification = () => {
                                         onChange={(e) => setConfirmPassword(e.target.value)}
                                         required
                                     />
-                                    <span onClick={() => setShowPassword(!showPassword)} style={{ cursor: 'pointer', marginLeft: '10px' }}>
+                                    <span
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className={styles.showPasswordButton}
+                                    >
                                         {showPassword ? "숨기기" : "보기"}
                                     </span>
                                 </div>
@@ -162,11 +170,11 @@ const EmailVerification = () => {
                             </button>
                         </form>
                     )}
-                </>
+                </div>
             )}
             {message && <div className={styles.message}>{message}</div>}
         </div>
     );
-};
+};    
 
 export default EmailVerification;

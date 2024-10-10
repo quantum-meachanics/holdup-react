@@ -125,11 +125,6 @@ const SignupFormUI = ({
                 className={style.input}
             />
             <button type="button" onClick={handleNicknameCheck} className={style.button}>닉네임 중복 확인</button>
-            {nicknameAvailable !== null && (
-                <span>
-                    {nicknameAvailable ? '사용 가능한 닉네임입니다.' : '이미 사용 중인 닉네임입니다.'}
-                </span>
-            )}
             <br />
             {/* 핸드폰 번호 입력 */}
             <label>핸드폰 번호</label>
