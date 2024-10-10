@@ -79,7 +79,7 @@ function CreateReviewForm() {
         if (error) {
             alert(error);
         } else if (reviewInfo) {
-            navigate("/holdiup/myPage/reservations");
+            navigate("/holdup/reviews");
         }
     }, [reviewInfo, error, navigate, dispatch]);
 

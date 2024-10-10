@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { callCreateReservationAPI } from "../../apis/ReservationAPICall";
 import style from "../../css/CreateReservation.module.css";
 
 function CreateReservationForm() {
 
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const location = useLocation();
     const { reservationInfo, error } = useSelector(state => state.reservationReducer);
@@ -52,6 +53,7 @@ function CreateReservationForm() {
         };
 
         dispatch(callCreateReservationAPI(reservationData));
+        navigate("/holdup/mypage/reservations");
     };
 
     useEffect(() => {
@@ -59,7 +61,7 @@ function CreateReservationForm() {
             alert(error);
 
         } else if (reservationInfo) {
-            alert("예약 신청을 성공하였습니다!");
+            navigate("/holdup/mypage/reservations")
         }
     }, [reservationInfo, error]);
 
@@ -84,7 +86,7 @@ function CreateReservationForm() {
                 <span className={style.label}>종료일</span>
                 <input className={style.input} type="date" name="endDate" value={inputReservationInfo.endDate} onChange={inputChangeHandler} />
                 <select name="endTime" value={inputReservationInfo.endTime} onChange={inputChangeHandler}>
-                    <option  className={style.time}value="">시간을 선택하세요</option>
+                    <option className={style.time} value="">시간을 선택하세요</option>
                     {hours.map((hour) => (
                         <option key={hour} value={hour}>{hour}시</option>
                     ))}

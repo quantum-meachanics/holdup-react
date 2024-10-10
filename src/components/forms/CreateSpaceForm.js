@@ -89,6 +89,7 @@ function CreateSpaceForm() {
         }
 
         dispatch(callCreateSpaceAPI(inputSpaceInfo, imageFiles));
+        navigate("/holdup/spaces");
     };
 
     // 이펙트
@@ -97,9 +98,9 @@ function CreateSpaceForm() {
             alert(error);
 
         } else if (spaceInfo) {
-            alert("공간 등록을 성공하였습니다!");
+            navigate("/holdup/spaces");
         }
-    }, [spaceInfo, error, navigate]);
+    }, [spaceInfo, error, navigate, dispatch]);
 
     return (
         <div className={style.main}>
