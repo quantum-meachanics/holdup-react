@@ -1,64 +1,131 @@
 .verticalLine {
-    /* 구역 확인용 내부 외곽선 */
-    /* border: 1px solid black; */
-
     width: 1px;
     margin: 0 20px;
 
     background-color: #d9d9d9;
 }
 
-.createSpaceForm {
+.main {
     /* 구역 확인용 내부 외곽선 */
-    box-shadow: 0 0 0 1px red inset;
+    /* box-shadow: 0 0 0 1px red inset; */
 
     display: flex;
     flex: 1;
     flex-direction: column;
 }
 
-.content {
-    /* 구역 확인용 내부 외곽선 */
-    box-shadow: 0 0 0 1px green inset;
-
-    display: flex;
-    flex: 1;
-    flex-direction: row;
-}
-
 .inputSection {
     /* 구역 확인용 내부 외곽선 */
-    box-shadow: 0 0 0 1px yellow inset;
+    /* box-shadow: 0 0 0 1px green inset; */
 
     display: flex;
-    flex: 1;
+    flex-direction: row;
+
+    width: 100%;
+}
+
+.spaceSection {
+    /* 구역 확인용 내부 외곽선 */
+    /* box-shadow: 0 0 0 1px yellow inset; */
+
+    display: flex;
     flex-direction: column;
 
 }
 
 .imageSection {
     /* 구역 확인용 내부 외곽선 */
-    box-shadow: 0 0 0 1px blue inset;
+    /* box-shadow: 0 0 0 1px blue inset; */
 
     display: flex;
+    flex: 1;
     flex-direction: column;
 
-    width: 700px;
+    min-width: 700px;
 }
 
 .title {
+    margin-bottom: 20px;
+
+    width: 100%;
+
     font-size: 30px;
     font-weight: 900;
 }
 
+.label {
+    font-size: 16px;
+    font-weight: 900;
+}
+
 .input {
-    height: 30px;
-    width: 200px;
+    margin: 2px 0;
+    height: 25px;
+    width: 400px;
+
+    border: none;
+    border-radius: 10px;
+
+    background-color: #D9D9D9;
+}
+
+.inputAdrress {
+    margin: 2px 0;
+    height: 25px;
+    width: 300px;
+
+    border: none;
+    border-radius: 10px;
+
+    background-color: #D9D9D9;
+}
+
+.inputSet {
+    margin-bottom: 20px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.inputSizeSection {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    width: 400px;
+}
+
+.inputSizeSet {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+.inputSize {
+    margin: 2px 0;
+    height: 25px;
+    width: 90px;
+
+    border: none;
+    border-radius: 10px;
+
+    background-color: #D9D9D9;
 }
 
 .button {
     height: 30px;
-    width: 150px;
+    width: 100px;
+
+    border: none;
+    border-radius: 10px;
+
+    color: white;
+    background-color: #073929;
+}
+
+.button:hover {
+    cursor: pointer;
 }
 
 .imagePreview {
@@ -66,7 +133,6 @@
     flex-wrap: wrap;
 
     gap: 10px;
-    /* 이미지 간 간격 */
 }
 
 .previewImage {

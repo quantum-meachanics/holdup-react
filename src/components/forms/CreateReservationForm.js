@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { callCreateReservationAPI } from "../../apis/ReservationAPICall";
+import style from "../../css/CreateReservation.module.css";
 
 function CreateReservationForm() {
 
@@ -63,33 +64,34 @@ function CreateReservationForm() {
     }, [reservationInfo, error]);
 
     return (
-        <div style={{ display: "flex", flexDirection: "column" }}>
-            <span>예약 신청하기</span>
-            <span>예약할 공간 ID : {location.state.spaceId}</span>
+        <div className={style.main}>
+            <span className={style.title}>예약 신청하기</span>
 
-            <div>
-                <span>보관 시작일</span>
-                <input type="date" name="startDate" value={inputReservationInfo.startDate} onChange={inputChangeHandler} />
+            <span className={style.spaceId}>예약할 공간 ID : {location.state.spaceId}</span>
+
+            <div className={style.startDate}>
+                <span className={style.label}>보관 시작일</span>
+                <input className={style.input} type="date" name="startDate" value={inputReservationInfo.startDate} onChange={inputChangeHandler} />
                 <select name="startTime" value={inputReservationInfo.startTime} onChange={inputChangeHandler}>
-                    <option value="">시간을 선택하세요</option>
+                    <option className={style.time} value="">시간을 선택하세요</option>
                     {hours.map((hour) => (
                         <option key={hour} value={hour}>{hour}시</option>
                     ))}
                 </select>
             </div>
 
-            <div>
-                <span>종료일</span>
-                <input type="date" name="endDate" value={inputReservationInfo.endDate} onChange={inputChangeHandler} />
+            <div className={style.endDate}>
+                <span className={style.label}>종료일</span>
+                <input className={style.input} type="date" name="endDate" value={inputReservationInfo.endDate} onChange={inputChangeHandler} />
                 <select name="endTime" value={inputReservationInfo.endTime} onChange={inputChangeHandler}>
-                    <option value="">시간을 선택하세요</option>
+                    <option  className={style.time}value="">시간을 선택하세요</option>
                     {hours.map((hour) => (
                         <option key={hour} value={hour}>{hour}시</option>
                     ))}
                 </select>
             </div>
 
-            <button onClick={onClickHandler}>신청하기</button>
+            <button className={style.button} onClick={onClickHandler}>신청하기</button>
         </div>
     );
 }
