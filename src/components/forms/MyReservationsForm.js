@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { callMyReservationsAPI } from "../../apis/ReservationAPICall";
 import Pagination from "./Pagination";
 import { useNavigate } from "react-router-dom";
+import style from "../../css/MyReservation.module.css";
 
 function MyReservationsForm() {
 
@@ -50,65 +51,74 @@ function MyReservationsForm() {
         return `${year}년 ${month}월 ${day}일 ${hour}:${minute}:${second}`;
     };
 
+    // 사용기간 형식 포맷
+    const formatUseDate = (dateArray) => {
+        // dateArray가 유효한지 확인
+        if (!Array.isArray(dateArray) || dateArray.length < 5) {
+            console.error("Invalid date array:", dateArray);
+            return "유효하지 않은 날짜";
+        }
+
+        // Date 객체 생성
+        const year = dateArray[0];
+        const month = String(dateArray[1]).padStart(2, '0'); // 월을 두 자리로 포맷
+        const day = String(dateArray[2]).padStart(2, '0'); // 일을 두 자리로 포맷
+        const hour = String(dateArray.length > 3 ? dateArray[3] : 0).padStart(2, '0'); // 시를 두 자리로 포맷
+
+        // "년월일 시:분:초" 형식으로 문자열 생성
+        return `${year}년 ${month}월 ${day}일 ${hour}시`;
+    };
+
     return (
-        <>
-            <div style={{ display: "flex", flexDirection: "column"}}>
-                <span>나의 예약</span>
-                {myReservationList && myReservationList.length > 0 ? (
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>예약번호</th>
-                                <th>상태</th>
-                                <th>신청일</th>
-                                <th>사용기간</th>
-                                <th>공간명</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {myReservationList.map(myReservation => (
-                                <tr key={myReservation.id}>
-                                    {/* 예약 아이디 */}
-                                    <td>{myReservation.id}</td>
+        <div className={style.main}>
+            <span className={style.title}>나의 예약</span>
 
-                                    {/* 예약 상태 */}
-                                    <td>
-                                        {myReservation.accept ? (myReservation.end ? "종료됨" : "이용중") : "대기중"}
-                                    </td>
-
-                                    {/* 예약 신청일시 */}
-                                    <td>{formatDateTime(myReservation.createDateTime)}</td>
-
-                                    {/* 신청한 사용 기간 */}
-                                    <td>
-                                        {formatDateTime(myReservation.startDateTime)}부터
-                                        {formatDateTime(myReservation.endDateTime)}까지
-                                    </td>
-
-                                    {/* 공간이름(클릭시 해당 공간 상세페이지로 이동) */}
-                                    <td onClick={() => spaceNameClickHandler(myReservation.spaceId)}>{myReservation.spaceName}</td>
-
+            {myReservationList && myReservationList.length > 0 ? (
+                <table className={style.table}>
+                    <thead className={style.thead}>
+                        <tr>
+                            <th className={style.th}>예약번호</th>
+                            <th className={style.th}>상태</th>
+                            <th className={style.th}>신청일</th>
+                            <th className={style.th}>사용기간</th>
+                            <th className={style.th}>공간명</th>
+                            <th className={style.th}>리뷰 쓰기</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {myReservationList.map(myReservation => (
+                            <tr key={myReservation.id} className={style.rowHover}>
+                                <td className={style.td}>{myReservation.id}</td>
+                                <td className={style.td}>{myReservation.accept ? (myReservation.end ? "종료됨" : "이용중") : "대기중"}</td>
+                                <td className={style.td}>{formatDateTime(myReservation.createDateTime)}</td>
+                                <td className={style.td}>
+                                    {formatUseDate(myReservation.startDateTime)} ~ {formatUseDate(myReservation.endDateTime)}
+                                </td>
+                                <td className={style.td} onClick={() => spaceNameClickHandler(myReservation.spaceId)}>{myReservation.spaceName}</td>
+                                <td className={style.td}>
                                     {!myReservation.hasReview && (
-                                        <button onClick={() => handleWriteReview(myReservation.id)}>
+                                        <button
+                                            className={`${style.button} ${style.buttonHover}`}
+                                            onClick={() => handleWriteReview(myReservation.id)}
+                                        >
                                             리뷰 쓰기
                                         </button>
                                     )}
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            ) : (
+                <span>신청한 예약이 없습니다.</span>
+            )}
 
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                ) : (
-                    <span>신청한 예약이 없습니다.</span>
-                )}
-
-                <Pagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={pageChangeHandler}
-                />
-            </div>
-        </>
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={pageChangeHandler}
+            />
+        </div>
     );
 }
 

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { callCreateReviewAPI } from "../../apis/ReviewAPICall";
 import StarRating from "./Ratingform";
+import style from "../../css/CreateReviewForm.module.css";
 
 function CreateReviewForm() {
     const { id } = useParams();
@@ -58,7 +59,7 @@ function CreateReviewForm() {
 
     // 페이지 이동 메소드
     const onClickHandler = () => {
-        dispatch(callCreateReviewAPI({...inputReviewInfo, rating}, imageFiles));
+        dispatch(callCreateReviewAPI({ ...inputReviewInfo, rating }, imageFiles));
         navigate('/holdup/myPage/reservations');
     };
 
@@ -83,33 +84,34 @@ function CreateReviewForm() {
     }, [reviewInfo, error, navigate, dispatch]);
 
     return (
-        <>
+        <div className={style.main}>
+            <span className={style.title}>리뷰 작성</span>
 
-            <p>예약ID: {id} </p>
+            <span className={style.label}>제목</span>
+            <input className={style.input} type="text" name="title" value={inputReviewInfo.title} onChange={onChangeHandler} />
 
-            <span>제목 : </span>
-            <input type="text" name="title" value={inputReviewInfo.title} onChange={onChangeHandler} />
+            <span className={style.label}>내용</span>
+            <input className={style.input} type="text" name="content" value={inputReviewInfo.content} onChange={onChangeHandler} />
 
-            <span>내용 : </span>
-            <textarea type="text" name="content" value={inputReviewInfo.content} onChange={onChangeHandler} />
+            <span className={style.rate}>별점 <StarRating rating={inputReviewInfo.rating} setRating={handleRatingChange} /></span>
 
-            <span>별점 : </span>
-            <StarRating rating={inputReviewInfo.rating} setRating={handleRatingChange} />
-
-            <span>이미지 : </span>
+            <span className={style.label}>사진 업로드</span>
             <input type="file" multiple accept="image/*" onChange={fileChangeHandler} />
-            <div>
+            <div className={style.imagePreview}>
                 {showImages.map((image, id) => (
-                    <div key={id}>
+                    <div key={id} className={style.previewImage}>
                         <img src={image} alt={`${image}-${id}`} />
-                        <button type="button" onClick={() => deleteImage(id)}>X</button>
+                        <span className={style.imageOrder}>{id + 1}</span>
+                        <button type="button" className={style.deleteButton} onClick={() => deleteImage(id)}>X</button>
                     </div>
                 ))}
             </div>
 
-            <button onClick={onClickHandler}>등록하기</button>
-            <button onClick={onClickGoBack}>뒤로가기</button>
-        </>
+            <div className={style.buttonSection}>
+                <button className={style.button} onClick={onClickHandler}>등록하기</button>
+                <button className={style.button} onClick={onClickGoBack}>뒤로가기</button>
+            </div>
+        </div>
     );
 }
 

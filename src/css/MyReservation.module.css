@@ -11,10 +11,6 @@
     font-weight: 900;
 }
 
-.reviewSection {
-    flex: 1;
-}
-
 .table {
     width: 100%;
     border-collapse: collapse;
@@ -41,6 +37,13 @@
     vertical-align: middle;
 }
 
-.reviewRow {
+.button {
+    border: none;
+
     cursor: pointer;
+
+    height:30px;
+    width: 80px;
+
+    border-radius: 10px;
 }

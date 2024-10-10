@@ -82,33 +82,31 @@ function ReviewDetailForm() {
                     <span className={style.title}>{reviewDetail.title}</span>
                     <span>작성자: {reviewDetail.nickname}</span>
                     <span>등록날짜: {formatDateTime(reviewDetail.createDate)}</span>
-                    <span>평점: <StarRating rating={reviewDetail.rating} readOnly={true} /></span>
-                    <span onClick={() => reservationIdClickHandler(reviewDetail.reservation.id)}>예약 ID: {reviewDetail.reservation.id}</span>
-                    <p>내용: {reviewDetail.content}</p>
-                    <div>
-                        <h3>이미지</h3>
-                        <div>
-                            {reviewDetail.imageUrl && reviewDetail.imageUrl.length > 0 ? (
-                                reviewDetail.imageUrl.map((url, index) => (
-                                    <img key={index} src={url} alt={`리뷰 이미지 ${index + 1}`} />
-                                ))
-                            ) : (
-                                <p>이미지가 없습니다.</p>
-                            )}
-                        </div>
+                    <span className={style.rate}><StarRating rating={reviewDetail.rating} readOnly={true} /></span>
+                    <span>내용: {reviewDetail.content}</span>
+                    <div className={style.imageSection}>
+                        {reviewDetail.imageUrl && reviewDetail.imageUrl.length > 0 ? (
+                            reviewDetail.imageUrl.map((url, index) => (
+                                <img className={style.images} key={index} src={url} alt={`리뷰 이미지 ${index + 1}`} />
+                            ))
+                        ) : (
+                            <p>이미지가 없습니다.</p>
+                        )}
                     </div>
                 </>
             ) : (
                 <h2>게시글이 존재 하지 않습니다.</h2>
             )}
 
-            <button onClick={handleGoBack}>목록으로 돌아가기</button>
-            {isAuthor() && (
-                <>
-                    <button onClick={handleUpdate}>수정</button>
-                    <button onClick={handleDelete}>삭제</button>
-                </>
-            )}
+            <div className={style.buttonSection}>
+                <button className={style.button} onClick={handleGoBack}>목록으로 돌아가기</button>
+                {isAuthor() && (
+                    <>
+                        <button className={style.button} onClick={handleUpdate}>수정</button>
+                        <button className={style.button} onClick={handleDelete}>삭제</button>
+                    </>
+                )}
+            </div>
         </div>
     );
 }

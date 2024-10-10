@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { callCreateInquiryAPI } from "../../apis/InquiryAPICall";
+import style from "../../css/CreateInquiryForm.module.css";
 
 function CreateInquiryForm() {
 
@@ -68,26 +69,28 @@ function CreateInquiryForm() {
     }, [inquiryInfo, error, navigate, dispatch]);
 
     return (
-        <>
-            <span>제목 : </span>
-            <input type="text" name="title" value={InputInquiryInfo.title} onChange={onChangeHandler} />
+        <div className={style.main}>
+            <span className={style.title}>문의 작성</span>
 
-            <span>내용 : </span>
-            <textarea type="text" name="content" value={InputInquiryInfo.content} onChange={onChangeHandler} />
+            <span className={style.label}>제목</span>
+            <input className={style.input} type="text" name="title" value={InputInquiryInfo.title} onChange={onChangeHandler} />
 
-            <span>이미지 : </span>
+            <span className={style.label}>내용</span>
+            <input className={style.input} type="text" name="content" value={InputInquiryInfo.content} onChange={onChangeHandler} />
+
+            <span className={style.label}>사진 업로드</span>
             <input type="file" multiple accept="image/*" onChange={fileChangeHandler} />
-            <div>
+            <div className={style.imagePreview}>
                 {showImages.map((image, id) => (
-                    <div key={id}>
+                    <div key={id} className={style.previewImage}>
                         <img src={image} alt={`${image}-${id}`} />
                         <button type="button" onClick={() => deleteImage(id)}>X</button>
                     </div>
                 ))}
             </div>
 
-            <button onClick={onClickHandler}>등록하기</button>
-        </>
+            <button className={style.button} onClick={onClickHandler}>등록하기</button>
+        </div>
     );
 }
 

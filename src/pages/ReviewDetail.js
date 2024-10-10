@@ -1,7 +1,7 @@
-import ReviewDetailForm from "../components/forms/ReviewDetailForm"
-import ReviewCommentForm from "../components/forms/ReviewCommentForm"
-import CreateReviewCommentForm from "../components/forms/CreateReviewCommentForm"
 import CommunitySidebar from "../components/commons/CommunitySidebar"
+import CreateReviewCommentForm from "../components/forms/CreateReviewCommentForm"
+import ReviewCommentForm from "../components/forms/ReviewCommentForm"
+import ReviewDetailForm from "../components/forms/ReviewDetailForm"
 
 function ReviewDetail() {
     return (

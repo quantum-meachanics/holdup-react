@@ -110,6 +110,7 @@ const EmailDomainSelector = ({
                     <input
                         type="text"
                         value={verificationCode}
+                        className={style.input}
                         onChange={(e) => setVerificationCode(e.target.value)} // 외부에서 받은 setVerificationCode 사용
                     />
                     <button

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { callCreateReportCommentAPI } from '../../apis/CommentAPICall';
+import style from "../../css/CreateReportComment.module.css";
 
 function CreateReportCommentForm() {
     const { id } = useParams();
@@ -37,15 +38,10 @@ function CreateReportCommentForm() {
     if (error) return <div>에러 발생: {error}</div>;
 
     return (
-        <div>
-            <h3>댓글 작성</h3>
-            <div>
-                <span>내용</span>
-                <input type='textarea' name='content' value={inputCommentInfo.content} onChange={onChangeHandler} />
-            </div>
-
-            <button onClick={onClickHandler}>등록하기</button>
-
+        <div className={style.main}>
+            <span className={style.title}>댓글달기</span>
+            <input className={style.input} type='text' name='content' value={inputCommentInfo.content} onChange={onChangeHandler} />
+            <button className={style.button} onClick={onClickHandler}>등록하기</button>
         </div>
     )
 }

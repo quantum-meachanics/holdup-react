@@ -58,22 +58,22 @@ function ReviewForm() {
             <span className={style.title}>리뷰 게시판</span>
             {reviewList && reviewList.length > 0 ? (
                 <div className={style.reviewSection}>
-                    <table>
-                        <thead>
+                    <table className={style.table}>
+                        <thead className={style.thead}>
                             <tr>
-                                <th >등록날짜</th>
-                                <th >제목</th>
-                                <th >별점</th>
-                                <th >닉네임</th>
+                                <th className={style.th}>등록날짜</th>
+                                <th className={style.th}>제목</th>
+                                <th className={style.th}>별점</th>
+                                <th className={style.th}>닉네임</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody className={style.reviewRow}>
                             {reviewList.map(reviewList => (
-                                <tr key={reviewList.id} onClick={() => handleClick(reviewList.id)} style={{ cursor: 'pointer' }}>
-                                    <td >{formatDateTime(reviewList.createDate)}</td>
-                                    <td >{reviewList.title}</td>
-                                    <td>{reviewList.rating}</td>
-                                    <td>{reviewList.nickname}</td>
+                                <tr key={reviewList.id} onClick={() => handleClick(reviewList.id)} className={style.reviewRow}>
+                                    <td className={style.td}>{formatDateTime(reviewList.createDate)}</td>
+                                    <td className={style.td}>{reviewList.title}</td>
+                                    <td className={style.td}>{reviewList.rating}</td>
+                                    <td className={style.td}>{reviewList.nickname}</td>
                                 </tr>
                             ))}
                         </tbody>

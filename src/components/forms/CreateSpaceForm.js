@@ -166,7 +166,7 @@ function CreateSpaceForm() {
 
                 <div className={style.imageSection}>
 
-                    <span className={style.label}>사진 등록하기</span>
+                    <span className={style.label}>사진 업로드</span>
                     <input type="file" multiple accept="image/*" onChange={fileChangeHandler} />
 
                     <div className={style.imagePreview}>
