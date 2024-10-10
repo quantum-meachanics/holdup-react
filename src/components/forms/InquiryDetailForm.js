@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { callGetInquiryDetailAPI, callDeleteInquiryAPI } from '../../apis/InquiryAPICall';
+import style from "../../css/InquiryDetailForm.module.css";
 
 function InquiryDetailForm() {
     const { id } = useParams();
@@ -15,14 +16,14 @@ function InquiryDetailForm() {
         dispatch(callGetInquiryDetailAPI(id));
         console.log('Fetching review for id:', id);
 
-        
+
         // SessionStorage에서 사용자 정보 가져오기
         const userInfo = JSON.parse(sessionStorage.getItem('user'));
         setCurrentUser(userInfo);
     }, []);
 
     // 로그인한 사용자와 글쓴이와 같은지 확인
-    const isAuthor = () => {       
+    const isAuthor = () => {
         return currentUser && inquiryDetail && currentUser.nickname === inquiryDetail.nickname;
     };
 
@@ -69,42 +70,37 @@ function InquiryDetailForm() {
     };
 
     return (
-        <div>
-            <h1>문의 상세</h1>
-            <div>
-                {inquiryDetail ? (
-                    <>
-                        <h2>{inquiryDetail.title}</h2>
-                        <p>작성자: {inquiryDetail.nickname}</p>
-                        <p>등록날짜: {formatDateTime(inquiryDetail.createDate)}</p>
-                        <p>내용: {inquiryDetail.content}</p>
-                        <div>
-                            <h3>이미지</h3>
-                            <div>
-                                {inquiryDetail.imageUrl && inquiryDetail.imageUrl.length > 0 ? (
-                                    inquiryDetail.imageUrl.map((url, index) => (
-                                        <img key={index} src={url} alt={`문의 이미지 ${index + 1}`} />
-                                    ))
-                                ) : (
-                                    <p>이미지가 없습니다.</p>
-                                )}
-                            </div>
-                        </div>
-                    </>
-                ) : (
-                    <h2>게시글이 존재 하지 않습니다.</h2>
-                )}
-
-
-
-            </div>
-            <button onClick={handleGoBack}>목록으로 돌아가기</button>
-            {isAuthor() && (
+        <div className={style.main}>
+            <span className={style.title}>문의 게시판</span>
+            {inquiryDetail ? (
                 <>
-                    <button onClick={handleUpdate}>수정</button>
-                    <button onClick={handleDelete}>삭제</button>
+                    <span className={style.inquiryTitle}>{inquiryDetail.title}</span>
+                    <span>작성자: {inquiryDetail.nickname}</span>
+                    <span>등록날짜: {formatDateTime(inquiryDetail.createDate)}</span>
+                    <span>내용: {inquiryDetail.content}</span>
+                    <div className={style.imageSection}>
+                        {inquiryDetail.imageUrl && inquiryDetail.imageUrl.length > 0 ? (
+                            inquiryDetail.imageUrl.map((url, index) => (
+                                <img className={style.image} key={index} src={url} alt={`문의 이미지 ${index + 1}`} />
+                            ))
+                        ) : (
+                            <p>이미지가 없습니다.</p>
+                        )}
+                    </div>
                 </>
+            ) : (
+                <h2>게시글이 존재 하지 않습니다.</h2>
             )}
+
+            <div className={style.buttonSection}>
+                <button className={style.button} onClick={handleGoBack}>목록으로 돌아가기</button>
+                {isAuthor() && (
+                    <>
+                        <button className={style.button} onClick={handleUpdate}>수정</button>
+                        <button className={style.button} onClick={handleDelete}>삭제</button>
+                    </>
+                )}
+            </div>
         </div>
 
     );

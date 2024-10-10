@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { fetchUserInfo } from '../../apis/MypageAPICall'; // API 호출 함수 가져오기
 import style from "../../css/MypageSidebar.module.css";
 
-function CommunitySidebar() {
+function MyPageSidebar() {
     const navigate = useNavigate();
     const [nickname, setNickname] = useState('');
     const [role, setRole] = useState('');
@@ -58,14 +58,14 @@ function CommunitySidebar() {
             </div>
             <div className={style.linkBox}>
                 <NavLink to="/holdup/mypage" className={style.link}>내 정보</NavLink>
-                <NavLink to="/holdup/mypage" className={style.link}>내 공간</NavLink>
+                <span className={style.link}>내 공간</span>
                 <NavLink to="/holdup/mypage/reservations" className={style.link}>내 예약</NavLink>
-                <NavLink to="/holdup/mypage" className={style.link}>내 리뷰</NavLink>
-                <NavLink to="/holdup/mypage" className={style.link}>내 문의</NavLink>
-                <NavLink to="/holdup/mypage" className={style.link}>접수한 신고</NavLink>
+                <span className={style.link}>내 리뷰</span>
+                <span className={style.link}>내 문의</span>
+                <span className={style.link}>접수한 신고</span>
             </div>
         </div>
     );
 }
 
-export default CommunitySidebar;
+export default MyPageSidebar;

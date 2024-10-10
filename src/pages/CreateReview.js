@@ -1,11 +1,12 @@
+import MyPageSidebar from "../components/commons/MyPageSidebar";
 import CreateReviewForm from "../components/forms/CreateReviewForm";
 
 function CreateReview() {
     return (
-        <>
-            <h1>리뷰 등록 페이지</h1>
+        <div style={{ display: "flex", margin: "20px 100px", flex: 1 }}>
+            <MyPageSidebar />
             <CreateReviewForm />
-        </>
+        </div>
     );
 }
 

@@ -13,14 +13,16 @@ html, body, #root {
 
   color: black;
   /* 테스트용 배경색 */
-  background-color: whitesmoke;
+  /* background-color: whitesmoke; */
   /* 기본 배경색 */
-  /* background-color: white; */
+  background-color: white;
 
   white-space: nowrap;
 }
 
 #root {
+  user-select: none;
+  
   display: flex;
   flex-direction: column;
 }

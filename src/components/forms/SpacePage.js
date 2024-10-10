@@ -33,61 +33,63 @@ function SpacePage() {
             console.error("Invalid date array:", dateArray);
             return "유효하지 않은 날짜";
         }
-    
+
         // Date 객체 생성
         const year = dateArray[0];
         const month = String(dateArray[1]).padStart(2, '0'); // 월을 두 자리로 포맷
         const day = String(dateArray[2]).padStart(2, '0'); // 일을 두 자리로 포맷
-    
+
         // "년-월-일" 형식으로 문자열 생성
         return `${year}-${month}-${day}`;
     };
 
     return (
-        <div style={{ display: "flex", flexDirection: "column" }}>
+        <div className={style.main}>
 
-            <span>등록된 공간들</span>
-            <NavLink to="/holdup/createSpace">등록하기</NavLink>
+            <div className={style.titleSection}>
+                <span className={style.title}>등록된 공간들</span>
+                <NavLink to="/holdup/createSpace" className={style.createButton}>등록하기</NavLink>
+            </div>
 
             {spaceList && spaceList.length > 0 ? (
-                <table>
-                    <thead>
-                        <tr>
-                            <th>대표이미지</th>
-                            <th>공간 이름</th>
-                            <th>등록자명</th>
-                            <th>등록일</th>
-                            <th>별점</th>
-                            <th>리뷰수</th>
-                            <th>상태</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {spaceList.map(space => (
-                            <tr key={space.id} onClick={() => pageHandler(space.id)} style={{ cursor: "pointer" }}>
-                                <td><img src={space.imageUrl} alt={`${space.id}번 이미지`} width={100} height={70} /></td>
-                                <td>{space.name}</td>
-                                <td>{space.ownerNickname}</td>
-                                <td>{formatDate(space.createDate)}</td>
-                                <td>{space.ratingAverage}</td>
-                                <td>{space.reviewCount}</td>
-                                <td>{space.count > 0 ? (
-                                    <div className={style.status}>
-                                        <div className={style.greenDot}></div>
-                                        <span>예약 가능</span>
-                                    </div>
-                                ) : (
-                                    <div className={style.status}>
-                                        <div className={style.redDot}></div>
-                                        <span>예약 불가</span>
-                                    </div>
-                                )}</td>
-                            </tr>
-                        ))}
-                    </tbody>
+                <table className={style.table}>
+                    {spaceList.map(space => (
+                        <div className={style.space} key={space.id} onClick={() => pageHandler(space.id)} style={{ cursor: "pointer" }}>
+
+                            <img src={space.imageUrl} alt={`${space.id}번 이미지`} width={100} height={70} />
+
+                            <div className={style.spaceInfo}>
+                                <span className={style.spaceName}>{space.name}</span>
+
+                                <div>
+                                    <span className={style.ownerNickname}>{space.ownerNickname}</span>
+                                    <span className={style.createDate}>{formatDate(space.createDate)}</span>
+                                </div>
+
+                                <div>
+                                    <span className={style.ratingAverage}>⭐ {space.ratingAverage}</span>
+                                    <span className={style.reviewCount}>리뷰수 {space.reviewCount}</span>
+                                </div>
+                            </div>
+
+                            <td>{space.count > 0 ? (
+                                <div className={style.status}>
+                                    <div className={style.greenDot}></div>
+                                    <span>예약 가능</span>
+                                </div>
+                            ) : (
+                                <div className={style.status}>
+                                    <div className={style.redDot}></div>
+                                    <span>예약 불가</span>
+                                </div>
+                            )}
+                            </td>
+
+                        </div>
+                    ))}
                 </table>
             ) : (
-                <span>등록된 공간이 없습니다.</span>
+                <span className={style.noSpaceText}>등록된 공간이 없습니다.</span>
             )}
 
             <Pagination

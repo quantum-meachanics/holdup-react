@@ -1,0 +1,23 @@
+.main {
+    margin-top: 10px;
+}
+
+.nickname {
+    margin-right: 10px;
+
+    font-size: 15px;
+}
+
+.content {
+    margin-right: 15px;
+
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.date {
+    font-size: 15px;
+    font-weight: 600;
+
+    color: #828282;
+}

@@ -24,12 +24,12 @@ function CommunitySidebar() {
                 <div className={style.user}>
                     <span className={style.nickname}>{userInfo.nickname}</span>
                     <div className={style.creditSection}>
-                        <span className={style.creditLabel}>크레딧 : </span>
+                        <span className={style.creditLabel}>크레딧</span>
                         <span className={style.credit}>{userInfo.credit}</span>
-                        <NavLink to="/" className={style.creditButton}>+</NavLink>
+                        <NavLink to="/holdup/mypage/credit" className={style.creditButton}>+</NavLink>
                     </div>
                     <NavLink to="/holdup/mypage" className={style.userLink}>마이페이지</NavLink>
-                    <NavLink to="/" className={style.userLink}>내 채팅</NavLink>
+                    <span className={style.userLink}>내 채팅</span>
                     <span onClick={logoutHandler} className={style.userLink}>로그아웃</span>
                 </div>
             ) : (
@@ -37,7 +37,7 @@ function CommunitySidebar() {
             )}
 
             <NavLink to="/holdup/guideline" className={style.menuLink}>가이드라인</NavLink>
-            <NavLink to="/" className={style.menuLink}>공지사항</NavLink>
+            <span className={style.menuLink}>공지사항</span>
             <NavLink to="/holdup/spaces" className={style.menuLink}>공간 게시판</NavLink>
             <NavLink to="/holdup/reviews" className={style.menuLink}>리뷰 게시판</NavLink>
             <NavLink to="/holdup/inquiries" className={style.menuLink}>문의 게시판</NavLink>

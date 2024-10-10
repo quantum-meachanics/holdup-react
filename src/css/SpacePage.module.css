@@ -1,8 +1,116 @@
+.main {
+    /* 구역 확인용 내부 외곽선 */
+    /* box-shadow: 0 0 0 1px black inset; */
+
+    display: flex;
+    flex-direction: column;
+
+    min-width: 1000px;
+}
+
+.titleSection {
+    /* 구역 확인용 내부 외곽선 */
+    /* box-shadow: 0 0 0 1px red inset; */
+
+    display: flex;
+    flex-direction: row;
+
+    width: 100%;
+}
+
+.title {
+    margin-bottom: 20px;
+    
+    font-size: 30px;
+    font-weight: 900;
+
+    flex: 1;
+}
+
+.createButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100px;
+    border-radius: 10px;
+
+    color: white;
+    background-color: #073929;
+
+    font-size: 20px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.table {
+    flex: 1;
+}
+
+.space {
+    /* 구역 확인용 내부 외곽선 */
+    /* box-shadow: 0 0 0 1px blue inset; */
+
+    padding: 5px 0;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    min-width: 1000px;
+
+    border-bottom: 1px solid #D9D9D9;
+}
+
+.spaceInfo {
+    /* 구역 확인용 내부 외곽선 */
+    /* box-shadow: 0 0 0 1px yellow inset; */
+
+    flex: 1;
+
+    padding: 0 10px;
+}
+
+.spaceName {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.ownerNickname {
+    margin-right: 10px;
+
+    color: #828282;
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.createDate {
+    color: #828282;
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.ratingAverage {
+    margin-right: 10px;
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.reviewCount {
+    color: #828282;
+    font-size: 13px;
+    font-weight: 900;
+}
+
 .status {
     display: flex;
 
     justify-content: center;
     align-items: center;
+
+    font-size: 13px;
+    font-weight: 900;
 }
 
 .greenDot {
@@ -21,4 +129,14 @@
     border-radius: 5px;
 
     background-color: red;
+}
+
+.noSpaceText {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 30px;
+    font-weight: 600;
 }

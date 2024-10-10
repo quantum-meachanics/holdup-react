@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { callGetReportListAPI } from '../../apis/ReportAPICall';
 import Pagination from './Pagination';
+import style from "../../css/ReportForm.module.css";
 
 function ReportForm() {
     const navigate = useNavigate();
@@ -61,24 +62,26 @@ function ReportForm() {
     };
 
     return (
-        <div>
-            <h1>신고 게시판</h1>
+        <div className={style.main}>
+            <span className={style.title}>신고 게시판</span>
+            <button className={style.button} onClick={handleWriteReview}>글쓰기</button>
+
             {reportList && reportList.length > 0 ? (
                 <div>
-                    <table>
-                        <thead>
+                    <table className={style.table}>
+                        <thead className={style.thead}>
                             <tr>
-                                <th >등록날짜</th>
-                                <th >제목</th>
-                                <th >닉네임</th>
+                                <th className={style.th}>등록날짜</th>
+                                <th className={style.th}>제목</th>
+                                <th className={style.th}>닉네임</th>
                             </tr>
                         </thead>
                         <tbody>
                             {reportList.map(reportList => (
-                                <tr key={reportList.id} onClick={() => handleClick(reportList.id)} style={{ cursor: 'pointer' }}>
-                                    <td >{formatDateTime(reportList.createDate)}</td>
-                                    <td >{reportList.title}</td>
-                                    <td>{reportList.nickname}</td>
+                                <tr key={reportList.id} onClick={() => handleClick(reportList.id)} className={style.td}>
+                                    <td className={style.td}>{formatDateTime(reportList.createDate)}</td>
+                                    <td className={style.td}>{reportList.title}</td>
+                                    <td className={style.td}>{reportList.nickname}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -88,14 +91,13 @@ function ReportForm() {
                 <p>신고글이 없습니다.</p>
             )}
 
-            <button onClick={handleWriteReview}>글쓰기</button>
-
             <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
             />
         </div>
+
     );
 }
 
