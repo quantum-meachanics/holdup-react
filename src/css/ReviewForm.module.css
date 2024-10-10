@@ -1,0 +1,16 @@
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    margin-bottom: 20px;
+
+    font-size: 30px;
+    font-weight: 900;
+}
+
+.reviewSection {
+    flex: 1;
+}

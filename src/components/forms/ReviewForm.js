@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { callGetReviewListAPI } from '../../apis/ReviewAPICall';
+import style from "../../css/ReviewForm.module.css";
 import Pagination from './Pagination';
 
 function ReviewForm() {
@@ -22,12 +23,9 @@ function ReviewForm() {
         const year = dateArray[0];
         const month = String(dateArray[1]).padStart(2, '0'); // 월을 두 자리로 포맷
         const day = String(dateArray[2]).padStart(2, '0'); // 일을 두 자리로 포맷
-        const hour = String(dateArray.length > 3 ? dateArray[3] : 0).padStart(2, '0'); // 시를 두 자리로 포맷
-        const minute = String(dateArray.length > 4 ? dateArray[4] : 0).padStart(2, '0'); // 분을 두 자리로 포맷
-        const second = String(dateArray.length > 5 ? dateArray[5] : 0).padStart(2, '0'); // 초를 두 자리로 포맷
 
         // "년월일 시:분:초" 형식으로 문자열 생성
-        return `${year}년 ${month}월 ${day}일 ${hour}:${minute}:${second}`;
+        return `${year}-${month}-${day}`;
     };
 
     // 컴포넌트가 마운트되거나 currentPage가 변경될 때 리뷰 목록 가져오기
@@ -45,7 +43,7 @@ function ReviewForm() {
     const handleClick = (id) => {
         navigate(`/holdup/reviews/${id}`);
     };
-    
+
 
     // 에러 발생 시 에러 메시지 표시
     if (error) {
@@ -56,18 +54,17 @@ function ReviewForm() {
     console.log("리뷰 컴포넌트 재랜더링됨");
 
     return (
-        <div>
-            <h1>리뷰 게시판</h1>
+        <div className={style.main}>
+            <span className={style.title}>리뷰 게시판</span>
             {reviewList && reviewList.length > 0 ? (
-                <div>
+                <div className={style.reviewSection}>
                     <table>
                         <thead>
                             <tr>
                                 <th >등록날짜</th>
                                 <th >제목</th>
-                                <th >평점</th>
+                                <th >별점</th>
                                 <th >닉네임</th>
-                                <th >예약 ID</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -77,7 +74,6 @@ function ReviewForm() {
                                     <td >{reviewList.title}</td>
                                     <td>{reviewList.rating}</td>
                                     <td>{reviewList.nickname}</td>
-                                    <td> {reviewList.reservation.id}</td>
                                 </tr>
                             ))}
                         </tbody>

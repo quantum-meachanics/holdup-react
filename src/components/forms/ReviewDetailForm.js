@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { callGetReviewDetailAPI, callDeleteReviewAPI } from '../../apis/ReviewAPICall';
+import style from "../../css/ReviewDetail.module.css";
 import StarRating from './Ratingform';
 
 function ReviewDetailForm() {
@@ -21,7 +22,7 @@ function ReviewDetailForm() {
     }, []);
 
     // 로그인한 사용자와 글쓴이와 같은지 확인
-    const isAuthor = () => {       
+    const isAuthor = () => {
         return currentUser && reviewDetail && currentUser.nickname === reviewDetail.nickname;
     };
 
@@ -75,37 +76,32 @@ function ReviewDetailForm() {
 
 
     return (
-        <div>
-            <h1>리뷰 상세</h1>
-            <div>
-                {reviewDetail ? (
-                    <>
-                        <h2>{reviewDetail.title}</h2>
-                        <p>작성자: {reviewDetail.nickname}</p>
-                        <p>등록날짜: {formatDateTime(reviewDetail.createDate)}</p>
-                        <p>평점: <StarRating rating={reviewDetail.rating} readOnly={true} /></p>
-                        <p onClick={() => reservationIdClickHandler(reviewDetail.reservation.id)} style={{ cursor: 'pointer' }}>예약 ID: {reviewDetail.reservation.id}</p>
-                        <p>내용: {reviewDetail.content}</p>
+        <div className={style.main}>
+            {reviewDetail ? (
+                <>
+                    <span className={style.title}>{reviewDetail.title}</span>
+                    <span>작성자: {reviewDetail.nickname}</span>
+                    <span>등록날짜: {formatDateTime(reviewDetail.createDate)}</span>
+                    <span>평점: <StarRating rating={reviewDetail.rating} readOnly={true} /></span>
+                    <span onClick={() => reservationIdClickHandler(reviewDetail.reservation.id)}>예약 ID: {reviewDetail.reservation.id}</span>
+                    <p>내용: {reviewDetail.content}</p>
+                    <div>
+                        <h3>이미지</h3>
                         <div>
-                            <h3>이미지</h3>
-                            <div>
-                                {reviewDetail.imageUrl && reviewDetail.imageUrl.length > 0 ? (
-                                    reviewDetail.imageUrl.map((url, index) => (
-                                        <img key={index} src={url} alt={`리뷰 이미지 ${index + 1}`} />
-                                    ))
-                                ) : (
-                                    <p>이미지가 없습니다.</p>
-                                )}
-                            </div>
+                            {reviewDetail.imageUrl && reviewDetail.imageUrl.length > 0 ? (
+                                reviewDetail.imageUrl.map((url, index) => (
+                                    <img key={index} src={url} alt={`리뷰 이미지 ${index + 1}`} />
+                                ))
+                            ) : (
+                                <p>이미지가 없습니다.</p>
+                            )}
                         </div>
-                    </>
-                ) : (
-                    <h2>게시글이 존재 하지 않습니다.</h2>
-                )}
+                    </div>
+                </>
+            ) : (
+                <h2>게시글이 존재 하지 않습니다.</h2>
+            )}
 
-
-
-            </div>
             <button onClick={handleGoBack}>목록으로 돌아가기</button>
             {isAuthor() && (
                 <>
@@ -114,7 +110,6 @@ function ReviewDetailForm() {
                 </>
             )}
         </div>
-
     );
 }
 
