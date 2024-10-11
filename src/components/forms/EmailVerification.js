@@ -14,6 +14,7 @@ const EmailVerification = () => {
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
     const [timer, setTimer] = useState(300); // 5분 타이머 (300초)
     const [showPassword, setShowPassword] = useState(false); // 비밀번호 표시 상태
+    const [showPassword2, setShowPassword2] = useState(false); // 비밀번호 표시 상태
     const [passwordStrength, setPasswordStrength] = useState(''); // 비밀번호 강도 상태
     const [isSuccess, setIsSuccess] = useState(false); // 성공 여부 상태
 
@@ -152,16 +153,16 @@ const EmailVerification = () => {
                                 <label>비밀번호 확인</label>
                                 <div className={styles.passwordContainer}>
                                     <input
-                                        type={showPassword ? "text" : "password"}
+                                        type={showPassword2 ? "text" : "password"}
                                         value={confirmPassword}
                                         onChange={(e) => setConfirmPassword(e.target.value)}
                                         required
                                     />
                                     <span
-                                        onClick={() => setShowPassword(!showPassword)}
+                                        onClick={() => setShowPassword2(!showPassword2)}
                                         className={styles.showPasswordButton}
                                     >
-                                        {showPassword ? "숨기기" : "보기"}
+                                        {showPassword2 ? "숨기기" : "보기"}
                                     </span>
                                 </div>
                             </div>

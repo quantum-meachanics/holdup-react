@@ -50,6 +50,9 @@
 }
 
 .showPasswordButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 50px; /* 입력란과 동일한 높이 설정 (조금 더 큼) */
     margin-left: 10px; /* 입력란과 버튼 간격 */
     cursor: pointer; /* 커서 변경 */
