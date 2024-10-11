@@ -84,7 +84,7 @@ function CreateInquiryForm() {
                 {showImages.map((image, id) => (
                     <div key={id} className={style.previewImage}>
                         <img src={image} alt={`${image}-${id}`} />
-                        <button type="button" onClick={() => deleteImage(id)}>X</button>
+                        <button className={style.deleteButton} onClick={() => deleteImage(id)}>X</button>
                     </div>
                 ))}
             </div>

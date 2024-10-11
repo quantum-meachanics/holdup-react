@@ -43,3 +43,7 @@
     background-color: #055b4a; /* 호버 시 색상 변경 */
     transform: translateY(-2px); /* 호버 시 살짝 위로 이동 */
 }
+
+.button {
+    margin-top: 20px;
+}

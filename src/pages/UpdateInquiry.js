@@ -1,11 +1,12 @@
 import InquiryUpdateForm from "../components/forms/InquiryUpdateForm";
+import CommunitySidebar from "../components/commons/CommunitySidebar";
 
 function UpdateInquiry() {
     return (
-        <>
-            <h1>문의 수정 페이지</h1>
+        <div style={{ display: "flex", flex: 1, margin: "20px 100px" }}>
+            <CommunitySidebar />
             <InquiryUpdateForm />
-        </>
+        </div>
     );
 }
 

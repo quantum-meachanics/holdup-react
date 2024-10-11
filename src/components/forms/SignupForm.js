@@ -111,7 +111,6 @@ const SignupForm = () => {
 
     return (
         <div className={styles.container}>
-            <h2>이메일</h2>
             {isSuccess ? (
                 <SuccessScreen navigate={navigate} />
             ) : (

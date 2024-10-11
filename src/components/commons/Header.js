@@ -33,7 +33,7 @@ function Header() {
                     <>
                         <NavLink className={style.memberLink} to="/holdup/mypage">마이페이지</NavLink>
                         <span>|</span>
-                        <NavLink className={style.memberLink} to="/">내 채팅</NavLink>
+                        <span className={style.memberLink}>내 채팅</span>
                         <span>|</span>
                         <span onClick={logoutHandler} className={style.logout}>로그아웃</span>
                     </>

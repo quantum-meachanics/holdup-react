@@ -23,6 +23,7 @@ export function callCreateSpaceAPI(spaceInfo, imageFiles) {
             )
 
             dispatch(createSpaceSuccess(response.spaceInfo));
+            dispatch(callAllSpacesAPI(0, 10));
 
         } catch (error) {
             dispatch(createSpaceFail(error.message || "공간 등록 API 호출 에러 발생"))

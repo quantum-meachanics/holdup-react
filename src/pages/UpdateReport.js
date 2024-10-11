@@ -1,11 +1,12 @@
 import ReportUpdateForm from "../components/forms/ReportUpdateForm";
+import CommunitySidebar from "../components/commons/CommunitySidebar";
 
 function UpdateReport() {
     return (
-        <>
-            <h1>신고 수정 페이지</h1>
+        <div style={{ display: "flex", flex: 1, margin: "20px 100px" }}>
+            <CommunitySidebar />
             <ReportUpdateForm />
-        </>
+        </div>
     );
 }
 

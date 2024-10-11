@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { callGetReportDetailAPI, callUpdateReportAPI } from '../../apis/ReportAPICall';
+import style from "../../css/ReportUpdateForm.module.css";
 
 function ReportUpdateForm() {
     const { id } = useParams();
@@ -122,44 +123,37 @@ function ReportUpdateForm() {
     if (error) return <div>에러 발생: {error}</div>;
 
     return (
-        <div>
-            <div>
-                {reportDetail ? (
-                    <>
-                        <span>제목: </span>
-                        <input type='text' name='title' placeholder={inputModify.title} onChange={onChangeHandler} />
+        <div className={style.main}>
+            <span className={style.title}>신고 수정</span>
 
-                        <span>내용:</span>
-                        <input type='textarea' name='content' placeholder={inputModify.content} onChange={onChangeHandler} />
+            <span className={style.label}>제목</span>
+            <input className={style.input} type='text' name='title' placeholder={inputModify.title} onChange={onChangeHandler} />
 
-                        <div>
-                            <span>이미지 : </span>
-                            <input type="file" multiple accept="image/*" onChange={fileChangeHandler} />
-                            <div>
-                                {images.map((image) => (
-                                    <div key={image.imageId}>
-                                        <img src={image.imageUrl} alt={`업로드된 이미지 ${image.imageId}`} />
-                                        <button type="button" onClick={() => deleteImages(image.imageId)}>X</button>
-                                    </div>
-                                ))}
+            <span className={style.label}>내용</span>
+            <input className={style.input} type='text' name='content' placeholder={inputModify.content} onChange={onChangeHandler} />
 
-                                {showImages.map((image, id) => (
-                                    <div key={id}>
-                                        <img src={image} alt={`${image}-${id}`} />
-                                        <button type="button" onClick={() => deleteimageFiles(id)}>X</button>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </>
-                ) : (
-                    <h2>게시글이 존재 하지 않습니다.</h2>
-                )}
+            <span className={style.label}>사진 업로드</span>
+            <input type="file" multiple accept="image/*" onChange={fileChangeHandler} />
+            <div className={style.imagePreview}>
+                {images.map((image) => (
+                    <div key={image.imageId} className={style.previewImage}>
+                        <img src={image.imageUrl} alt={`업로드된 이미지 ${image.imageId}`} />
+                        <button className={style.deleteButton} type="button" onClick={() => deleteImages(image.imageId)}>X</button>
+                    </div>
+                ))}
 
-
+                {showImages.map((image, id) => (
+                    <div key={id} className={style.imagePreview}>
+                        <img src={image} alt={`${image}-${id}`} />
+                        <button className={style.deleteButton} type="button" onClick={() => deleteimageFiles(id)}>X</button>
+                    </div>
+                ))}
             </div>
-            <button onClick={handleGoBack}>돌아가기</button>
-            <button onClick={handleUpdate}>작성하기</button>
+
+            <div className={style.buttonSection}>
+                <button className={style.button} onClick={handleGoBack}>돌아가기</button>
+                <button className={style.button} onClick={handleUpdate}>작성하기</button>
+            </div>
         </div>
     );
 }

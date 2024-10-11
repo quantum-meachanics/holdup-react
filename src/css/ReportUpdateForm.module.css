@@ -31,6 +31,16 @@
     background-color: #D9D9D9;
 }
 
+.rate {
+    display: flex;
+    align-items: center;
+
+    font-size: 16px;
+    font-weight: 900;
+
+    margin-bottom: 20px;
+}
+
 .imagePreview {
     margin-bottom: 20px;
     display: flex;
@@ -58,27 +68,25 @@
     /* 이미지를 박스에 맞게 잘라줌 */
 }
 
-.button {
+/* 이미지 순서 표시 */
+.imageOrder {
+    position: absolute;
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
 
-    margin-right: 10px;
-
-    height: 30px;
-    width: 100px;
+    top: 5px;
+    left: 5px;
 
     color: white;
-    background-color: #073929;
-    border: none;
-    border-radius: 10px;
-    font-size: 15px;
-    font-weight: 900;
-}
+    background-color: rgba(0, 0, 0, 0.6);
 
-.button:hover {
-    cursor: pointer;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+
+    font-size: 12px;
+    font-weight: bold;
 }
 
 .deleteButton {
@@ -111,4 +119,33 @@
     /* 버튼 크기 살짝 증가 */
     box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
     /* 그림자 추가 */
+}
+
+.buttonSection {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    margin-right: 10px;
+
+    height: 30px;
+    width: 100px;
+
+    color: white;
+    background-color: #073929;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 900;
+}
+
+.button:hover {
+    cursor: pointer;
 }
